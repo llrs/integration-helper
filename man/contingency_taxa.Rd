@@ -7,7 +7,7 @@
 contingency_taxa(taxa_1, taxa_2)
 }
 \arguments{
-\item{taxa_1, }{taxa_2 taxonomic table as described in taxonomy}
+\item{taxa_1, taxa_2}{taxonomic table as described in taxonomy}
 }
 \value{
 A matrix of nrow(taxa_1) * nrow(taxa_2)

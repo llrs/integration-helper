@@ -6,6 +6,13 @@
 \usage{
 cca_rgcca(rgcca)
 }
+\arguments{
+\item{rgcca}{The output of SGCCA or RGCCA}
+}
+\value{
+A list of matrix with the correlation and covariation between CCA
+dimensions
+}
 \description{
 Calculate correlation and covariance between CCA dimensions
 }

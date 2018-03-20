@@ -1,17 +1,15 @@
 Package: integration
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Facilitate the integration
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: Lluís Revilla
+Maintainer: Lluís Revilla <lluis.revilla@gmail.com>
+Description: To be used for my project on TRIM data to integrate microbiome and
+    transcriptome data of the same patients.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
-    ggplot2,
-    RGCCA,
     reshape2,
     MultiAssayExperiment,
     fgsea,
@@ -19,5 +17,15 @@ Imports:
     org.Hs.eg.db,
     data.table,
     clusterProfiler,
-    ReactomePA
+    ReactomePA,
+    AnnotationDbi,
+    vegan
 RoxygenNote: 6.0.1
+Depends: methods,
+    stats,
+    utils,
+    graphics,
+    grDevices,
+    ggplot2,
+    ggforce,
+    RGCCA,

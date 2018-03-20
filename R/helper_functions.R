@@ -119,14 +119,10 @@ dist2d <- function(p, b = c(0, 0), d = c(1, 1)) {
 #' @export
 today <- format(Sys.time(), "%Y%m%d")
 
-
-ggplot2::theme_set(ggplot2::theme_bw())
-
-
 #' Compares the taxonomy of the otus
 #'
 #' Given two taxonomy tables find which one is in which one
-#' @param taxa_1, taxa_2 taxonomic table as described in taxonomy
+#' @param taxa_1,taxa_2 taxonomic table as described in taxonomy
 #' @return A matrix of nrow(taxa_1) * nrow(taxa_2)
 #' @export
 contingency_taxa <- function(taxa_1, taxa_2) {
@@ -343,6 +339,9 @@ meta_r_norm <- function(meta) {
   # Duplicated label: we don't know which one is from where!!
   meta$CD_Aftected_area[meta$Sample_Code == "22_T52_T_DM_III"] <- NA
   meta$Exact_location[meta$Sample_Code == "22_T52_T_DM_III"] <- NA
+
+  # Sample 36/33_T52 is swapped between CIA and IIA
+  # FIXME!
 
   meta$`Sample Name_RNA` <- toupper(as.character(meta$`Sample Name_RNA`))
   meta$Sample_Code_uDNA <- toupper(as.character(meta$Sample_Code_uDNA))

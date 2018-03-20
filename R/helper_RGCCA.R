@@ -220,7 +220,9 @@ variables_weight <- function(comp) {
 #' This function test some help from
 #' \url{https://onlinecourses.science.psu.edu/stat505/node/68}
 #' Performs the wilks test on the model
-#'
+#' @param a The value
+#' @param rgcca The output of \code{\link[RGCCA]{sgcca}} or
+#' \code{\link[RGCCA]{rgcca}}
 #' @export
 wilks_rgcca <- function(a, rgcca) {
   stopifnot(length(a) == length(rgcca$Y))
@@ -238,6 +240,9 @@ wilks_rgcca <- function(a, rgcca) {
 #' \url{https://onlinecourses.science.psu.edu/stat505/node/68}
 #' Performs the correlation between the original variables and the
 #' resulting components (of each block). To check if the
+#' @param a The value
+#' @param rgcca The output of \code{\link[RGCCA]{sgcca}} or
+#' \code{\link[RGCCA]{rgcca}}
 #' @export
 cors_rgcca <- function(a, rgcca) {
   l <- list()
@@ -251,6 +256,10 @@ cors_rgcca <- function(a, rgcca) {
 }
 
 #' Calculate correlation and covariance between CCA dimensions
+#'
+#' @param rgcca The output of SGCCA or RGCCA
+#' @return A list of matrix with the correlation and covariation between CCA
+#' dimensions
 #' @export
 cca_rgcca <- function(rgcca) {
   l <- list()

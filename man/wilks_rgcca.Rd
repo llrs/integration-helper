@@ -6,6 +6,12 @@
 \usage{
 wilks_rgcca(a, rgcca)
 }
+\arguments{
+\item{a}{The value}
+
+\item{rgcca}{The output of \code{\link[RGCCA]{sgcca}} or
+\code{\link[RGCCA]{rgcca}}}
+}
 \description{
 This function test some help from
 \url{https://onlinecourses.science.psu.edu/stat505/node/68}
