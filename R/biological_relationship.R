@@ -7,7 +7,7 @@
 #' @param epithelium Data from a file from the lab
 #' @export
 biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
-                                     epithelium){
+                                     epithelium) {
 
   # RNAseq ####
   b <- STAB[["RNAseq"]]
@@ -23,7 +23,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   }
 
 
-  grDevices::pdf(paste0("Figures/", today, "_enrichments_", label,".pdf"))
+  grDevices::pdf(paste0("Figures/", today, "_enrichments_", label, ".pdf"))
 
   # Test if the gene is significant by comparing to how much times is different
   # from 0 (because CCA tends to compensate itself)
@@ -31,9 +31,9 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   freq <- count / nrow(b)
 
   # Filter to match length
-  if (length(d_rm) > length(freq)){
+  if (length(d_rm) > length(freq)) {
     freq <- freq[names(d_rm)]
-  } else if (length(freq) > length(d_rm)){
+  } else if (length(freq) > length(d_rm)) {
     d_rm <- d_rm[names(freq)]
   }
 
@@ -55,14 +55,16 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   ensemblID <- gsub("(.*)\\..*", "\\1", ensemblID)
   rownames(loadings) <- gsub("(.*)\\..*", "\\1", rownames(loadings))
   entrezID <- AnnotationDbi::mapIds(
-    org.Hs.eg.db::org.Hs.eg.db, keys = ensemblID, keytype = "ENSEMBL",
+    org.Hs.eg.db::org.Hs.eg.db,
+    keys = ensemblID, keytype = "ENSEMBL",
     column = "ENTREZID"
   )
   comp1 <- loadings[, 1]
   names(comp1) <- entrezID
 
   epitheliumE <- AnnotationDbi::mapIds(
-    org.Hs.eg.db::org.Hs.eg.db, keys = as.character(epithelium),
+    org.Hs.eg.db::org.Hs.eg.db,
+    keys = as.character(epithelium),
     keytype = "SYMBOL", column = "ENTREZID"
   )
 
@@ -84,7 +86,8 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
     readable = TRUE, universe = unique(entrezID)
   )
   write.csv(as.data.frame(enrich),
-            file = paste0("enrichment_RNAseq_", label, ".csv"), row.names = FALSE)
+    file = paste0("enrichment_RNAseq_", label, ".csv"), row.names = FALSE
+  )
 
   # Store the entrezid
   entrezSig <- entrezID[significant]
@@ -97,7 +100,8 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
 
   # Get the name of the pathway
   namesPaths <- AnnotationDbi::select(
-    reactome.db::reactome.db, keys = gseaSizeEffect$pathway,
+    reactome.db::reactome.db,
+    keys = gseaSizeEffect$pathway,
     keytype = "PATHID", columns = "PATHNAME"
   )
   # Remove the homo sapiens part
@@ -111,7 +115,8 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   }
   # Store the output
   data.table::fwrite(gseaSizeEffect[pval < 0.05, ],
-                     file = paste0("gsea_pathways_", label, ".csv"))
+    file = paste0("gsea_pathways_", label, ".csv")
+  )
 
   ## 16S ####
   b <- STAB[["16S"]]
@@ -127,9 +132,9 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   freq <- count / nrow(b)
 
   # Filter to match length
-  if (length(d_rm) > length(freq)){
+  if (length(d_rm) > length(freq)) {
     freq <- freq[names(d_rm)]
-  } else if (length(freq) > length(d_rm)){
+  } else if (length(freq) > length(d_rm)) {
     d_rm <- d_rm[names(freq)]
   }
 
@@ -162,7 +167,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
     TERM2NAME = term2name
   ))
 
-  write.csv(enrich, file = paste0("enrichment_otus_genus_", label,".csv"))
+  write.csv(enrich, file = paste0("enrichment_otus_genus_", label, ".csv"))
 
   # GSEA
   comp1 <- sgcca.centroid$a[["16S"]][, 1]
@@ -173,6 +178,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
     warning("GSEA didn't result in any pathway")
   }
   data.table::fwrite(gseaSizeEffect[pval < 0.05],
-                     file = paste0("gsea_otus_genus_", label, ".csv"))
+    file = paste0("gsea_otus_genus_", label, ".csv")
+  )
   dev.off()
 }

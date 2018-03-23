@@ -21,7 +21,8 @@ integration <- function(A, meta, label) {
   ncomp <- c(2, 2, 2)
 
   sgcca.centroid <- sgcca(
-    A, C, c1 = shrinkage,
+    A, C,
+    c1 = shrinkage,
     ncomp = ncomp,
     scheme = "centroid",
     scale = TRUE,
@@ -64,11 +65,13 @@ integration <- function(A, meta, label) {
   fgsea::fgsea(groups, microbiota2, nperm = 1000)
 
 
-  pdf(paste0("Figures/", today, "_RGCCA_plots_", label,".pdf"))
+  pdf(paste0("Figures/", today, "_RGCCA_plots_", label, ".pdf"))
 
   km <- kmeans(samples[, c("RNAseq", "microbiota")], 2, nstart = 2)
-  plot(samples[, c("RNAseq", "microbiota")], col = km$cluster,
-       main = "K-clustering (2 groups)")
+  plot(samples[, c("RNAseq", "microbiota")],
+    col = km$cluster,
+    main = "K-clustering (2 groups)"
+  )
 
   ## Plotting ####
   # Colors for the plots
@@ -90,8 +93,10 @@ integration <- function(A, meta, label) {
   })
 
   samples <- cbind(samples, labels)
-  samples$Time <- factor(samples$Time,
-                         levels(as.factor(samples$Time))[c(1, 2, 4, 5, 3, 6, 7, 8)])
+  samples$Time <- factor(
+    samples$Time,
+    levels(as.factor(samples$Time))[c(1, 2, 4, 5, 3, 6, 7, 8)]
+  )
   for (p in seq_along(levels(samples$Time))) {
     a <- ggplot(samples, aes(RNAseq, microbiota)) +
       geom_text(aes(color = ID, label = ID)) +
@@ -103,15 +108,15 @@ integration <- function(A, meta, label) {
       guides(col = guide_legend(title = "Patient")) +
       theme(plot.title = element_text(hjust = 0.5)) +
       scale_color_manual(values = colors) +
-      facet_wrap_paginate(~Time, ncol = 1, nrow = 1, page = p)
+      facet_wrap_paginate(~ Time, ncol = 1, nrow = 1, page = p)
     print(a)
   }
 
   for (p in seq_along(levels(samples$ID))) {
     a <- ggplot(samples, aes(RNAseq, microbiota)) +
       geom_text(aes(color = ID, label = ifelse(!is.na(labels),
-                                               paste(Time, labels, sep = "_"),
-                                               as.character(Time)
+        paste(Time, labels, sep = "_"),
+        as.character(Time)
       ))) +
       geom_vline(xintercept = 0) +
       geom_hline(yintercept = 0) +
@@ -121,15 +126,15 @@ integration <- function(A, meta, label) {
       guides(col = guide_legend(title = "Patient")) +
       theme(plot.title = element_text(hjust = 0.5)) +
       scale_color_manual(values = colors) +
-      facet_wrap_paginate(~ID, ncol = 1, nrow = 1, page = p)
+      facet_wrap_paginate(~ ID, ncol = 1, nrow = 1, page = p)
     print(a)
   }
   ggplot(samples, aes(RNAseq, microbiota)) +
     geom_text(aes(
       color = ID,
       label = ifelse(!is.na(labels),
-                     paste(Time, labels, sep = "_"),
-                     as.character(Time)
+        paste(Time, labels, sep = "_"),
+        as.character(Time)
       )
     )) +
     geom_vline(xintercept = 0) +
@@ -146,8 +151,8 @@ integration <- function(A, meta, label) {
     geom_text(aes(
       color = HSCT_responder,
       label = ifelse(!is.na(labels),
-                     paste(Time, labels, sep = "_"),
-                     as.character(Time)
+        paste(Time, labels, sep = "_"),
+        as.character(Time)
       )
     )) +
     geom_vline(xintercept = 0) +
@@ -163,8 +168,8 @@ integration <- function(A, meta, label) {
     geom_text(aes(
       color = Endoscopic_Activity,
       label = ifelse(!is.na(labels),
-                     paste(ID, labels, sep = "_"),
-                     as.character(ID)
+        paste(ID, labels, sep = "_"),
+        as.character(ID)
       )
     )) +
     geom_vline(xintercept = 0) +
@@ -177,8 +182,8 @@ integration <- function(A, meta, label) {
 
   ggplot(samples, aes(RNAseq, microbiota)) +
     geom_text(aes(color = Time, label = ifelse(!is.na(labels),
-                                               paste(ID, labels, sep = "_"),
-                                               as.character(ID)
+      paste(ID, labels, sep = "_"),
+      as.character(ID)
     ))) +
     geom_vline(xintercept = 0) +
     geom_hline(yintercept = 0) +
@@ -204,30 +209,30 @@ integration <- function(A, meta, label) {
       subtitle = "Integrating stools and mucosa samples"
     )
 
-   # Plot for the same component the variables of each block
-   comp1 <- sapply(sgcca.centroid$a, function(x) {
-     x[, 1]
-   })
-   variables_weight(comp1)
+  # Plot for the same component the variables of each block
+  comp1 <- sapply(sgcca.centroid$a, function(x) {
+    x[, 1]
+  })
+  variables_weight(comp1)
 
-   # Second component
-   comp2 <- sapply(sgcca.centroid$a, function(x) {
-     x[, 2]
-   })
-   variables_weight(comp2)
+  # Second component
+  comp2 <- sapply(sgcca.centroid$a, function(x) {
+    x[, 2]
+  })
+  variables_weight(comp2)
 
-   # Bootstrap of sgcca
-   STAB <- boot_sgcca(A, C, shrinkage, 1000)
+  # Bootstrap of sgcca
+  STAB <- boot_sgcca(A, C, shrinkage, 1000)
 
-   save(STAB, file = paste("bootstrap_", label, ".RData"))
+  save(STAB, file = paste("bootstrap_", label, ".RData"))
 
-   # Evaluate the boostrap effect and plot
-   boot_evaluate(STAB)
+  # Evaluate the boostrap effect and plot
+  boot_evaluate(STAB)
 
-   PCAs_important(subVariables, A[["RNASeq"]], A[["16S"]], meta)
+  PCAs_important(subVariables, A[["RNASeq"]], A[["16S"]], meta)
 
-   dev.off()
-   sgcca.centroid
+  dev.off()
+  sgcca.centroid
 }
 
 
@@ -264,7 +269,7 @@ PCAs_important <- function(important_vars, expr, otus, meta) {
 #' @param sgcca result of sgcca or rgcca
 #' @return a data.frame with variables and their location
 #' @export
-select_var <- function(sgcca){
+select_var <- function(sgcca) {
   variables <- data.frame(
     Origin = rep(names(A), sapply(A, ncol)),
     comp1 = unlist(sapply(

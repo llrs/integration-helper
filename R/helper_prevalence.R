@@ -40,7 +40,8 @@ prevalence_tab <- function(table, meta, columns) {
   totalSamples <- totalSamples[totalSamples >= 1]
   presence <- prevalence %*% subSets
   absence <- matrix(
-    totalSamples, nrow = nrow(presence),
+    totalSamples,
+    nrow = nrow(presence),
     byrow = TRUE, ncol = ncol(presence)
   ) - presence
   list(presence = presence, absence = absence)
@@ -57,7 +58,8 @@ prevalence_2factors <- function(table, meta, columns) {
   aux <- function(y) {
     # To convert a long line to a matrix
     apply(
-      y, 1, matrix, ncol = length(levels[[1]]), nrow = length(levels[[2]]),
+      y, 1, matrix,
+      ncol = length(levels[[1]]), nrow = length(levels[[2]]),
       dimnames = levels, byrow = TRUE
     )
   }
@@ -84,7 +86,8 @@ ratio <- function(columns, data, indices, meta) {
 
   Apresence <- a %*% AsubSets
   AtotalSamplesm <- matrix(
-    AtotalSamples, nrow = nrow(Apresence),
+    AtotalSamples,
+    nrow = nrow(Apresence),
     byrow = TRUE, ncol = ncol(Apresence)
   )
   Aabsence <- AtotalSamplesm - Apresence
@@ -99,7 +102,8 @@ ratio <- function(columns, data, indices, meta) {
 
   Bpresence <- b %*% BsubSets
   BtotalSamplesm <- matrix(
-    BtotalSamples, nrow = nrow(Bpresence),
+    BtotalSamples,
+    nrow = nrow(Bpresence),
     byrow = TRUE, ncol = ncol(Bpresence)
   )
   Babsence <- BtotalSamplesm - Bpresence

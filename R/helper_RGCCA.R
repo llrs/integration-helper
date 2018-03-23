@@ -24,7 +24,7 @@ McKeonHomeogenity <- function(B, C) {
     res <- RGCCA::rgcca(A, scale = TRUE, verbose = FALSE)
     Y <- Reduce("cbind", res$Y)
     rI <- 1 / (J - 1) * (RGCCA::cov2(rowSums(Y)) /
-                           sum(apply(Y, 2, RGCCA::cov2)) - 1)
+      sum(apply(Y, 2, RGCCA::cov2)) - 1)
     rI
   }
 
@@ -107,7 +107,8 @@ boot_sgcca <- function(A, C, shrinkage, nb_boot = 1000) {
     try( # Prevent the error from LAPACK subroutine
       {
         res <- RGCCA::sgcca(
-          Bscr, C, c1 = shrinkage,
+          Bscr, C,
+          c1 = shrinkage,
           ncomp = c(rep(1, length(A))),
           scheme = "centroid",
           scale = TRUE
@@ -116,7 +117,8 @@ boot_sgcca <- function(A, C, shrinkage, nb_boot = 1000) {
         for (j in seq_along(A)) {
           STAB[[j]][i, rownames(res$a[[j]])] <- res$a[[j]]
         }
-      }, silent = FALSE
+      },
+      silent = FALSE
     )
   }
   return(STAB)
@@ -208,7 +210,7 @@ variables_weight <- function(comp) {
     ) +
     ggplot2::ylab("Scaled density") +
     ggplot2::xlab("weight") +
-    ggplot2::facet_grid(~Origin, scales = "free") +
+    ggplot2::facet_grid(~ Origin, scales = "free") +
     ggplot2::guides(fill = FALSE)
   print(p)
   invisible(p)
@@ -266,8 +268,10 @@ cca_rgcca <- function(rgcca) {
   for (i in seq_along(rgcca$Y)) {
     l[[names(rgcca$Y)[i]]] <- list()
     for (j in seq_along(rgcca$Y)) {
-      l[[names(rgcca$Y)[i]]][[names(rgcca$Y)[j]]] <- list("cor" = cor(rgcca$Y[[i]], rgcca$Y[[j]]),
-                                           "cov" = cov(rgcca$Y[[i]], rgcca$Y[[j]]))
+      l[[names(rgcca$Y)[i]]][[names(rgcca$Y)[j]]] <- list(
+        "cor" = cor(rgcca$Y[[i]], rgcca$Y[[j]]),
+        "cov" = cov(rgcca$Y[[i]], rgcca$Y[[j]])
+      )
     }
   }
   l

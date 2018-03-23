@@ -33,11 +33,13 @@ taxonomy <- function(taxonomy, otus) {
   if (ncol(otus_tax) == 7) {
     colnames(otus_tax) <- c(
       "Domain", "Phylum", "Class", "Order",
-      "Family", "Genus", "Species")
-  } else if (ncol(otus_tax) == 6 ) {
+      "Family", "Genus", "Species"
+    )
+  } else if (ncol(otus_tax) == 6) {
     colnames(otus_tax) <- c(
       "Domain", "Phylum", "Class", "Order",
-      "Family", "Genus")
+      "Family", "Genus"
+    )
   }
   # Remove spaces
   otus_tax <- apply(otus_tax, 1:2, sub, pattern = "\\s", replacement = "")
@@ -402,7 +404,7 @@ meta_r_norm <- function(meta) {
   diagTime[is.na(diagTime)] <- 0 # If no diagnosis (controls) set to 0
   meta <- cbind(meta, diagTime)
   AgeDiag <- as.numeric(dates[o] -
-                as.Date(meta$Birth_date, "%d/%m/%Y"))/365.25
+    as.Date(meta$Birth_date, "%d/%m/%Y")) / 365.25
   meta <- cbind(meta, "AgeDiag" = AgeDiag)
 
   return(meta)
@@ -445,7 +447,7 @@ norm_RNAseq <- function(expr) {
 
   # Filter genes by variance
   SD <- apply(expr, 1, sd)
-  CV <- sqrt(exp(SD ^ 2) - 1)
+  CV <- sqrt(exp(SD^2) - 1)
   expr[CV > quantile(CV, probs = 0.1), ]
 }
 
