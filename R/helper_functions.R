@@ -399,12 +399,12 @@ meta_r_norm <- function(meta) {
   names(dates) <- names(strDates)
   o <- match(meta$ID, names(dates))
   meta <- cbind(meta, "DiagDate" = dates[o])
-  diagTime <- as.Date(meta$DATE_SAMPLE, "%d/%m/%Y") - dates[o]
+  diagTime <- as.Date(meta$DATE_SAMPLE, "%m/%d/%Y") - dates[o]
   diagTime <- as.numeric(diagTime / 365)
   diagTime[is.na(diagTime)] <- 0 # If no diagnosis (controls) set to 0
   meta <- cbind(meta, diagTime)
   AgeDiag <- as.numeric(dates[o] -
-    as.Date(meta$Birth_date, "%d/%m/%Y")) / 365.25
+    as.Date(meta$Birth_date, "%m/%d/%Y")) / 365.25
   meta <- cbind(meta, "AgeDiag" = AgeDiag)
 
   return(meta)
