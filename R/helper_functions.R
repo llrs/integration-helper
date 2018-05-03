@@ -118,9 +118,6 @@ dist2d <- function(p, b = c(0, 0), d = c(1, 1)) {
   abs(det(m)) / sqrt(sum(v1 * v1))
 }
 
-#' @export
-today <- format(Sys.time(), "%Y%m%d")
-
 #' Compares the taxonomy of the otus
 #'
 #' Given two taxonomy tables find which one is in which one
@@ -381,7 +378,6 @@ meta_r_norm <- function(meta) {
   meta$SESCD_local[meta$IBD == "CONTROL"] <- 0
   meta$SESCD_global[meta$IBD == "CONTROL"] <- 0
   meta$CDAI[meta$IBD == "CONTROL"] <- 0
-  meta$DiagDate[meta$IBD == "CONTROL"] <- 0
   meta$Transplant[meta$IBD == "CONTROL"] <- "Baseline"
 
   # Add the date of the diagnosis
@@ -400,7 +396,7 @@ meta_r_norm <- function(meta) {
   o <- match(meta$ID, names(dates))
   meta <- cbind(meta, "DiagDate" = dates[o])
   diagTime <- as.Date(meta$DATE_SAMPLE, "%m/%d/%Y") - dates[o]
-  diagTime <- as.numeric(diagTime / 365)
+  diagTime <- as.numeric(diagTime / 365.25)
   diagTime[is.na(diagTime)] <- 0 # If no diagnosis (controls) set to 0
   meta <- cbind(meta, diagTime)
   AgeDiag <- as.numeric(dates[o] -
