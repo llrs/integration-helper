@@ -394,7 +394,7 @@ meta_r_norm <- function(meta) {
   dates <- as.Date(strDates, "%d-%b-%y")
   names(dates) <- names(strDates)
   o <- match(meta$ID, names(dates))
-  meta <- cbind(meta, "DiagDate" = dates[o])
+  # meta <- cbind(meta, "DiagDate" = dates[o])
   diagTime <- as.Date(meta$DATE_SAMPLE, "%m/%d/%Y") - dates[o]
   diagTime <- as.numeric(diagTime / 365.25)
   diagTime[is.na(diagTime)] <- 0 # If no diagnosis (controls) set to 0
