@@ -67,15 +67,6 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   names(comp1) <- entrezID
   comp1 <- comp1[diff0(comp1)]
 
-  epitheliumE <- AnnotationDbi::mapIds(
-    org.Hs.eg.db::org.Hs.eg.db,
-    keys = as.character(epithelium),
-    keytype = "SYMBOL", column = "ENTREZID"
-  )
-
-  epitheliumE <- unlist(epitheliumE, use.names = TRUE)
-  epitheliumE <- epitheliumE[!is.na(epitheliumE)]
-
   # Extract the information of the pathways
   genes2Pathways <- as.list(reactome.db::reactomeEXTID2PATHID)
   pathways <- unlist(genes2Pathways, use.names = FALSE)
@@ -99,7 +90,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   entrezSig <- entrezID[significant]
   entrezSig <- entrezSig[!is.na(entrezSig)]
   paths2genes[["significant"]] <- entrezSig
-  paths2genes[["Epithelium"]] <- epitheliumE
+  paths2genes[["Epithelium"]] <- epithelium
 
   message("Calculating the gene set enrichment")
   ## Compute the GSEA for the size effect ####
@@ -116,7 +107,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   # Add a column
   gseaSizeEffect[, namesPaths := namesPaths$PATHNAME]
   # Order the dataframe by size effect
-  data.table::setorder(gseaSizeEffect, -abs(NES), padj, -size)
+  gseaSizeEffect <- gseaSizeEffect[order(-abs(NES), padj, -size)]
   if (sum(gseaSizeEffect$padj < 0.05) == 0) {
     warning("GSEA didn't result in any pathway")
   }
@@ -180,7 +171,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   comp1 <- sgcca.centroid$a[["16S"]][, 1]
   comp1 <- comp1[diff0(comp1)]
   gseaSizeEffect <- fgsea::fgsea(grouping, comp1, nperm = 20000)
-  data.table::setorder(gseaSizeEffect, -abs(NES), padj, -size)
+  gseaSizeEffect <- gseaSizeEffect[order(-abs(NES), padj, -size)]
   if (sum(gseaSizeEffect$padj < 0.05) == 0) {
     warning("GSEA didn't result in any pathway")
   }
