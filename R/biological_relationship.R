@@ -1,13 +1,17 @@
 
 #' Performs the calculation of biological information
+#'
+#' Looks if the score is really associated in the permutations
+#' Does the ORA enrichment and fgsea analysis on the genes
 #' @param otus_tax matrix as output of \code{taxonomy} function
 #' @param sgcca.centroid SGCCA output
 #' @param STAB Output of boostrap by \code{boot_sgcca} function.
 #' @param label Name of the output files
 #' @param epithelium Data from a file from the lab
+#' @param today Date as in character format
 #' @export
 biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
-                                     epithelium) {
+                                     epithelium, today) {
 
   # RNAseq ####
   b <- STAB[["RNAseq"]]
@@ -46,14 +50,14 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
 
   # Select those genes that are significant
   significant <- names(d_rm)[freq > 0.5]
-  significant <- gsub("(.*)\\..*", "\\1", significant)
+  significant <-trimVer(significant)
 
   loadings <- sgcca.centroid$a[["RNAseq"]]
 
   # Convert the ids to the entrezIds
   ensemblID <- rownames(loadings)
-  ensemblID <- gsub("(.*)\\..*", "\\1", ensemblID)
-  rownames(loadings) <- gsub("(.*)\\..*", "\\1", rownames(loadings))
+  ensemblID <- trimVer(ensemblID)
+  rownames(loadings) <- trimVer(rownames(loadings))
   entrezID <- AnnotationDbi::mapIds(
     org.Hs.eg.db::org.Hs.eg.db,
     keys = ensemblID, keytype = "ENSEMBL",
@@ -61,6 +65,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   )
   comp1 <- loadings[, 1]
   names(comp1) <- entrezID
+  comp1 <- comp1[diff0(comp1)]
 
   epitheliumE <- AnnotationDbi::mapIds(
     org.Hs.eg.db::org.Hs.eg.db,
@@ -81,6 +86,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   paths2genes <- paths2genes[grep("R-HSA-", names(paths2genes))]
 
   ## Compute the hypergeometric/enrichment analysis ####
+  message("Calculating the enrichment")
   enrich <- ReactomePA::enrichPathway(
     gene = entrezID[significant], pvalueCutoff = 0.05,
     readable = TRUE, universe = unique(entrezID)
@@ -95,6 +101,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   paths2genes[["significant"]] <- entrezSig
   paths2genes[["Epithelium"]] <- epitheliumE
 
+  message("Calculating the gene set enrichment")
   ## Compute the GSEA for the size effect ####
   gseaSizeEffect <- fgsea::fgsea(paths2genes, comp1, nperm = length(comp1))
 
@@ -109,7 +116,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   # Add a column
   gseaSizeEffect[, namesPaths := namesPaths$PATHNAME]
   # Order the dataframe by size effect
-  data.table::setorder(gseaSizeEffect, -NES, padj, -size)
+  data.table::setorder(gseaSizeEffect, -abs(NES), padj, -size)
   if (sum(gseaSizeEffect$padj < 0.05) == 0) {
     warning("GSEA didn't result in any pathway")
   }
@@ -171,9 +178,9 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
 
   # GSEA
   comp1 <- sgcca.centroid$a[["16S"]][, 1]
-
+  comp1 <- comp1[diff0(comp1)]
   gseaSizeEffect <- fgsea::fgsea(grouping, comp1, nperm = 20000)
-  data.table::setorder(gseaSizeEffect, -NES, padj, -size)
+  data.table::setorder(gseaSizeEffect, -abs(NES), padj, -size)
   if (sum(gseaSizeEffect$padj < 0.05) == 0) {
     warning("GSEA didn't result in any pathway")
   }
