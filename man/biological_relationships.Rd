@@ -4,7 +4,8 @@
 \alias{biological_relationships}
 \title{Performs the calculation of biological information}
 \usage{
-biological_relationships(sgcca.centroid, STAB, label, otus_tax, epithelium)
+biological_relationships(sgcca.centroid, STAB, label, otus_tax, epithelium,
+  today)
 }
 \arguments{
 \item{sgcca.centroid}{SGCCA output}
@@ -16,7 +17,10 @@ biological_relationships(sgcca.centroid, STAB, label, otus_tax, epithelium)
 \item{otus_tax}{matrix as output of \code{taxonomy} function}
 
 \item{epithelium}{Data from a file from the lab}
+
+\item{today}{Date as in character format}
 }
 \description{
-Performs the calculation of biological information
+Looks if the score is really associated in the permutations
+Does the ORA enrichment and fgsea analysis on the genes
 }
