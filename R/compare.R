@@ -4,6 +4,7 @@
 #' always the genes.
 #' @param object1,object2 sgcca objects
 #' @return Genes In common
+#' @export
 compare <- function(object1, object2) {
 
   if (!is(object1, "sgcca") || !is(object2, "sgcca")){
