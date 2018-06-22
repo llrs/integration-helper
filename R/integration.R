@@ -5,8 +5,10 @@
 #' @param A The list with the three datsets to integrate
 #' @param meta The metadata
 #' @param label A label to apply to the files
+#' @param today A date in YYYYMMDD format in character
 #' @return The sgcca output
-integration <- function(A, meta, label) {
+#' @export
+integration <- function(A, meta, label, today) {
   # We cannnot comput eht tau.estimate for A[[1]]
   # (shrinkage <- sapply(A, tau.estimate))
   shrinkage <- c(0.25670333, 0, 1) # We guess a 0.1 for the RNAseq expression
