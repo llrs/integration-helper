@@ -7,8 +7,8 @@ weights <- function(x) {
   loadings <- x$a$RNAseq
   colnames(loadings) <- paste0("Weights_", seq_len(ncol(loadings)))
   ensemblID <- rownames(loadings)
-  ensemblID <- gsub("(.*)\\..*", "\\1", ensemblID)
-  rownames(loadings) <- gsub("(.*)\\..*", "\\1", rownames(loadings))
+  ensemblID <- trimVer(ensemblID)
+  rownames(loadings) <- trimVer(rownames(loadings))
   symbolID <- AnnotationDbi::select(org.Hs.eg.db::org.Hs.eg.db,
     keys = ensemblID, keytype = "ENSEMBL", columns = c("SYMBOL", "GENENAME")
   )
