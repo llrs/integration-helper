@@ -4,7 +4,7 @@ Title: Facilitate the integration
 Version: 0.1.7
 Authors@R: person("Lluís", "Revilla Sancho", 
             email ="lluis.revilla@gmail.com", role = c("aut", "cre"), 
-comment = c(ORCID = "0000-0001-9747-2570"))
+            comment = c(ORCID = "0000-0001-9747-2570"))
 Description: To be used on TRIM project to integrate microbiome and
     transcriptome data of the same patients.
 License: MIT + file LICENSE
