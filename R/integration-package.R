@@ -6,7 +6,7 @@
 #' @importFrom fgsea fgsea
 #' @import reactome.db
 #' @import org.Hs.eg.db
-#' @importFrom data.table setorder
+#' @import data.table
 #' @importFrom clusterProfiler enricher
 #' @import ReactomePA
 #' @importFrom AnnotationDbi select mapIds

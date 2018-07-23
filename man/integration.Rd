@@ -4,7 +4,7 @@
 \alias{integration}
 \title{Integrate}
 \usage{
-integration(A, meta, label)
+integration(A, meta, label, today)
 }
 \arguments{
 \item{A}{The list with the three datsets to integrate}
@@ -12,6 +12,8 @@ integration(A, meta, label)
 \item{meta}{The metadata}
 
 \item{label}{A label to apply to the files}
+
+\item{today}{A date in YYYYMMDD format in character}
 }
 \value{
 The sgcca output

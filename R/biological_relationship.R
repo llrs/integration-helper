@@ -49,6 +49,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   print(p)
 
   # Select those genes that are significant
+  # Selected more than 50% of the time
   significant <- names(d_rm)[freq > 0.5]
   significant <-trimVer(significant)
 
