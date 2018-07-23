@@ -19,10 +19,10 @@ Imports:
     data.table,
     ggplot2,
     org.Hs.eg.db,
-    reactome.db,
-    Matrix
+    reactome.db
 RoxygenNote: 6.0.1
 Depends:
     methods
 Suggests: 
-    roxygen2
+    roxygen2,
+    Matrix
