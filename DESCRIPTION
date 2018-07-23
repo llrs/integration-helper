@@ -1,7 +1,7 @@
 Package: integration
 Type: Package
 Title: Facilitate the integration
-Version: 0.1.4
+Version: 0.1.6
 Author: Lluís Revilla
 Maintainer: Lluís Revilla <lluis.revilla@gmail.com>
 Description: To be used for my project on TRIM data to integrate microbiome and
@@ -18,7 +18,8 @@ Imports:
   data.table,
   ggplot2,
   org.Hs.eg.db,
-  reactome.db
+  reactome.db,
+  Matrix
 RoxygenNote: 6.0.1
 Depends:
   methods

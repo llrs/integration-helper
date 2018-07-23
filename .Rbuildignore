@@ -3,3 +3,4 @@
 ^LICENSE\.md$
 ^.git
 ^.Rhistory
+^\.travis\.yml$
