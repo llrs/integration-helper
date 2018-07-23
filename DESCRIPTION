@@ -10,16 +10,18 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
-  fgsea,
-  AnnotationDbi,
-  RGCCA,
-  ReactomePA,
-  clusterProfiler,
-  data.table,
-  ggplot2,
-  org.Hs.eg.db,
-  reactome.db,
-  Matrix
+    fgsea,
+    AnnotationDbi,
+    RGCCA,
+    ReactomePA,
+    clusterProfiler,
+    data.table,
+    ggplot2,
+    org.Hs.eg.db,
+    reactome.db,
+    Matrix
 RoxygenNote: 6.0.1
 Depends:
-  methods
+    methods
+Suggests: 
+    roxygen2
