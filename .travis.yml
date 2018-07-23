@@ -5,9 +5,9 @@ sudo: false
 cache: packages
 r: bioc-release
 bioc_packages:
-  AnnotationDbi,
-  clusterProfiler,
-  fgsea,
-  org.Hs.eg.db,
-  reactome.db,
+  AnnotationDbi
+  clusterProfiler
+  fgsea
+  org.Hs.eg.db
+  reactome.db
   ReactomePA
