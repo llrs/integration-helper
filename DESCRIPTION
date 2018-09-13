@@ -26,3 +26,4 @@ Depends:
 Suggests: 
     roxygen2,
     Matrix
+biocViews:
