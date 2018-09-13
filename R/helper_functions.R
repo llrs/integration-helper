@@ -12,6 +12,9 @@ circleFun <- function(center = c(-1, 1), diameter = 1, npoints = 100) {
   return(data.frame(x = xx, y = yy))
 }
 
+#' A circle of radium 2
+#'
+#' Created with \code{circleFun}
 #' @export
 circle <- circleFun(c(0, 0), 2, npoints = 100)
 
@@ -71,6 +74,9 @@ fastercheck <- function(x, matrix) {
   apply(x, 1, rec.check, 1, rep(TRUE, nrow(matrix)))
 }
 
+#' Rainbow colors
+#'
+#' Created or obtained from an online resource
 #' @export
 tol21rainbow <- c(
   "#771155", "#AA4488", "#CC99BB",
@@ -82,6 +88,9 @@ tol21rainbow <- c(
   "#771122", "#AA4455", "#DD7788"
 )
 
+#' Useful colors
+#'
+#' Colors of a palette
 #' @export
 colors <- c(
   "#a692d2", "#6de14d", "#5a3bcb", "#b2e145", "#b844dd", "#50a93e",

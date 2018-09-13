@@ -67,7 +67,13 @@ prevalence_2factors <- function(table, meta, columns) {
   sapply(out, `names<-`, names(res$presence))
 }
 
-# Calculates the ratio of p-values of the prevalence between samples
+#' Ratio of prevalence
+#'
+#' Calculates the ratio of p-values of the prevalence between samples
+#' @param columns Columns to select
+#' @param data Data.frame from which the columns are selected
+#' @param indices Rows where we are interested in
+#' @param meta # Information about the samples
 #' @export
 ratio <- function(columns, data, indices, meta) {
   a <- t(data[indices, ]) # allows boot to select sample
