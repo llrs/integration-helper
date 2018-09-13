@@ -10,6 +10,7 @@ Description: To be used on TRIM project to integrate microbiome and
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+biocViews:
 Imports: 
     fgsea,
     AnnotationDbi,
@@ -26,4 +27,3 @@ Depends:
 Suggests: 
     roxygen2,
     Matrix
-biocViews:

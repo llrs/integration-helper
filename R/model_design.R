@@ -72,6 +72,8 @@ model_RGCCA <- function(data, columns, intercept = FALSE){
     out <- m[, num, drop = FALSE]
   }
 
+  colnames(out)[colnames(out) == ""] <- seq_len(sum(colnames(out) == ""))
+
   if (intercept) {
     cbind(1, out)
   } else {
