@@ -16,8 +16,8 @@
 #' @importFrom fgsea fgsea
 #' @importFrom clusterProfiler enricher
 #' @importFrom AnnotationDbi mapIds select
-#' @importFrom org.Hseg.db org.Hs.eg.db
-#' @importFrom reactome.db reactomeEXTID2PATHID rectome.db
+#' @importFrom org.Hs.eg.db org.Hs.eg.db
+#' @importFrom reactome.db reactomeEXTID2PATHID
 #' @importFrom ReactomePA enrichPathway
 biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
                                      epithelium, today) {
