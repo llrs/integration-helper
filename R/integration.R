@@ -60,11 +60,11 @@ integration <- function(A, meta, label, today) {
   names(microbiota2) <- rownames(samples)
   groups <- split(rownames(samples), as.factor(meta$HSCT_responder))
   # First dimension seems to capture well the
-  fgsea::fgsea(groups, RNAseq1, nperm = 1000)
-  fgsea::fgsea(groups, microbiota1, nperm = 1000)
+  fgsea(groups, RNAseq1, nperm = 1000)
+  fgsea(groups, microbiota1, nperm = 1000)
   # Further dimensions
-  fgsea::fgsea(groups, RNAseq2, nperm = 1000)
-  fgsea::fgsea(groups, microbiota2, nperm = 1000)
+  fgsea(groups, RNAseq2, nperm = 1000)
+  fgsea(groups, microbiota2, nperm = 1000)
 
 
   pdf(paste0("Figures/", today, "_RGCCA_plots_", label, ".pdf"))

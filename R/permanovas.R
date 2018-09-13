@@ -9,7 +9,7 @@ permanova_otus <- function(otus, meta) {
 
 #' Permanova
 #'
-#' @param diss Matrix of the expression
+#' @param expr Matrix of the expression
 #' @param meta Data frame with the variables to compare
 #' @return An anova.cca object
 permanova_expr <- function(expr, meta) {

@@ -2,6 +2,7 @@
 #'
 #' @param x a RGCCA outpus
 #' @return a data.frame
+#' @importFrom AnnotationDbi select
 #' @export
 weights <- function(x) {
   loadings <- x$a$RNAseq
@@ -9,7 +10,7 @@ weights <- function(x) {
   ensemblID <- rownames(loadings)
   ensemblID <- trimVer(ensemblID)
   rownames(loadings) <- trimVer(rownames(loadings))
-  symbolID <- AnnotationDbi::select(org.Hs.eg.db::org.Hs.eg.db,
+  symbolID <- select(org.Hs.eg.db,
     keys = ensemblID, keytype = "ENSEMBL", columns = c("SYMBOL", "GENENAME")
   )
   a <- match(symbolID$ENSEMBL, rownames(loadings))

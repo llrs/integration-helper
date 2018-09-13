@@ -22,8 +22,6 @@ Imports:
     org.Hs.eg.db,
     reactome.db
 RoxygenNote: 6.0.1
-Depends:
-    methods
 Suggests: 
     roxygen2,
     Matrix

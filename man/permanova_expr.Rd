@@ -7,9 +7,9 @@
 permanova_expr(expr, meta)
 }
 \arguments{
-\item{meta}{Data frame with the variables to compare}
+\item{expr}{Matrix of the expression}
 
-\item{diss}{Matrix of the expression}
+\item{meta}{Data frame with the variables to compare}
 }
 \value{
 An anova.cca object

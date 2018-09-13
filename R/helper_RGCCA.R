@@ -12,6 +12,7 @@
 #' @return A matrix of the same dimensions as the list and design matrix with
 #' the "correlations" between blocks.
 #' @references There are no references other than the vignette of RGCCA
+#' @import RGCCA
 #' @export
 McKeonHomeogenity <- function(B, C) {
   if (!all(length(B) == ncol(C) & ncol(C) == nrow(C))) {
@@ -21,14 +22,14 @@ McKeonHomeogenity <- function(B, C) {
   # helper function provided in the vignette
   rI <- function(A) {
     J <- length(A)
-    res <- RGCCA::rgcca(A, scale = TRUE, verbose = FALSE)
+    res <- rgcca(A, scale = TRUE, verbose = FALSE)
     Y <- Reduce("cbind", res$Y)
-    rI <- 1 / (J - 1) * (RGCCA::cov2(rowSums(Y)) /
-      sum(apply(Y, 2, RGCCA::cov2)) - 1)
+    rI <- 1 / (J - 1) * (cov2(rowSums(Y)) /
+      sum(apply(Y, 2, cov2)) - 1)
     rI
   }
 
-  sgcca <- RGCCA::sgcca(
+  sgcca <- sgcca(
     B, C,
     # It affects quite a lot between
     # correlation c = 0 to covariation c = 1
@@ -106,7 +107,7 @@ boot_sgcca <- function(A, C, shrinkage, nb_boot = 1000) {
     })
     try( # Prevent the error from LAPACK subroutine
       {
-        res <- RGCCA::sgcca(
+        res <- sgcca(
           Bscr, C,
           c1 = shrinkage,
           ncomp = c(rep(1, length(A))),
@@ -181,13 +182,13 @@ boot_evaluate <- function(STAB) {
 
   # Plot the summary of the bootstrapping
   for (i in seq_len(length(STAB))) {
-    p <- ggplot2::ggplot(consensus[[i]]) +
-      ggplot2::geom_point(ggplot2::aes(sign, freq, col = colMeAbs, size = -log10(seAbs))) +
-      ggplot2::ggtitle(paste("Selecting variable for", names(consensus)[i]))
+    p <- ggplot(consensus[[i]]) +
+      geom_point(aes(sign, freq, col = colMeAbs, size = -log10(seAbs))) +
+      ggtitle(paste("Selecting variable for", names(consensus)[i]))
     print(p)
-    p <- ggplot2::ggplot(consensus[[i]]) +
-      ggplot2::geom_point(ggplot2::aes(sign, freq, col = colMe, size = -log10(se))) +
-      ggplot2::ggtitle(paste("Selecting variable for", names(consensus)[i]))
+    p <- ggplot(consensus[[i]]) +
+      geom_point(aes(sign, freq, col = colMe, size = -log10(se))) +
+      ggtitle(paste("Selecting variable for", names(consensus)[i]))
     print(p)
   }
 }
@@ -196,22 +197,23 @@ boot_evaluate <- function(STAB) {
 #'
 #' @param comp Component from sapply(rgcca$a, function(x)x[, 1])
 #' @return Lateral effect: A plot, invisible the ggplot object of the plot
+#' @importFrom ggplot2 stat_density facet_grid guides
 #' @export
 variables_weight <- function(comp) {
   Loadings <- unlist(comp)
   comp2 <- as.data.frame(Loadings)
   comp2$Origin <- as.factor(gsub("([A-Z]*)\\..*", "\\1", rownames(comp2)))
   rownames(comp2) <- seq_len(nrow(comp2))
-  p <- ggplot2::ggplot(comp2) +
-    ggplot2::stat_density(aes(x = Loadings, y = ..scaled.., fill = Origin), alpha = 0.5) +
-    ggplot2::ggtitle(
+  p <- ggplot(comp2) +
+    stat_density(aes(x = Loadings, y = ..scaled.., fill = Origin), alpha = 0.5) +
+    ggtitle(
       "Importance of each block variable",
       subtitle = "Second component"
     ) +
-    ggplot2::ylab("Scaled density") +
-    ggplot2::xlab("weight") +
-    ggplot2::facet_grid(~ Origin, scales = "free") +
-    ggplot2::guides(fill = FALSE)
+    ylab("Scaled density") +
+    xlab("weight") +
+    facet_grid(~ Origin, scales = "free") +
+    guides(fill = FALSE)
   print(p)
   invisible(p)
 }

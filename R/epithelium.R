@@ -5,8 +5,8 @@
 #' @return A character vector with the Entrez ids
 #' @export
 epitheliumE <- function(x){
-  epitheliumE <- AnnotationDbi::mapIds(
-    org.Hs.eg.db::org.Hs.eg.db,
+  epitheliumE <- mapIds(
+    org.Hs.eg.db,
     keys = as.character(x),
     keytype = "SYMBOL", column = "ENTREZID"
   )

@@ -10,6 +10,15 @@
 #' @param epithelium Data from a file from the lab
 #' @param today Date as in character format
 #' @export
+#' @importFrom ggplot2 ggplot geom_point aes xlab ylab ggtitle theme_set theme_bw
+#' @importFrom grDevices pdf
+#' @importFrom data.table fwrite
+#' @importFrom fgsea fgsea
+#' @importFrom clusterProfiler enricher
+#' @importFrom AnnotationDbi mapIds select
+#' @importFrom org.Hseg.db org.Hs.eg.db
+#' @importFrom reactome.db reactomeEXTID2PATHID rectome.db
+#' @importFrom ReactomePA enrichPathway
 biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
                                      epithelium, today) {
 
@@ -27,7 +36,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   }
 
 
-  grDevices::pdf(paste0("Figures/", today, "_enrichments_", label, ".pdf"))
+  pdf(paste0("Figures/", today, "_enrichments_", label, ".pdf"))
 
   # Test if the gene is significant by comparing to how much times is different
   # from 0 (because CCA tends to compensate itself)
@@ -41,11 +50,11 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
     d_rm <- d_rm[names(freq)]
   }
 
-  p <- ggplot2::ggplot(as.data.frame(cbind(freq, d_rm))) +
-    ggplot2::geom_point(ggplot2::aes(d_rm, freq)) +
-    ggplot2::xlab("Score") +
-    ggplot2::ylab("Frequency (!= 0)") +
-    ggplot2::ggtitle("RNAseq")
+  p <- ggplot(as.data.frame(cbind(freq, d_rm))) +
+    geom_point(aes(d_rm, freq)) +
+    xlab("Score") +
+    ylab("Frequency (!= 0)") +
+    ggtitle("RNAseq")
   print(p)
 
   # Select those genes that are significant
@@ -59,8 +68,8 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   ensemblID <- rownames(loadings)
   ensemblID <- trimVer(ensemblID)
   rownames(loadings) <- trimVer(rownames(loadings))
-  entrezID <- AnnotationDbi::mapIds(
-    org.Hs.eg.db::org.Hs.eg.db,
+  entrezID <- mapIds(
+    org.Hs.eg.db,
     keys = ensemblID, keytype = "ENSEMBL",
     column = "ENTREZID"
   )
@@ -69,7 +78,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   comp1 <- comp1[diff0(comp1)]
 
   # Extract the information of the pathways
-  genes2Pathways <- as.list(reactome.db::reactomeEXTID2PATHID)
+  genes2Pathways <- as.list(reactomeEXTID2PATHID)
   pathways <- unlist(genes2Pathways, use.names = FALSE)
   genes <- rep(names(genes2Pathways), lengths(genes2Pathways))
   paths2genes <- split(genes, pathways) # List of genes and the gene sets
@@ -79,7 +88,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
 
   ## Compute the hypergeometric/enrichment analysis ####
   message("Calculating the enrichment")
-  enrich <- ReactomePA::enrichPathway(
+  enrich <- enrichPathway(
     gene = entrezID[significant], pvalueCutoff = 0.05,
     readable = TRUE, universe = unique(entrezID)
   )
@@ -95,11 +104,11 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
 
   message("Calculating the gene set enrichment")
   ## Compute the GSEA for the size effect ####
-  gseaSizeEffect <- fgsea::fgsea(paths2genes, comp1, nperm = length(comp1))
+  gseaSizeEffect <- fgsea(paths2genes, comp1, nperm = length(comp1))
 
   # Get the name of the pathway
-  namesPaths <- AnnotationDbi::select(
-    reactome.db::reactome.db,
+  namesPaths <- select(
+    reactome.db,
     keys = gseaSizeEffect$pathway,
     keytype = "PATHID", columns = "PATHNAME"
   )
@@ -113,7 +122,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
     warning("GSEA didn't result in any pathway")
   }
   # Store the output
-  data.table::fwrite(gseaSizeEffect[pval < 0.05, ],
+  fwrite(gseaSizeEffect[pval < 0.05, ],
     file = paste0("gsea_pathways_", label, ".csv")
   )
 
@@ -137,11 +146,11 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
     d_rm <- d_rm[names(freq)]
   }
 
-  p <- ggplot2::ggplot(as.data.frame(cbind(freq, d_rm))) +
-    ggplot2::geom_point(ggplot2::aes(d_rm, freq)) +
-    ggplot2::xlab("Score") +
-    ggplot2::ylab("Frequency (!= 0)") +
-    ggplot2::ggtitle("16S")
+  p <- ggplot(as.data.frame(cbind(freq, d_rm))) +
+    geom_point(aes(d_rm, freq)) +
+    xlab("Score") +
+    ylab("Frequency (!= 0)") +
+    ggtitle("16S")
   print(p)
   otus <- names(d_rm)[freq > 0.5]
 
@@ -160,7 +169,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
     "Name" = otus_tax[, "Genus"],
     "Term" = rownames(otus_tax)
   )
-  enrich <- as.data.frame(clusterProfiler::enricher(
+  enrich <- as.data.frame(enricher(
     gene = otus, universe = rownames(otus_tax),
     minGSSize = 1, TERM2GENE = term2gene,
     TERM2NAME = term2name
@@ -171,12 +180,12 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   # GSEA
   comp1 <- sgcca.centroid$a[["16S"]][, 1]
   comp1 <- comp1[diff0(comp1)]
-  gseaSizeEffect <- fgsea::fgsea(grouping, comp1, nperm = 20000)
+  gseaSizeEffect <- fgsea(grouping, comp1, nperm = 20000)
   gseaSizeEffect <- gseaSizeEffect[order(-abs(NES), padj, -size)]
   if (sum(gseaSizeEffect$padj < 0.05) == 0) {
     warning("GSEA didn't result in any pathway")
   }
-  data.table::fwrite(gseaSizeEffect[pval < 0.05],
+  fwrite(gseaSizeEffect[pval < 0.05],
     file = paste0("gsea_otus_genus_", label, ".csv")
   )
   dev.off()
