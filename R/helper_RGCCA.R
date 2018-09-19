@@ -85,10 +85,13 @@ subSymm <- function(m, x, y, val) {
 #' @param C The symmetric matrix with the relationships between datsets.
 #' @param shrinkage Shrinkage estimated (use the estimated for the original datastet)
 #' @param nb_boot Number of bootstraps to perform
-#' @return The outer weight of each variable of the input datasets.
+#' @return A list with two elements: the coefficient of each variable of the
+#' input blocks; and the AVE values, both inner, and outer
 #' @export
 boot_sgcca <- function(A, C, shrinkage, nb_boot = 1000) {
-  STAB <- list()
+  STAB <- vector("list", length = length(A))
+  AVE <- matrix(NA, ncol = 2, nrow = nb_boot)
+  colnames(AVE) <- c("inner", "outer")
 
   for (j in seq_along(A)) {
     STAB[[j]] <- matrix(NA, nb_boot, ncol(A[[j]]))
@@ -115,6 +118,9 @@ boot_sgcca <- function(A, C, shrinkage, nb_boot = 1000) {
           scale = TRUE
         )
 
+        AVE[i, "inner"] <- res$AVE$AVE_inner
+        AVE[i, "outer"] <- res$AVE$AVE_outer
+
         for (j in seq_along(A)) {
           STAB[[j]][i, rownames(res$a[[j]])] <- res$a[[j]]
         }
@@ -122,7 +128,7 @@ boot_sgcca <- function(A, C, shrinkage, nb_boot = 1000) {
       silent = FALSE
     )
   }
-  return(STAB)
+  return(list(STAB, AVE))
 }
 
 #' Evaluates the boostrapping of RGCCA

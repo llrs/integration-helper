@@ -16,7 +16,8 @@ boot_sgcca(A, C, shrinkage, nb_boot = 1000)
 \item{nb_boot}{Number of bootstraps to perform}
 }
 \value{
-The outer weight of each variable of the input datasets.
+A list with two elements: the coefficient of each variable of the
+input blocks; and the AVE values, both inner, and outer
 }
 \description{
 Performs the centroid bootstrap
