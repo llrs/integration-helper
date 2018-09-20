@@ -128,7 +128,7 @@ boot_sgcca <- function(A, C, shrinkage, nb_boot = 1000) {
       silent = FALSE
     )
   }
-  return(list(STAB, AVE))
+  return(list("STAB" = STAB, "AVE" = AVE))
 }
 
 #' Evaluates the boostrapping of RGCCA
