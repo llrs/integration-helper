@@ -17,6 +17,7 @@ Imports:
     RGCCA,
     ReactomePA,
     clusterProfiler,
+    Matrix,
     data.table,
     ggplot2,
     org.Hs.eg.db,
@@ -24,5 +25,4 @@ Imports:
 RoxygenNote: 6.1.0
 Suggests: 
     roxygen2,
-    Matrix,
     testthat

@@ -4,7 +4,7 @@
 #' @param size A numveric value with the numer of datasets on the design.
 #' @return A list of matrices with the designs with different weights
 #' @export
-#' @author Flodel \url(https://codereview.stackexchange.com/a/203517/36067)
+#' @author Flodel \url{https://codereview.stackexchange.com/a/203517/36067}
 #' @examples
 #' weight_design(4, 4)
 weight_design <- function(weights = 4, size){
