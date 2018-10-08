@@ -28,6 +28,25 @@ weight_design <- function(weights = 4, size){
   lapply(seq(nrow(A)), function(i) A[i, , ])
 }
 
+#' Validate designs
+#'
+#' @param designs A list of design matrices as obtained from
+#' \code{\link{weight_design}}
+#' @return A logical vector that validates if the designs are correct or not.
+#' @examples
+#' designs <- weight_design(4, 4)
+#' keep <- check_design(designs)
+#' summary(keep)
+check_design <- function(designs) {
+  stopifnot(is(designs, "list"))
+  nCols <- vapply(designs, ncol, numeric(1L))
+  nRows <- vapply(designs, nrow, numeric(1L))
+  stopifnot(length(unique(nCols)) == 1)
+  stopifnot(length(unique(nRows)) == 1)
+  stopifnot(unique(nRows) == unique(nCols))
+  size <- nRows[1]
+  vapply(designs, function(x){sum(rowSums(x != 0) != 0) == size}, logical(1L))
+}
 
 #' Prepare data
 #'

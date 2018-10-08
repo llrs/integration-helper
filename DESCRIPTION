@@ -24,4 +24,5 @@ Imports:
 RoxygenNote: 6.1.0
 Suggests: 
     roxygen2,
-    Matrix
+    Matrix,
+    testthat
