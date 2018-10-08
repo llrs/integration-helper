@@ -34,6 +34,7 @@ weight_design <- function(weights = 4, size){
 #' @param designs A list of design matrices as obtained from
 #' \code{\link{weight_design}}
 #' @return A logical vector that validates if the designs are correct or not.
+#' @export
 #' @examples
 #' designs <- weight_design(4, 4)
 #' keep <- check_design(designs)

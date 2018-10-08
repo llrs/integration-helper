@@ -20,3 +20,6 @@ Check a design for different weights
 \examples{
 weight_design(4, 4)
 }
+\author{
+Flodel \url(https://codereview.stackexchange.com/a/203517/36067)
+}
