@@ -48,8 +48,7 @@ check_design <- function(designs) {
   stopifnot(length(unique(nRows)) == 1)
   stopifnot(unique(nRows) == unique(nCols))
   # Actual function
-  size <- nRows[1]
-  vapply(designs, function(x){sum(rowSums(x != 0) != 0) == size}, logical(1L))
+  vapply(designs, function(x){all(rowSums(x != 0) != 0)}, logical(1L))
 }
 
 #' Prepare data
