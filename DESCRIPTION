@@ -1,7 +1,7 @@
 Package: integration
 Type: Package
 Title: Facilitate the integration
-Version: 0.1.12
+Version: 0.1.13
 Authors@R: person("Lluís", "Revilla Sancho", 
             email ="lluis.revilla@gmail.com", role = c("aut", "cre"), 
             comment = c(ORCID = "0000-0001-9747-2570"))
