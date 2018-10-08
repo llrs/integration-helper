@@ -4,6 +4,7 @@
 #' @param size A numveric value with the numer of datasets on the design.
 #' @return A list of matrices with the designs with different weights
 #' @export
+#' @author Flodel \url(https://codereview.stackexchange.com/a/203517/36067)
 #' @examples
 #' weight_design(4, 4)
 weight_design <- function(weights = 4, size){
@@ -38,12 +39,14 @@ weight_design <- function(weights = 4, size){
 #' keep <- check_design(designs)
 #' summary(keep)
 check_design <- function(designs) {
+  # Validation of the input
   stopifnot(is(designs, "list"))
   nCols <- vapply(designs, ncol, numeric(1L))
   nRows <- vapply(designs, nrow, numeric(1L))
   stopifnot(length(unique(nCols)) == 1)
   stopifnot(length(unique(nRows)) == 1)
   stopifnot(unique(nRows) == unique(nCols))
+  # Actual function
   size <- nRows[1]
   vapply(designs, function(x){sum(rowSums(x != 0) != 0) == size}, logical(1L))
 }
@@ -61,7 +64,7 @@ model_RGCCA <- function(data, columns, intercept = FALSE){
 
   m <- data[, columns, drop = FALSE]
   num <- vapply(m, is.numeric, logical(1L))
-  if (any(!num)){
+  if (any(!num)) {
     if (sum(!num) > 1) {
       o <- sapply(m[, !num, drop = FALSE], function(x){
         levels <- unique(x)
