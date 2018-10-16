@@ -1,28 +1,31 @@
-Package: integration
 Type: Package
+Package: integration
 Title: Facilitate the integration
 Version: 0.1.13
-Authors@R: person("Lluís", "Revilla Sancho", 
-            email ="lluis.revilla@gmail.com", role = c("aut", "cre"), 
-            comment = c(ORCID = "0000-0001-9747-2570"))
-Description: To be used on TRIM project to integrate microbiome and
-    transcriptome data of the same patients.
+Authors@R: 
+    person(given = "Lluís",
+           family = "Revilla Sancho",
+           role = c("aut", "cre"),
+           email = "lluis.revilla@gmail.com",
+           comment = c(ORCID = "0000-0001-9747-2570"))
+Description: To be used on TRIM project to integrate microbiome
+    and transcriptome data of the same patients.
 License: MIT + file LICENSE
-Encoding: UTF-8
-LazyData: true
-biocViews:
 Imports: 
-    fgsea,
     AnnotationDbi,
-    RGCCA,
-    ReactomePA,
     clusterProfiler,
-    Matrix,
     data.table,
+    fgsea,
     ggplot2,
+    Matrix,
     org.Hs.eg.db,
-    reactome.db
-RoxygenNote: 6.1.0
+    reactome.db,
+    ReactomePA,
+    RGCCA
 Suggests: 
     roxygen2,
     testthat
+biocViews:
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.0
