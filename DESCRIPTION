@@ -1,7 +1,7 @@
 Type: Package
 Package: integration
 Title: Facilitate the integration
-Version: 0.1.13
+Version: 0.1.14
 Authors@R: 
     person(given = "Lluís",
            family = "Revilla Sancho",
