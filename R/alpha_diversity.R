@@ -4,7 +4,7 @@
 # Calculate the species richness in a sample
 Species.richness <- function(x) {
   # Count only the OTUs that are present >0.5 normalized counts (normalization produces real values for counts)
-  count <- sum(x[x > 0.5]^0)
+  count <- sum(x > 0.5)
   return(count)
 }
 
