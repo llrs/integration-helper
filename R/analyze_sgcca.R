@@ -10,10 +10,10 @@
 analyze <- function(sgcca) {
   ind <- index(sgcca)
 
-  cY <- canonical_correlation(sgcca)
+  cY <- dimensions_correlation(sgcca)
   cc <- helper_cc(sgcca, cY)
 
-  # Values of the correlation with the dimensions
+  # Values of the correlation between the dimensions
   var <- cY[upper.tri(cY)]
   names(var) <- paste0("vs", ind)
 
@@ -30,7 +30,7 @@ analyze <- function(sgcca) {
     vars, weight)
 }
 
-canonical_correlation <- function(sgcca) {
+dimensions_correlation <- function(sgcca) {
   # Correlation between Y
   Y <- simplify2array(sgcca$Y, higher = FALSE)
   cor(Y)
