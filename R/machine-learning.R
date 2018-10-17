@@ -70,6 +70,8 @@ kFolding <- function(k, size, n, ...) {
 
   for (i in seq_len(n)) {
     samples <- sample(x, keep, ...)
+    # to avoid random subsetting  it could use something of
+    # seq(5, length.out = 15) To select the testing group
     out[[i]] <- list("testing" = NULL, "training" = NULL)
     out[[i]]$testing <- samples
     out[[i]]$training <- x[!x %in% samples]
