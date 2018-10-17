@@ -38,8 +38,10 @@ canonical_correlation <- function(sgcca) {
 
 helper_cc <- function(sgcca, cY) {
   d <- cY * sgcca$C
-  # Canonical correlation
-  sum(d[upper.tri(d)])
+  switch(sgcca$scheme,
+         centroid = sum(abs(d[upper.tri(d)])),
+         horst = sum(d[upper.tri(d)]),
+         factorial = sum(d[upper.tri(d)]^2))
 }
 
 index <- function(x) {
