@@ -443,17 +443,18 @@ meta_i_norm <- function(meta) {
 #' Filter expressions
 #'
 #' @param expr Input RNAseq data (not microbiota)
+#' @param frac The fraction to remove
 #' @return A matrix without low expressed genes and with low variance
 #' @export
-norm_RNAseq <- function(expr) {
+norm_RNAseq <- function(expr, frac = 0.1) {
   # Remove low expressed genes
   expr <- expr[rowSums(expr != 0) >= (0.25 * ncol(expr)), ]
-  expr <- expr[rowMeans(expr) > quantile(rowMeans(expr), prob = 0.1), ]
+  expr <- expr[rowMeans(expr) > quantile(rowMeans(expr), prob = frac), ]
 
   # Filter genes by variance
   SD <- apply(expr, 1, sd)
   CV <- sqrt(exp(SD^2) - 1)
-  expr[CV > quantile(CV, probs = 0.1), ]
+  expr[CV > quantile(CV, probs = frac), ]
 }
 
 #' Normalize 16S stools metadata
