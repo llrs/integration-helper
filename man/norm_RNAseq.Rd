@@ -4,10 +4,12 @@
 \alias{norm_RNAseq}
 \title{Filter expressions}
 \usage{
-norm_RNAseq(expr)
+norm_RNAseq(expr, frac = 0.1)
 }
 \arguments{
 \item{expr}{Input RNAseq data (not microbiota)}
+
+\item{frac}{The fraction to remove}
 }
 \value{
 A matrix without low expressed genes and with low variance
