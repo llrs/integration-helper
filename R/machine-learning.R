@@ -16,6 +16,11 @@ looIndex <- function(size){
   vl
 }
 
+#' Number of samples
+#'
+#' @param x A list or a matrix where rows are the samples
+#' @return The number of samples
+#' @export
 size <- function(x){
   if (is(x, "list")) {
     stopifnot(length(unique(vapply(x, nrow, numeric(1L)))) == 1L)
