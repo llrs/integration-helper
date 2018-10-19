@@ -103,11 +103,7 @@ boot_sgcca <- function(A, C, shrinkage, nb_boot = 1000) {
   for (i in seq_len(nb_boot)) {
     ind <- sample(nrow(A[[1]]), replace = TRUE)
 
-    Bscr <- lapply(A, function(x) {
-      y <- x[ind, ] # Subset samples
-      y[, apply(y, 2, sd) != 0] # Subset variables
-      # Prevent error of: the standard deviation is zero
-    })
+    Bscr <- subsetData(A, ind)
     try( # Prevent the error from LAPACK subroutine
       {
         res <- sgcca(
