@@ -28,13 +28,15 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
 
   # Remove duplicated if sgcca failed due to LAPACK subroutine
   boot_NA <- is.na(b[, 1])
-  b <- b[!boot_NA, ]
+  b <- b[!boot_NA, , drop = FALSE]
   d_rm <- d[!boot_NA]
 
   if (sum(boot_NA) > 1) {
     warning(sum(boot_NA), " iterations failed.")
   }
-
+  if (nrow(b) == 0) {
+    stop("Not enough data to continue")
+  }
 
   pdf(paste0("Figures/", today, "_enrichments_", label, ".pdf"))
 
