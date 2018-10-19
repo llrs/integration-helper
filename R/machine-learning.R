@@ -25,8 +25,10 @@ size <- function(x){
   if (is(x, "list")) {
     stopifnot(length(unique(vapply(x, nrow, numeric(1L)))) == 1L)
     nrow(x[[1]])
-  } else {
+  } else if (is(x, "array")) {
     nrow(x)
+  } else {
+    length(x)
   }
 }
 
