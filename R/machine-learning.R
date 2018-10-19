@@ -39,7 +39,10 @@ size <- function(x){
 #' @return A list with less samples
 #' @export
 subsetData <- function(A, index) {
-  lapply(A, function(x)x[index, , drop = FALSE])
+  lapply(A, function(x){
+    y <- x[index, , drop = FALSE] # subset
+    y[, apply(y, 2, sd) != 0] # Remove variables that are constant.
+    })
 }
 
 
