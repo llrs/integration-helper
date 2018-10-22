@@ -6,7 +6,8 @@
 #' @export
 #' @author Flodel \url{https://codereview.stackexchange.com/a/203517/36067}
 #' @examples
-#' weight_design(4, 4)
+#' out <- weight_design(4, 4)
+#' head(out)
 weight_design <- function(weights = 4, size){
 
   p <- size * (size - 1) / 2    # 6

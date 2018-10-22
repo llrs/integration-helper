@@ -18,7 +18,8 @@ A list of matrices with the designs with different weights
 Check a design for different weights
 }
 \examples{
-weight_design(4, 4)
+out <- weight_design(4, 4)
+head(out)
 }
 \author{
 Flodel \url{https://codereview.stackexchange.com/a/203517/36067}
