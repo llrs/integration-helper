@@ -103,3 +103,18 @@ model_RGCCA <- function(data, columns, intercept = FALSE){
     out
   }
 }
+
+#' Create symmetric matrix
+#'
+#' @param m Square matrix.
+#' @param data Numeric values of the upper triangular side of the matrix
+#' @return A square symmetric matrix.
+#' @export
+symm <- function(m, data) {
+  if (is(data, "list")) {
+    m[upper.tri(m)] <- unlist(data)
+  } else {
+    m[upper.tri(m)] <- data
+  }
+  as.matrix(Matrix::forceSymmetric(m, "U"))
+}
