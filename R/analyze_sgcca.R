@@ -49,6 +49,9 @@ index <- function(x) {
         paste0, collapse = "")
 }
 
+#' Method to simplify AVE
+#'
+#' This simplifies the AVE_X to make it easier to understand
 #' @export
 aves.sgcca <- function(x) {
   aves(x)
