@@ -48,3 +48,13 @@ index <- function(x) {
   apply(which(upper.tri(x$C), arr.ind = TRUE), 1,
         paste0, collapse = "")
 }
+
+#' @export
+aves.sgcca <- function(x) {
+  aves(x)
+}
+
+aves <- function(x){
+  x$AVE$AVE_X <- simplify2array(x$AVE$AVE_X)
+  x
+}
