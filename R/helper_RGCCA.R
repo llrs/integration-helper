@@ -104,11 +104,16 @@ boot_sgcca <- function(A, C, shrinkage, nb_boot = 1000) {
     ind <- sample(nrow(A[[1]]), replace = TRUE)
 
     Bscr <- subsetData(A, ind)
-    try( # Prevent the error from LAPACK subroutine
+    min_shrinkage <- vapply(A, function(x) {
+      1 / sqrt(ncol(x))
+    }, numeric(1L))
+    # Recalculate just in case
+    shrinkage2 <- ifelse(shrinkage < min_shrinkage, min_shrinkage, shrinkage)
+    try( # Prevents the error from LAPACK subroutine
       {
         res <- sgcca(
           Bscr, C,
-          c1 = shrinkage,
+          c1 = shrinkage2,
           ncomp = c(rep(1, length(A))),
           scheme = "centroid",
           scale = TRUE
