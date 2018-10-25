@@ -53,10 +53,6 @@ index <- function(x) {
 #'
 #' This simplifies the AVE_X to make it easier to understand
 #' @export
-aves.sgcca <- function(x) {
-  aves(x)
-}
-
 aves <- function(x){
   x$AVE$AVE_X <- simplify2array(x$AVE$AVE_X)
   x
