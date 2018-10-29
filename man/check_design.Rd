@@ -21,3 +21,6 @@ designs <- weight_design(4, 4)
 keep <- check_design(designs)
 summary(keep)
 }
+\seealso{
+\code{\link{symm}}, \code{\link{subSymm}}
+}

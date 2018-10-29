@@ -36,6 +36,7 @@ weight_design <- function(weights = 4, size){
 #' \code{\link{weight_design}}
 #' @return A logical vector that validates if the designs are correct or not.
 #' @export
+#' @seealso \code{\link{symm}}, \code{\link{subSymm}}
 #' @examples
 #' designs <- weight_design(4, 4)
 #' keep <- check_design(designs)
@@ -49,7 +50,19 @@ check_design <- function(designs) {
   stopifnot(length(unique(nRows)) == 1)
   stopifnot(unique(nRows) == unique(nCols))
   # Actual function
-  vapply(designs, function(x){all(rowSums(x != 0) != 0)}, logical(1L))
+  vapply(designs, valid,  logical(1L))
+}
+
+# Check that each data block is connected to others
+valid <- function(x){
+  all(rowSums(x != 0) != 0)
+}
+
+
+# Check that each data block is to all
+correct <- function(x){
+  all(rowSums(x != 0)) >= 2 # TODO
+  # either it is symmetric or follows a strange rule
 }
 
 #' Prepare data
