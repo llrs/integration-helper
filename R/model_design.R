@@ -60,9 +60,25 @@ valid <- function(x){
 
 
 # Check that each data block is to all
+# See this answer:
+# https://math.stackexchange.com/a/551947
+# There should work
+#' Check that the network is fully connected
+#'
+#' Given the design matrix, checks that all the blocks are connected between them
+#' @param x Design matrix, a symmetric matrix with
+#' @return A logical value if it is fully connected or not.
+#' @references \link{https://math.stackexchange.com/a/551947}
+#' @export
 correct <- function(x){
-  all(rowSums(x != 0)) >= 2 # TODO
-  # either it is symmetric or follows a strange rule
+  A <- x != 0 # Adjacency
+  # Repeat the adjaceny as much as it is needed.
+  l <- lapply(seq_len(ncol(A) - 1), function(y){A})
+  # Calculate the power (there are more efficient ways but for small matrices it should work)
+  red <- Reduce(`%*%`, l, init = A, accumulate = TRUE)
+  # Add them up (S)
+  final <- Reduce(`+`, red)
+  all(final != 0)
 }
 
 #' Prepare data
