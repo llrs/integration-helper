@@ -16,5 +16,5 @@ A logical value if it is fully connected or not.
 Given the design matrix, checks that all the blocks are connected between them
 }
 \references{
-\link{https://math.stackexchange.com/a/551947}
+\url{https://math.stackexchange.com/a/551947}
 }

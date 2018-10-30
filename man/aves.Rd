@@ -6,6 +6,12 @@
 \usage{
 aves(x)
 }
+\arguments{
+\item{x}{rgcca or sgcca object}
+}
+\value{
+The same object with AVE_X simplified
+}
 \description{
 This simplifies the AVE_X to make it easier to understand
 }

@@ -68,7 +68,7 @@ valid <- function(x){
 #' Given the design matrix, checks that all the blocks are connected between them
 #' @param x Design matrix, a symmetric matrix with
 #' @return A logical value if it is fully connected or not.
-#' @references \link{https://math.stackexchange.com/a/551947}
+#' @references \url{https://math.stackexchange.com/a/551947}
 #' @export
 correct <- function(x){
   A <- x != 0 # Adjacency

@@ -52,6 +52,8 @@ index <- function(x) {
 #' Method to simplify AVE
 #'
 #' This simplifies the AVE_X to make it easier to understand
+#' @param x rgcca or sgcca object
+#' @return The same object with AVE_X simplified
 #' @export
 aves <- function(x){
   x$AVE$AVE_X <- simplify2array(x$AVE$AVE_X)
