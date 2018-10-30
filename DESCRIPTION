@@ -24,7 +24,8 @@ Imports:
     RGCCA
 Suggests: 
     roxygen2,
-    testthat
+    testthat,
+    covr
 biocViews:
 Encoding: UTF-8
 LazyData: true
