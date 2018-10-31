@@ -144,7 +144,7 @@ model_RGCCA <- function(data, columns, intercept = FALSE){
 #' @export
 symm <- function(m, data) {
 
-  if (is(data, "list")) {
+  if (!is(data, "numeric")) {
     data <- unlist(data)
   }
   upper <- data[seq_len(ncol(m))]
