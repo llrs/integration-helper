@@ -21,3 +21,6 @@ The symmetric matrix with the value inserted in the right positions
 \description{
 Subsitute in a symmetric matrix
 }
+\seealso{
+\code{\link{symm}}, \code{\link{correct}}, \code{\link{check_design}}
+}

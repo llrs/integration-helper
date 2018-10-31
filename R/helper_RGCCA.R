@@ -67,6 +67,7 @@ McKeonHomeogenity <- function(B, C) {
 #' @param y Column position
 #' @param val Value to insert in the given position
 #' @return The symmetric matrix with the value inserted in the right positions
+#' @seealso \code{\link{symm}}, \code{\link{correct}}, \code{\link{check_design}}
 #' @export
 subSymm <- function(m, x, y, val) {
   if (!isSymmetric(m)) {

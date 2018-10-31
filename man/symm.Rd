@@ -17,3 +17,10 @@ A square symmetric matrix.
 \description{
 Create symmetric matrix
 }
+\note{
+After the upper case there can be other values that are assumed to be
+in the diagonal.
+}
+\seealso{
+\code{\link{subSymm}}, \code{\link{correct}}, \code{\link{check_design}}
+}

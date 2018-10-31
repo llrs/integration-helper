@@ -137,13 +137,22 @@ model_RGCCA <- function(data, columns, intercept = FALSE){
 #'
 #' @param m Square matrix.
 #' @param data Numeric values of the upper triangular side of the matrix
+#' @note After the upper case there can be other values that are assumed to be
+#' in the diagonal.
 #' @return A square symmetric matrix.
+#' @seealso \code{\link{subSymm}}, \code{\link{correct}}, \code{\link{check_design}}
 #' @export
 symm <- function(m, data) {
+
   if (is(data, "list")) {
-    m[upper.tri(m)] <- unlist(data)
-  } else {
-    m[upper.tri(m)] <- data
+    data <- unlist(data)
   }
+  upper <- data[seq_len(ncol(m))]
+  if (length(data) > ncol(m)) {
+    Diag <- rep(0, ncol(m))
+    Diag[seq_len(length(data) - ncol(m))] <- data[seq_along(data) > ncol(m)]
+    diag(m) <- Diag
+  }
+  m[upper.tri(m)] <- upper
   as.matrix(Matrix::forceSymmetric(m, "U"))
 }
