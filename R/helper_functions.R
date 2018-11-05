@@ -47,7 +47,7 @@ taxonomy <- function(taxonomy, otus) {
   # Remove spaces
   otus_tax <- apply(otus_tax, 1:2, sub, pattern = "\\s", replacement = "")
   otus_tax <- apply(otus_tax, 1:2, sub, pattern = "[;:]", replacement = "")
-  otus_tax <- apply(otus_tax, 1:2, sub, pattern = "^([a-z]__)", replacement = "")
+  otus_tax <- apply(otus_tax, 1:2, sub, pattern = "^([a-z]?__)", replacement = "")
   otus_tax[otus_tax == ""] <- NA # Remove empty cells
   otus_tax
 }
