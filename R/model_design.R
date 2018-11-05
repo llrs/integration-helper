@@ -147,10 +147,11 @@ symm <- function(m, data) {
   if (!is(data, "numeric")) {
     data <- unlist(data)
   }
-  upper <- data[seq_len(ncol(m))]
-  if (length(data) > ncol(m)) {
+  weights <- ncol(m)^2 - ncol(m)
+  upper <- data[seq_len(weights)]
+  if (length(data) > weights) {
     Diag <- rep(0, ncol(m))
-    Diag[seq_len(length(data) - ncol(m))] <- data[seq_along(data) > ncol(m)]
+    Diag[seq_len(length(data) - weights)] <- data[seq_along(data) > weights]
     diag(m) <- Diag
   }
   m[upper.tri(m)] <- upper
