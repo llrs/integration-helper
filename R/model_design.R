@@ -147,7 +147,7 @@ symm <- function(m, data) {
   if (!is(data, "numeric")) {
     data <- unlist(data)
   }
-  weights <- ncol(m)^2 - ncol(m)
+  weights <- (ncol(m)^2 - ncol(m))/2
   upper <- data[seq_len(weights)]
   if (length(data) > weights) {
     Diag <- rep(0, ncol(m))
