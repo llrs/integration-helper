@@ -20,7 +20,6 @@ Imports:
     Matrix,
     org.Hs.eg.db,
     reactome.db,
-    ReactomePA,
     RGCCA
 Suggests: 
     roxygen2,
@@ -29,4 +28,4 @@ Suggests:
 biocViews:
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1

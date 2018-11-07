@@ -18,7 +18,7 @@
 #' @importFrom AnnotationDbi mapIds select
 #' @importFrom org.Hs.eg.db org.Hs.eg.db
 #' @importFrom reactome.db reactomeEXTID2PATHID
-#' @importFrom ReactomePA enrichPathway
+#' @importFrom clusterProfiler enricher
 biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
                                      epithelium, today) {
 
@@ -62,7 +62,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   # Select those genes that are significant
   # Selected more than 50% of the time
   significant <- names(d_rm)[freq > 0.5]
-  significant <-trimVer(significant)
+  significant <- trimVer(significant)
 
   loadings <- sgcca.centroid$a[["RNAseq"]]
 
@@ -84,17 +84,23 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   pathways <- unlist(genes2Pathways, use.names = FALSE)
   genes <- rep(names(genes2Pathways), lengths(genes2Pathways))
   paths2genes <- split(genes, pathways) # List of genes and the gene sets
-
   # Subset to only human pathways
-  paths2genes <- paths2genes[grep("R-HSA-", names(paths2genes))]
+  human <- grep("R-HSA-", names(paths2genes))
+  paths2genes <- paths2genes[human]
+  genes <- unlist(paths2genes, use.names = FALSE)
+  pathways <- rep(names(paths2genes), lengths(paths2genes))
+
 
   ## Compute the hypergeometric/enrichment analysis ####
   message("Calculating the enrichment")
-  enrich <- enrichPathway(
-    gene = entrezID[significant], pvalueCutoff = 0.05,
-    readable = TRUE, universe = unique(entrezID)
+  T2G <- cbind.data.frame(pathways, genes)
+  enrich <- enricher(
+    gene = entrezID[significant], TERM2GENE = T2G
   )
-  write.csv(as.data.frame(enrich),
+  enrich <- as.data.frame(enrich)
+  enrich$Description <- mapIds(reactome.db, keys = rownames(enrich),
+                               keytype = "PATHID", column = "PATHNAME")
+  write.csv(enrich,
     file = paste0("enrichment_RNAseq_", label, ".csv"), row.names = FALSE
   )
 
