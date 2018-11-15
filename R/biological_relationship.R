@@ -80,16 +80,9 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   comp1 <- comp1[diff0(comp1)]
 
   # Extract the information of the pathways
-  genes2Pathways <- as.list(reactomeEXTID2PATHID)
-  pathways <- unlist(genes2Pathways, use.names = FALSE)
-  genes <- rep(names(genes2Pathways), lengths(genes2Pathways))
-  paths2genes <- split(genes, pathways) # List of genes and the gene sets
-  # Subset to only human pathways
-  human <- grep("R-HSA-", names(paths2genes))
-  paths2genes <- paths2genes[human]
+  paths2genes <- access_reactome()
   genes <- unlist(paths2genes, use.names = FALSE)
   pathways <- rep(names(paths2genes), lengths(paths2genes))
-
 
   ## Compute the hypergeometric/enrichment analysis ####
   message("Calculating the enrichment")
@@ -98,8 +91,10 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
     gene = entrezID[significant], TERM2GENE = T2G
   )
   enrich <- as.data.frame(enrich)
-  enrich$Description <- mapIds(reactome.db, keys = rownames(enrich),
-                               keytype = "PATHID", column = "PATHNAME")
+  if (nrow(enrich) >= 1) {
+    enrich$Description <- mapIds(reactome.db, keys = rownames(enrich),
+                                 keytype = "PATHID", column = "PATHNAME")
+  }
   write.csv(enrich,
     file = paste0("enrichment_RNAseq_", label, ".csv"), row.names = FALSE
   )
@@ -197,4 +192,15 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
     file = paste0("gsea_otus_genus_", label, ".csv")
   )
   dev.off()
+}
+
+
+access_reactome <- function(){
+  genes2Pathways <- as.list(reactomeEXTID2PATHID)
+  pathways <- unlist(genes2Pathways, use.names = FALSE)
+  genes <- rep(names(genes2Pathways), lengths(genes2Pathways))
+  paths2genes <- split(genes, pathways)
+  human <- grep("R-HSA-", names(paths2genes))
+  paths2genes <- paths2genes[human]
+  paths2genes[lengths(paths2genes) >= 2]
 }
