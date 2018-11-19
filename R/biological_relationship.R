@@ -194,7 +194,14 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   dev.off()
 }
 
-
+#' Return data from reactome
+#'
+#'
+#' Looks in reactome for the pathways associated with each gene
+#' @return A list of paths and human genes in the list
+#' @export
+#' @examples
+#' paths2genes <- access_reactome()
 access_reactome <- function(){
   genes2Pathways <- as.list(reactomeEXTID2PATHID)
   pathways <- unlist(genes2Pathways, use.names = FALSE)
