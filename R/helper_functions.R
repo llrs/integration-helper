@@ -208,6 +208,11 @@ compare.correlations <- function(r1, r2, n1, n2) {
 #' the columns given for the data in each column.
 #' @note If some rows are all FALSE it means some values are NA.
 #' @export
+#' @examples
+#' disease <- factor(sample(c("disease", "control"), 15, TRUE))
+#' ileum <- factor(sample(c("ileum", "colon"), 15, TRUE))
+#' df <- cbind.data.frame(disease, ileum)
+#' allComb(df, c("disease", "ileum"))
 allComb <- function(data, columns) {
   if (is.null(dim(data))) {
     stop("data should be a data.frame or a matrix")
@@ -236,19 +241,19 @@ allComb <- function(data, columns) {
       data == x
     })
   } else {
-    data <- sapply(data, as.factor)
-    lvl <- sapply(as.data.frame(data), levels)
+    data <- as.data.frame(lapply(data, as.factor)) # It converts to only one long vector!!
+    lvl <- sapply(data, levels)
     if (is.matrix(lvl)) {
       lvl <- as.data.frame(lvl)
     }
 
-    comb <- expand.grid(sapply(lvl, as.factor))
+    comb <- expand.grid(lvl)
 
     comb2 <- apply(comb, 1, paste0, collapse = "_")
     out <- apply(comb, 1, function(x) {
       # Repeat the terms as much as the data
       combT <- sapply(x, function(y) {
-        rep(y, nrow(data))
+        rep(y, length(data[[1]]))
       })
       # Compare the data with the levels
       check <- rowSums(data == combT)
