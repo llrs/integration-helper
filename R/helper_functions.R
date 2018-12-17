@@ -479,3 +479,14 @@ meta_s_norm <- function(meta) {
   meta$ID <- as.factor(meta$ID)
   meta
 }
+
+#' Remove unvariable features
+#'
+#' Remove variables with sd equal to 0
+#' @param A A list of matrices with variables as columns.
+#' @export
+clean_unvariable <- function(A) {
+  lapply(A, function(x){
+    x[, apply(x, 2, sd) != 0]
+  })
+}
