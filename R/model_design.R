@@ -81,15 +81,18 @@ correct <- function(x){
   all(final != 0)
 }
 
-#' Prepare data
+#' Prepare data for CCA.
 #'
-#' Prepares the factors into their vectors.
+#' Prepares the factors into their vectors. Each level of a factor is converted
+#' to a column, numeric columns are left as is.
 #' @param data A data.frame with the information about the samples
 #' @param columns The name of the columns to be used to build the matrix
 #' @param intercept A logical value if you want one column with all 1 or not.
 #' @return A matrix with each factor is decomposed in as much columns as
 #' factors has minus 1 and with the numeric values as they were.
+#' @note The \code{NA} are converted to 0
 #' @export
+#' @seealso \code{\link{model_columns}}
 model_RGCCA <- function(data, columns, intercept = FALSE){
 
   m <- data[, columns, drop = FALSE]
@@ -125,12 +128,45 @@ model_RGCCA <- function(data, columns, intercept = FALSE){
   }
 
   colnames(out)[colnames(out) == ""] <- seq_len(sum(colnames(out) == ""))
+  out[is.na(out)] <- 0
 
   if (intercept) {
     cbind(1, out)
   } else {
     out
   }
+}
+
+
+#' Adapt data for a CCA
+#'
+#' Convert factors to numeric (in order of appearance), the numeric variables
+#' are left as is.
+#'@note The \code{NA} are converted to 0.
+#' @inheritParams model_RGCCA
+#' @return A matrix
+#' @seealso \code{\link{model_RGCCA}}
+#' @export
+model_columns <- function(data, columns) {
+  data <- data[, columns]
+  keepCol <- sapply(data, is.factor)
+  keepCol <- keepCol[columns]
+  keepCol[columns] <- TRUE
+  # Convert factors to a numeric sequence
+  for (col in names(keepCol)) {
+    if (class(data[, col]) == "character") {
+      data[, col] <- as.factor(data[, col])
+      levels(data[, col]) <- seq_along(levels(data[, col]))
+    } else if (class(data[, col]) == "factor") {
+      levels(data[, col]) <- seq_along(levels(data[, col]))
+    } else if (class(data[, col]) == "numeric") {
+      next
+    }
+  }
+  # Set metadb with a sigle variable with several options
+  data <- apply(data, 1:2, as.numeric)
+  data[is.na(data)] <- 0
+  data
 }
 
 #' Create symmetric matrix
