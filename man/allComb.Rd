@@ -22,3 +22,9 @@ each subset of the data
 \note{
 If some rows are all FALSE it means some values are NA.
 }
+\examples{
+disease <- factor(sample(c("disease", "control"), 15, TRUE))
+ileum <- factor(sample(c("ileum", "colon"), 15, TRUE))
+df <- cbind.data.frame(disease, ileum)
+allComb(df, c("disease", "ileum"))
+}
