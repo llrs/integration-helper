@@ -115,6 +115,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
     keys = gseaSizeEffect$pathway,
     keytype = "PATHID", columns = "PATHNAME"
   )
+  NES <- padj <- pval <- 0
   # Remove the homo sapiens part
   namesPaths$PATHNAME <- gsub("Homo sapiens: (.*)", "\\1", namesPaths$PATHNAME)
   # Add a column
@@ -203,6 +204,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
 #' @examples
 #' paths2genes <- access_reactome()
 access_reactome <- function(){
+  requireNamespace("reactome.db", quietly = TRUE)
   genes2Pathways <- as.list(reactomeEXTID2PATHID)
   pathways <- unlist(genes2Pathways, use.names = FALSE)
   genes <- rep(names(genes2Pathways), lengths(genes2Pathways))

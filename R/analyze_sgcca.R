@@ -79,3 +79,21 @@ improve.sgcca <- function(sgcca, namesA) {
   names(sgcca$AVE$AVE_X) <- namesA
   aves(sgcca)
 }
+
+#' Extract in a tidy way the information about the variables
+#'
+#' @param sgcca A \code{sgcca} object
+#' @return A data.frame of variables, component and origin.
+#' @export
+variables <- function(sgcca){
+  variables <- data.frame(
+    comp1 = unlist(lapply(sgcca$a, function(x) {x[, 1]})),
+    comp2 = unlist(lapply(sgcca$a, function(x) {x[, 2]})),
+    Origin = rep(names(A), vapply(A, ncol, numeric(1L)))
+  )
+  variables$var <- gsub("^.*\\.(OTU_.*)$", "\\1", rownames(variables))
+  rownames(variables) <- gsub("^.*\\.(OTU_.*)$", "\\1", rownames(variables))
+  variables$var <- gsub("^RNAseq\\.(ENSG.*)$", "\\1", rownames(variables))
+  rownames(variables) <- gsub("^.*\\.(ENSG.*)$", "\\1", rownames(variables))
+  variables
+}

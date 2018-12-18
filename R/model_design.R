@@ -193,3 +193,21 @@ symm <- function(m, data) {
   m[upper.tri(m)] <- upper
   as.matrix(Matrix::forceSymmetric(m, "U"))
 }
+
+#' Function to export a function
+#'
+#' @param A The original list of data
+#' @param shrinkage The shrinkage parameter
+#' @return A function with two arguments:
+#' \subsection{x}{the index}
+#' \subsection{model}{the model used}
+#' @export
+loo_functions <- function(A, shrinkage) {
+
+  function(x, model) {
+    RGCCA::sgcca(A = subsetData(A, x),
+                 C = model,
+                 scheme = "centroid",
+                 verbose = FALSE, c1 = shrinkage)
+  }
+}

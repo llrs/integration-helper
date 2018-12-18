@@ -21,7 +21,8 @@ Imports:
     Matrix,
     org.Hs.eg.db,
     reactome.db,
-    RGCCA
+    RGCCA,
+    ggforce
 Suggests: 
     covr,
     roxygen2,

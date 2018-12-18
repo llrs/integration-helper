@@ -416,7 +416,17 @@ meta_r_norm <- function(meta) {
   AgeDiag <- as.numeric(dates[o] -
     as.Date(meta$Birth_date, "%m/%d/%Y")) / 365.25
   meta <- cbind(meta, "AgeDiag" = AgeDiag)
+  meta$Time <- factor(meta$Time, levels(as.factor(meta$Time))[c(1, 2, 3, 5, 6, 7, 8, 9, 10, 4)])
+  label <- strsplit(as.character(meta$`Sample Name_RNA`), split = "-")
+  labels <- sapply(label, function(x) {
+    if (length(x) == 5) {
+      x[5]
+    } else if (length(x) != 5) {
+      x[4]
+    }
+  })
 
+  meta <- cbind.data.frame(meta, labels)
   return(meta)
 }
 
