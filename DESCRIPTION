@@ -17,15 +17,15 @@ Imports:
     data.table,
     fgsea,
     ggplot2,
+    heatmaply,
     Matrix,
     org.Hs.eg.db,
     reactome.db,
-    RGCCA,
-    heatmaply
+    RGCCA
 Suggests: 
+    covr,
     roxygen2,
-    testthat,
-    covr
+    testthat
 biocViews:
 Encoding: UTF-8
 LazyData: true
