@@ -490,3 +490,20 @@ clean_unvariable <- function(A) {
     x[, apply(x, 2, sd) != 0]
   })
 }
+
+#' Change names of expression
+#'
+#' Swap some samples, correct the names of a pair of samples
+#' @param expr The expression matrix
+#' @return The same matrix with only modifications on the colnames
+#' @export
+norm_expr <- function(expr) {
+  # Correct the swapped samples
+  position <- c(grep("33-T52-TTR-CIA", colnames(expr)),
+                grep("33-T52-TTR-IIA", colnames(expr)))
+  colnames(expr)[position] <- colnames(expr)[rev(position)]
+  colnames(expr) <- toupper(colnames(expr))
+  #To match metadata
+  colnames(expr) <- gsub("16-TM29", "16-TM30", colnames(expr))
+  expr
+}
