@@ -497,7 +497,7 @@ clean_unvariable <- function(A) {
 #' @param expr The expression matrix
 #' @return The same matrix with only modifications on the colnames
 #' @export
-norm_expr <- function(expr) {
+norm_expr_colnames <- function(expr) {
   # Correct the swapped samples
   position <- c(grep("33-T52-TTR-CIA", colnames(expr)),
                 grep("33-T52-TTR-IIA", colnames(expr)))

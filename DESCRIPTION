@@ -20,7 +20,8 @@ Imports:
     Matrix,
     org.Hs.eg.db,
     reactome.db,
-    RGCCA
+    RGCCA,
+    heatmaply
 Suggests: 
     roxygen2,
     testthat,
