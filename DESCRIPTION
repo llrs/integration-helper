@@ -22,7 +22,9 @@ Imports:
     org.Hs.eg.db,
     reactome.db,
     RGCCA,
-    ggforce
+    ggforce,
+    metagenomeSeq,
+    Biobase
 Suggests: 
     covr,
     roxygen2,

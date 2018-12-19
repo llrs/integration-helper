@@ -472,6 +472,28 @@ norm_RNAseq <- function(expr, frac = 0.1) {
   expr[CV > quantile(CV, probs = frac), ]
 }
 
+#' Normalize OTUS
+#'
+#' Uses metagenomeSeq
+#' @param otus_tax_i Taxonomic table
+#' @param otus_table_i OTUs table
+#'
+#' @return A normalized and filtered matrix
+#' @export
+#' @import metagenomeSeq
+norm_otus <- function(otus_tax_i, otus_table_i){
+  MR_i <- metagenomeSeq::newMRexperiment(
+    otus_table_i,
+    featureData = Biobase::AnnotatedDataFrame(
+      as.data.frame(otus_tax_i[rownames(otus_table_i), ]))
+  )
+  MR_i <- metagenomeSeq::cumNorm(MR_i, metagenomeSeq::cumNormStat(MR_i))
+  otus_table_i <- metagenomeSeq::MRcounts(MR_i, norm = TRUE, log = TRUE)
+
+  # Subset if all the rows are 0 and if sd is 0
+  otus_table_i[apply(otus_table_i, 1, sd) != 0, ]
+}
+
 #' Normalize 16S stools metadata
 #'
 #' @param meta The metadata
