@@ -18,9 +18,6 @@ A matrix
 Convert factors to numeric (in order of appearance), the numeric variables
 are left as is.
 }
-\note{
-The \code{NA} are converted to 0.
-}
 \seealso{
 \code{\link{model_RGCCA}}
 }

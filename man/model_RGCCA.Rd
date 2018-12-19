@@ -21,9 +21,6 @@ factors has minus 1 and with the numeric values as they were.
 Prepares the factors into their vectors. Each level of a factor is converted
 to a column, numeric columns are left as is.
 }
-\note{
-The \code{NA} are converted to 0
-}
 \seealso{
 \code{\link{model_columns}}
 }
