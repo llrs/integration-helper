@@ -455,13 +455,31 @@ meta_i_norm <- function(meta) {
   return(meta)
 }
 
+#' Normalize RNAseq
+#'
+#' Uses edgeR to normalize the expression data
+#' @param expr A matrix of genes and samples
+#'
+#' @return A normalized matrix with TMM
+#' @export
+#' @importFrom edgeR DGEList
+#' @importFrom edgeR calcNormFactors
+#' @importFrom edgeR cpm
+norm_RNAseq <- function(expr){
+  expr_edge <- edgeR::DGEList(expr)
+  expr_edge <- edgeR::calcNormFactors(expr_edge, method = "TMM")
+  edgeR::cpm(expr_edge, normalized.lib.sizes = TRUE, log = TRUE)
+}
+
 #' Filter expressions
 #'
+#' # Remove the expression that is not in more than 25% of samples and the lower
+#' 10% of genes
 #' @param expr Input RNAseq data (not microbiota)
 #' @param frac The fraction to remove
 #' @return A matrix without low expressed genes and with low variance
 #' @export
-norm_RNAseq <- function(expr, frac = 0.1) {
+filter_RNAseq <- function(expr, frac = 0.1) {
   # Remove low expressed genes
   expr <- expr[rowSums(expr != 0) >= (0.25 * ncol(expr)), ]
   expr <- expr[rowMeans(expr) > quantile(rowMeans(expr), prob = frac), ]
@@ -474,19 +492,28 @@ norm_RNAseq <- function(expr, frac = 0.1) {
 
 #' Normalize OTUS
 #'
-#' Uses metagenomeSeq
+#' Uses metagenomeSeq to normalize and filter if sd is 0
 #' @param otus_tax_i Taxonomic table
 #' @param otus_table_i OTUs table
 #'
 #' @return A normalized and filtered matrix
 #' @export
-#' @import metagenomeSeq
-norm_otus <- function(otus_tax_i, otus_table_i){
-  MR_i <- metagenomeSeq::newMRexperiment(
-    otus_table_i,
-    featureData = Biobase::AnnotatedDataFrame(
-      as.data.frame(otus_tax_i[rownames(otus_table_i), ]))
-  )
+#' @importFrom metagenomeSeq newMRexperiment
+#' @importFrom metagenomeSeq cumNorm
+#' @importFrom metagenomeSeq cumNormStat
+#' @importFrom metagenomeSeq MRcounts
+#' @importFrom Biobase AnnotatedDataFrame
+norm_otus <- function(otus_table_i, otus_tax_i = NULL){
+  if (is.null(otus_tax_i)) {
+    MR_i <- metagenomeSeq::newMRexperiment(otus_table_i)
+  } else {
+    MR_i <- metagenomeSeq::newMRexperiment(
+      otus_table_i,
+      featureData = Biobase::AnnotatedDataFrame(
+        as.data.frame(otus_tax_i[rownames(otus_table_i), ]))
+    )
+  }
+
   MR_i <- metagenomeSeq::cumNorm(MR_i, metagenomeSeq::cumNormStat(MR_i))
   otus_table_i <- metagenomeSeq::MRcounts(MR_i, norm = TRUE, log = TRUE)
 

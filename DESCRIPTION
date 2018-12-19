@@ -24,7 +24,8 @@ Imports:
     RGCCA,
     ggforce,
     metagenomeSeq,
-    Biobase
+    Biobase,
+    edgeR
 Suggests: 
     covr,
     roxygen2,

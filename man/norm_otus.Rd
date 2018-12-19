@@ -4,16 +4,16 @@
 \alias{norm_otus}
 \title{Normalize OTUS}
 \usage{
-norm_otus(otus_tax_i, otus_table_i)
+norm_otus(otus_table_i, otus_tax_i = NULL)
 }
 \arguments{
-\item{otus_tax_i}{Taxonomic table}
-
 \item{otus_table_i}{OTUs table}
+
+\item{otus_tax_i}{Taxonomic table}
 }
 \value{
 A normalized and filtered matrix
 }
 \description{
-Uses metagenomeSeq
+Uses metagenomeSeq to normalize and filter if sd is 0
 }
