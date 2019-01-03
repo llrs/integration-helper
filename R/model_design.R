@@ -70,7 +70,10 @@ valid <- function(x){
 #' @return A logical value if it is fully connected or not.
 #' @references \url{https://math.stackexchange.com/a/551947}
 #' @export
-correct <- function(x){
+correct <- function(x) {
+  if (!isSymmetric(x)) {
+    return(FALSE)
+  }
   A <- x != 0 # Adjacency
   # Repeat the adjaceny as much as it is needed.
   l <- lapply(seq_len(ncol(A) - 1), function(y){A})
