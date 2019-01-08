@@ -89,6 +89,7 @@ subSymm <- function(m, x, y, val) {
 #' @return A list with two elements: the coefficient of each variable of the
 #' input blocks; and the AVE values, both inner, and outer
 #' @export
+#' @importFrom utils txtProgressBar setTxtProgressBar
 boot_sgcca <- function(A, C, shrinkage, nb_boot = 1000) {
   STAB <- vector("list", length = length(A))
   AVE <- matrix(NA, ncol = 2, nrow = nb_boot)
@@ -99,9 +100,10 @@ boot_sgcca <- function(A, C, shrinkage, nb_boot = 1000) {
     colnames(STAB[[j]]) <- colnames(A[[j]])
   }
   names(STAB) <- names(A)
-
+  pb <-  txtProgressBar(min = 0, max = length(nb_boot), initial = 0, style = 3)
   # Bootstrap the data
   for (i in seq_len(nb_boot)) {
+    setTxtProgressBar(pb, i)
     ind <- sample(nrow(A[[1]]), replace = TRUE)
 
     Bscr <- subsetData(A, ind)
