@@ -219,6 +219,8 @@ symm <- function(m, data) {
 #' \subsection{model}{the model used}
 #' @export
 loo_functions <- function(A, shrinkage) {
+  force(shrinkage)
+  force(A)
 
   function(x, model) {
     RGCCA::sgcca(A = subsetData(A, x),
