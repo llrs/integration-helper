@@ -13,20 +13,21 @@ Description: To be used on TRIM project to integrate microbiome
 License: MIT + file LICENSE
 Imports: 
     AnnotationDbi,
+    Biobase,
     clusterProfiler,
     data.table,
+    dplyr,
+    edgeR,
     fgsea,
+    ggforce,
     ggplot2,
     heatmaply,
     Matrix,
+    metagenomeSeq,
     org.Hs.eg.db,
     reactome.db,
     RGCCA,
-    ggforce,
-    metagenomeSeq,
-    Biobase,
-    edgeR,
-    dplyr,
+    scales,
     tidyr
 Suggests: 
     covr,

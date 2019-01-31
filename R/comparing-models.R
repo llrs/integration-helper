@@ -43,6 +43,7 @@ plotAVEs <- function(model, loo) {
 #' @return The inner AVE, the Mean and the SEM of the \code{loo}
 #' @seealso \code{\link{sem}}
 #' @export
+#' @importFrom scales scientific
 m_sem <- function(model, loo) {
   aves <- vapply(loo, getAVEs, numeric(1L))
   paste0(signif(model$AVE$AVE_inner[1], 3),
