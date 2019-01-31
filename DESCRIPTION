@@ -25,7 +25,9 @@ Imports:
     ggforce,
     metagenomeSeq,
     Biobase,
-    edgeR
+    edgeR,
+    dplyr,
+    tidyr
 Suggests: 
     covr,
     roxygen2,
