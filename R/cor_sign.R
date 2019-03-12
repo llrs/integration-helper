@@ -4,6 +4,7 @@
 #' @param n The number of data points where the correlation has been done
 #' @return the correlation value at which it becomes below 0.05
 #' @export
+#' @family pvalue correlations
 cor_sign <- function(n) {
   stopifnot(n > 2)
   stopifnot(is.numeric(n))
@@ -26,6 +27,7 @@ cor_sign <- function(n) {
 #' @param n Number of samples
 #' @return the p-value
 #' @export
+#' @family pvalue correlations
 pvalue <- function(r, n) {
   df <- n - 2
   if (is.matrix(r)) {

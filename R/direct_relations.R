@@ -12,13 +12,17 @@ name_weights <- function(x, pos) {
     type <- "Gene"
   } else if (pos == 2) {
     type <- "Microorganism"
+  } else if (pos == 3) {
+    type <- "Sample/Demographic"
   } else if (pos == 4) {
+    type <- "Time"
   } else if (pos == 5) {
+    type <- "Location"
   } else {
     type <- pos
     pos <- 3
   }
-  simplify_weights(x$a[[pos]], type)
+  simplify_weights(x$a[[pos]][, 1, drop = FALSE], type)
 }
 
 remove_zeros <- function(x){
@@ -44,7 +48,7 @@ weights_correlation <- function(x) {
   genes_tables <- lapply(x, name_weights, pos = 1)
   genes_df <- Reduce(function(x, y){merge(x, y, by = "Gene")}, genes_tables)
   colnames(genes_df) <- c("Gene", paste0("Weights.", sa))
-  genes_df <- remove_zeros(genes_df)
+  # genes_df <- remove_zeros(genes_df)
 
 
   micro_tables <- lapply(x, name_weights, pos = 2)
@@ -52,13 +56,15 @@ weights_correlation <- function(x) {
                      micro_tables)
 
   colnames(micro_df) <- c("Microorganism", paste0("Weights.", sa))
-  micro_df <- remove_zeros(micro_df)
+  # micro_df <- remove_zeros(micro_df)
   # Remove some more
-  k <- rowSums(micro_df != 0)
-  micro_df <- micro_df[k > max(sa)/2, ]
-  k <- rowSums(genes_df != 0)
-  genes_df <- genes_df[k > max(sa)/2, ]
-  cor(t(micro_df), t(genes_df), method = "spearman")
+  # k <- rowSums(micro_df != 0)
+  # micro_df <- micro_df[k > max(sa)/2, ]
+  # k <- rowSums(genes_df != 0)
+  # genes_df <- genes_df[k > max(sa)/2, ]
+  rownames(micro_df) <- micro_df[, 1]
+  rownames(genes_df) <- genes_df[, 1]
+  cor(t(micro_df[, -1]), t(genes_df[, -1]), method = "spearman")
 }
 
 

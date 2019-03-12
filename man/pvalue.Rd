@@ -17,3 +17,7 @@ the p-value
 \description{
 Calculates the p.value
 }
+\seealso{
+Other pvalue correlations: \code{\link{cor_sign}}
+}
+\concept{pvalue correlations}
