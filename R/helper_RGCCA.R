@@ -100,7 +100,7 @@ boot_sgcca <- function(A, C, shrinkage, nb_boot = 1000) {
     colnames(STAB[[j]]) <- colnames(A[[j]])
   }
   names(STAB) <- names(A)
-  pb <-  txtProgressBar(min = 0, max = length(nb_boot), initial = 0, style = 3)
+  pb <-  txtProgressBar(min = 0, max = nb_boot, initial = 0, style = 3)
   # Bootstrap the data
   for (i in seq_len(nb_boot)) {
     setTxtProgressBar(pb, i)
