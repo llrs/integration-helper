@@ -288,3 +288,37 @@ cca_rgcca <- function(rgcca) {
   }
   l
 }
+
+
+#' Calculates the probability of obtaining these samples.
+#'
+#' Given a data.frame with categories it looks how probable is to have such a
+#' sample
+#' @param meta The data.frame where each column is a variable and the row is a
+#' sample
+#' @return A numeric vector with the probability for each sample.
+#' @details If a row for a variable is \code{NA} it uses the meadian for that
+#' variable
+#' probability_samples(iris[, c("Petal.Width", "Species")])
+#' @export
+probability_samples <- function(meta) {
+  stopifnot(is.data.frame(meta))
+  prob <- lapply(meta, function(x){
+    prop.table(table(x))
+  })
+
+  weights <- numeric(nrow(meta))
+  for (row in seq_len(nrow(meta))) {
+    v <- numeric(ncol(meta))
+    x <- meta[row, ]
+    for (i in seq_along(colnames(meta))) {
+      v[i] <- prob[[i]][as.character(x[[i]])]
+      if (is.na(v[i])) {
+        v[i] <- median(prob[[i]]) # We use the mean
+      }
+    }
+
+    weights[row] <- prod(v, na.rm = TRUE)
+  }
+  weights
+}
