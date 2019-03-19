@@ -11,11 +11,10 @@ Authors@R:
 Description: To be used on TRIM project to integrate microbiome
     and transcriptome data of the same patients.
 License: MIT + file LICENSE
-Suggests: 
+Imports:
     AnnotationDbi,
     Biobase,
     clusterProfiler,
-    covr,
     data.table,
     dplyr,
     edgeR,
@@ -23,15 +22,17 @@ Suggests:
     ggforce,
     ggplot2,
     heatmaply,
-    Matrix,
     metagenomeSeq,
     org.Hs.eg.db,
     reactome.db,
     RGCCA,
-    roxygen2,
     scales,
-    testthat,
     tidyr
+Suggests: 
+    covr,
+    Matrix,
+    roxygen2,
+    testthat
 biocViews:
 Encoding: UTF-8
 LazyData: true
