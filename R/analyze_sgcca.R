@@ -85,15 +85,17 @@ improve.sgcca <- function(sgcca, namesA) {
 #' @param sgcca A \code{sgcca} object
 #' @return A data.frame of variables, component and origin.
 #' @export
+#' @seealso \code{\link{plot_variables}}
 variables <- function(sgcca){
+  if (!is(sgcca, "sgcca")) {
+    stop("Not of sgcca class")
+  }
+
   variables <- data.frame(
     comp1 = unlist(lapply(sgcca$a, function(x) {x[, 1]})),
     comp2 = unlist(lapply(sgcca$a, function(x) {x[, 2]})),
-    Origin = rep(names(A), vapply(A, ncol, numeric(1L)))
+    Origin = rep(names(sgcca$a), vapply(sgcca$a, nrow, numeric(1L)))
   )
-  variables$var <- gsub("^.*\\.(OTU_.*)$", "\\1", rownames(variables))
-  rownames(variables) <- gsub("^.*\\.(OTU_.*)$", "\\1", rownames(variables))
-  variables$var <- gsub("^RNAseq\\.(ENSG.*)$", "\\1", rownames(variables))
-  rownames(variables) <- gsub("^.*\\.(ENSG.*)$", "\\1", rownames(variables))
+  variables$var <- unlist(sapply(sgcca$a, rownames), use.names = FALSE)
   variables
 }

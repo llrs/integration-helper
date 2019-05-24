@@ -16,3 +16,6 @@ A plot with the most important variables
 Plot the variables of 16S, RNAseq and other origins. In RNAseq and 16S
 plots variables that in both components are above the mean.
 }
+\seealso{
+\code{\link{variables}}
+}

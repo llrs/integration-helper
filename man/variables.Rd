@@ -15,3 +15,6 @@ A data.frame of variables, component and origin.
 \description{
 Extract in a tidy way the information about the variables
 }
+\seealso{
+\code{\link{plot_variables}}
+}
