@@ -14,7 +14,7 @@ NULL
 plot_samples <- function(samples, colors, individual = FALSE) {
 
   # Some common structure of plots
-  comm <- ggplot(samples, aes(RNAseq, Micro)) + # It is really biopsies
+  comm <- ggplot(samples, aes(.data$RNAseq, .data$Micro)) + # It is really biopsies
     geom_vline(xintercept = 0) +
     geom_hline(yintercept = 0) +
     ggtitle("All samples at all times ") +
@@ -24,33 +24,34 @@ plot_samples <- function(samples, colors, individual = FALSE) {
   if (individual) {
     for (p in seq_along(levels(samples$Time))) {
       a <- comm +
-        geom_text(aes(color = ID, label = ID)) +
+        geom_text(aes(color = .data$ID, label = .data$ID)) +
         geom_vline(xintercept = 0) +
         geom_hline(yintercept = 0) +
         guides(col = guide_legend(title = "Patient")) +
         scale_color_manual(values = colors) +
-        ggforce::facet_wrap_paginate(~Time, ncol = 1, nrow = 1, page = p)
+        ggforce::facet_wrap_paginate(~.data$Time, ncol = 1, nrow = 1, page = p)
       print(a)
     }
 
     for (p in seq_along(levels(samples$ID))) {
       a <- comm +
-        geom_text(aes(color = ID, label = ifelse(!is.na(labels),
-                                                 paste(Time, labels, sep = "_"),
-                                                 as.character(Time)
+        geom_text(aes(color = .data$ID,
+                      label = ifelse(!is.na(.data$labels),
+                                     paste(.data$Time, .data$labels, sep = "_"),
+                                     as.character(.data$Time)
         ))) +
         guides(col = guide_legend(title = "Patient")) +
         scale_color_manual(values = colors) +
-        ggforce::facet_wrap_paginate(~ID, ncol = 1, nrow = 1, page = p)
+        ggforce::facet_wrap_paginate(~.data$ID, ncol = 1, nrow = 1, page = p)
       print(a)
     }
   }
   a <- comm +
     geom_text(aes(
-      color = ID,
-      label = ifelse(!is.na(labels),
-                     paste(Time, labels, sep = "_"),
-                     as.character(Time)
+      color = .data$ID,
+      label = ifelse(!is.na(.data$labels),
+                     paste(.data$Time, .data$labels, sep = "_"),
+                     as.character(.data$Time)
       )
     )) +
     guides(col = guide_legend(title = "Patient")) +
@@ -60,10 +61,10 @@ plot_samples <- function(samples, colors, individual = FALSE) {
 
   a <- comm +
     geom_text(aes(
-      color = HSCT_responder,
-      label = ifelse(!is.na(labels),
-                     paste(ID, labels, sep = "_"),
-                     as.character(Time)
+      color = .data$HSCT_responder,
+      label = ifelse(!is.na(.data$labels),
+                     paste(.data$ID, .data$labels, sep = "_"),
+                     as.character(.data$Time)
       )
     )) +
     guides(col = guide_legend(title = "Responders"))
@@ -72,10 +73,10 @@ plot_samples <- function(samples, colors, individual = FALSE) {
 
   a <- comm +
     geom_text(aes(
-      color = Endoscopic_Activity,
-      label = ifelse(!is.na(labels),
-                     paste(ID, labels, sep = "_"),
-                     as.character(ID)
+      color = .data$Endoscopic_Activity,
+      label = ifelse(!is.na(.data$labels),
+                     paste(.data$ID, .data$labels, sep = "_"),
+                     as.character(.data$ID)
       )
     )) +
     guides(col = guide_legend(title = "Endoscopic Activity"))
@@ -83,45 +84,45 @@ plot_samples <- function(samples, colors, individual = FALSE) {
 
   a <- comm +
     geom_text(aes(
-      color = Exact_location,
-      label = ifelse(!is.na(labels),
-                     paste(ID, labels, sep = "_"),
-                     as.character(ID)
+      color = .data$Exact_location,
+      label = ifelse(!is.na(.data$labels),
+                     paste(.data$ID, .data$labels, sep = "_"),
+                     as.character(.data$ID)
       )
     )) +
     guides(col = guide_legend(title = "Location"))
   print(a)
   a <- comm +
     geom_text(aes(
-      color = ifelse(Exact_location == "ILEUM", "ILEUM", "COLON"),
-      label = ifelse(!is.na(labels),
-                     paste(ID, labels, sep = "_"),
-                     as.character(ID)
+      color = ifelse(.data$Exact_location == "ILEUM", "ILEUM", "COLON"),
+      label = ifelse(!is.na(.data$labels),
+                     paste(.data$ID, .data$labels, sep = "_"),
+                     as.character(.data$ID)
       )
     )) +
     guides(col = guide_legend(title = "Location"))
   print(a)
 
   a <- comm +
-    geom_text(aes(color = Time,
-                  label = ifelse(!is.na(labels),
-                                 paste(ID, labels, sep = "_"),
-                                 as.character(ID)
+    geom_text(aes(color = .data$Time,
+                  label = ifelse(!is.na(.data$labels),
+                                 paste(.data$ID, .data$labels, sep = "_"),
+                                 as.character(.data$ID)
                   ))) +
     guides(col = guide_legend(title = "Time"))
   print(a)
 
   a <- comm +
-    geom_text(aes(color = SESCD_local,
-                  label = ifelse(!is.na(labels),
-                                 paste(ID, labels, sep = "_"),
-                                 as.character(ID)
+    geom_text(aes(color = .data$SESCD_local,
+                  label = ifelse(!is.na(.data$labels),
+                                 paste(.data$ID, .data$labels, sep = "_"),
+                                 as.character(.data$ID)
                   ))) +
     guides(col = guide_legend(title = "SESCD (local)"))
   print(a)
 
   a <- comm +
-    geom_text(aes(color = IBD, label = as.character(ID))) +
+    geom_text(aes(color = .data$IBD, label = as.character(.data$ID))) +
     guides(col = guide_legend(title = "Type"))
   print(a)
 }
@@ -153,12 +154,12 @@ plot_variables <- function(variables) {
   )
   subVariables <- variables[keepComp1 | keepComp2, ]
 
-  a <- ggplot(subVariables, aes(comp1, comp2), color = Origin) +
-    geom_path(aes(x, y), data = circleFun(c(0, 0), 0.1, npoints = 100)) +
-    geom_path(aes(x, y), data = circleFun(c(0, 0), 0.2, npoints = 100)) +
-    geom_path(aes(x, y), data = circleFun(c(0, 0), 0.3, npoints = 100)) +
-    geom_path(aes(x, y), data = circleFun(c(0, 0), 0.4, npoints = 100)) +
-    geom_text(aes(color = Origin, label = var)) +
+  a <- ggplot(subVariables, aes(.data$comp1, .data$comp2, color = .data$Origin)) +
+    geom_path(aes(.data$x,.data$ y), data = circleFun(c(0, 0), 0.1, npoints = 100)) +
+    geom_path(aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.2, npoints = 100)) +
+    geom_path(aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.3, npoints = 100)) +
+    geom_path(aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.4, npoints = 100)) +
+    geom_text(aes(color = .data$Origin, label = .data$var)) +
     geom_vline(xintercept = 0) +
     geom_hline(yintercept = 0) +
     coord_cartesian() +
@@ -185,7 +186,7 @@ plot_interesting <- function(subVariables, meta_r, expr, otus_table_i){
     pr <- prcomp(t(expr[rnaseq_i, ]), scale. = TRUE)
     prS <- summary(pr)
     a <- ggplot(as.data.frame(pr$x),
-                aes(PC1, PC2, color = as.factor(meta_r$HSCT_responder))) +
+                aes(.data$PC1, .data$PC2, color = as.factor(meta_r$HSCT_responder))) +
       geom_point() +
       xlab(paste("PC1", prS$importance[2, "PC1"] * 100)) +
       ylab(paste("PC2", prS$importance[2, "PC2"] * 100)) +
@@ -199,7 +200,8 @@ plot_interesting <- function(subVariables, meta_r, expr, otus_table_i){
     pr <- prcomp(t(otus_table_i[micro_i, ]), scale. = TRUE)
     prS <- summary(pr)
     a <- ggplot(as.data.frame(pr$x),
-                aes(PC1, PC2, color = as.factor(meta_r$HSCT_responder))) +
+                aes(.data$PC1, .data$PC2,
+                    color = as.factor(meta_r$HSCT_responder))) +
       geom_point() +
       xlab(paste("PC1", prS$importance[2, "PC1"] * 100)) +
       ylab(paste("PC2", prS$importance[2, "PC2"] * 100)) +

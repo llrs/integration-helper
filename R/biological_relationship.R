@@ -13,11 +13,13 @@
 #' @importFrom ggplot2 ggplot geom_point aes xlab ylab ggtitle theme_set theme_bw
 #' @importFrom grDevices pdf
 #' @importFrom data.table fwrite
+#' @importFrom data.table :=
 #' @importFrom fgsea fgsea
 #' @importFrom clusterProfiler enricher
 #' @importFrom AnnotationDbi mapIds select
 #' @importFrom org.Hs.eg.db org.Hs.eg.db
 #' @importFrom reactome.db reactomeEXTID2PATHID
+#' @importFrom reactome.db reactome.db
 #' @importFrom clusterProfiler enricher
 biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
                                      epithelium, today) {

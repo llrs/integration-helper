@@ -27,7 +27,9 @@ Imports:
     reactome.db,
     RGCCA,
     scales,
-    tidyr
+    tidyr,
+    rlang,
+    vegan
 Suggests: 
     covr,
     Matrix,

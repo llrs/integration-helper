@@ -117,7 +117,7 @@ ratio <- function(columns, data, indices, meta) {
 
 
   # Fisher test and ratio calculation
-  sapply(rownames(presence), function(i) {
+  sapply(rownames(Apresence), function(i) {
     Am <- rbind(
       P = Apresence[i, ],
       A = Aabsence[i, ]

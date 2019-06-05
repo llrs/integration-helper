@@ -3,8 +3,9 @@
 #' @param otus Matrix of the variables to analyze
 #' @param meta Data frame with the variables to compare
 #' @return An anova.cca object
+#' @importFrom vegan adonis
 permanova_otus <- function(otus, meta) {
-  adonis(as.matrix(otus) ~ ., data = meta, method = "jaccard")
+  vegan::adonis(as.matrix(otus) ~ ., data = meta, method = "jaccard")
 }
 
 #' Permanova
@@ -14,7 +15,7 @@ permanova_otus <- function(otus, meta) {
 #' @return An anova.cca object
 permanova_expr <- function(expr, meta) {
   diss <- 1 - cor(expr)
-  adonis(diss ~ ., data = meta, method = "euclidian")
+  vegan::adonis(diss ~ ., data = meta, method = "euclidian")
 }
 
 #

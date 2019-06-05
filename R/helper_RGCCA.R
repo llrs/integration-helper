@@ -193,11 +193,13 @@ boot_evaluate <- function(STAB) {
   # Plot the summary of the bootstrapping
   for (i in seq_len(length(STAB))) {
     p <- ggplot(consensus[[i]]) +
-      geom_point(aes(sign, freq, col = colMeAbs, size = -log10(seAbs))) +
+      geom_point(aes(.data$sign, .data$freq, col = .data$colMeAbs,
+                     size = -log10(.data$seAbs))) +
       ggtitle(paste("Selecting variable for", names(consensus)[i]))
     print(p)
     p <- ggplot(consensus[[i]]) +
-      geom_point(aes(sign, freq, col = colMe, size = -log10(se))) +
+      geom_point(aes(.data$sign, .data$freq, col = .data$colMe,
+                     size = -log10(.data$se))) +
       ggtitle(paste("Selecting variable for", names(consensus)[i]))
     print(p)
   }
@@ -208,6 +210,10 @@ boot_evaluate <- function(STAB) {
 #' @param comp Component from sapply(rgcca$a, function(x)x[, 1])
 #' @return Lateral effect: A plot, invisible the ggplot object of the plot
 #' @importFrom ggplot2 stat_density facet_grid guides
+#' @importFrom ggplot2 geom_text geom_vline geom_hline guide_legend theme element_text
+#' @importFrom ggplot2 scale_color_manual geom_path coord_cartesian
+#' @importFrom graphics abline hist
+#' @importFrom stats median
 #' @export
 variables_weight <- function(comp) {
   Loadings <- unlist(comp)
@@ -215,14 +221,14 @@ variables_weight <- function(comp) {
   comp2$Origin <- as.factor(gsub("([A-Z]*)\\..*", "\\1", names(Loadings)))
   rownames(comp2) <- seq_len(nrow(comp2))
   p <- ggplot(comp2) +
-    stat_density(aes(x = Loadings, y = ..scaled.., fill = Origin), alpha = 0.5) +
+    stat_density(aes(x = .data$Loadings, y = .data$..scaled.., fill = .data$Origin), alpha = 0.5) +
     ggtitle(
       "Importance of each block variable",
       subtitle = "Second component"
     ) +
     ylab("Scaled density") +
     xlab("weight") +
-    facet_grid(~ Origin, scales = "free") +
+    facet_grid(~ .data$Origin, scales = "free") +
     guides(fill = FALSE)
   print(p)
   invisible(p)
