@@ -77,6 +77,8 @@ improve.sgcca <- function(sgcca, namesA) {
   names(sgcca$a) <- namesA
   names(sgcca$astar) <- namesA
   names(sgcca$AVE$AVE_X) <- namesA
+  colnames(sgcca$C) <- namesA
+  rownames(sgcca$C) <- namesA
   aves(sgcca)
 }
 
