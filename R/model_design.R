@@ -14,31 +14,28 @@ weight_design <- function(weights = 4, size, diff0 = NULL){
   p <- size * (size - 1) / 2    # 6
   w <- seq(from = 0, to = 1, length.out = weights)
   X <- matrix(1:(size*size), size, size) # pattern matrix of indices
+  lt <- lower.tri(X)
 
   if (!is.null(diff0)) {
+    w <- w[w != 0] # Filter those values that are 0
     W <- as.matrix(expand.grid(rep(list(w), length(diff0))))
-    W0 <- matrix(0, nrow = nrow(W), ncol = p)
-    possible <- which(lower.tri(X))
-    keep <- possible %in% diff0
+    keep <- diff0 %in% X[lt]
+
     if (!any(keep)) {
-      possible <- which(upper.tri(X))
-      keep <- possible %in% diff0
+      stop("Incorrect indices in diff0, it should be the lower.tri")
     }
-    if (!any(keep)) {
-      stop("Incorrect indices in diff0")
-    }
-    W0[, keep] <- W
-    W <- W0
+    lt <- diff0
   } else {
     # all possible combinations by doing:
     W <- as.matrix(expand.grid(rep(list(w), p)))
   }
-
   A <- matrix(0, nrow(W), size * size)
+  lower.pos <- X[lt]
+  upper.pos <- t(X)[lt]
 
   # Replace the positions by the weights
-  A[,    X[lower.tri(X)]] <- W
-  A[, t(X)[lower.tri(X)]] <- W
+  A[, lower.pos] <- W
+  A[, upper.pos] <- W
 
   # A 3D array with the weights
   dim(A) <- c(nrow(W), size, size)
