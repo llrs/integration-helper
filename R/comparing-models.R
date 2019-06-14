@@ -66,16 +66,16 @@ tidyer <- function(data, model, type) {
   if ("comp1" %in% colnames(data)) {
     if ("comp2" %in% colnames(data)) {
         m <- dplyr::mutate(as.data.frame(data), Model = model)
-        d <- tidyr::gather(data = m, .data$Component, !!type, .data$comp1:.data$comp2)
+        d <- tidyr::gather(data = m, "Component", !!type, .data$comp1:.data$comp2)
     } else {
 
       m <- dplyr::mutate(as.data.frame(data), Model = model)
-      d <- tidyr::gather(data = m, .data$Component, !!type, .data$comp1)
+      d <- tidyr::gather(data = m, "Component", !!type, .data$comp1)
 
     }
   } else {
     m <- dplyr::mutate(as.data.frame(data), Model = model)
-    d <- tidyr::gather(data = m, .data$Component, !!type, 1:2)
+    d <- tidyr::gather(data = m, "Component", !!type, 1:2)
   }
   if (!is.null(rownames(data))) {
     d$Rownames <- rep(rownames(data), nrow(d)/nrow(data))
