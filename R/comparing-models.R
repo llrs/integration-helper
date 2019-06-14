@@ -65,16 +65,16 @@ m_sem <- function(model, loo) {
 tidyer <- function(data, model, type) {
   if ("comp1" %in% colnames(data)) {
     if ("comp2" %in% colnames(data)) {
-        m <- dplyr::mutate(as.data.frame(data), Model =.data$ model)
+        m <- dplyr::mutate(as.data.frame(data), Model = model)
         d <- tidyr::gather(data = m, .data$Component, !!type, .data$comp1:.data$comp2)
     } else {
 
-      m <- dplyr::mutate(as.data.frame(data), Model = .data$model)
+      m <- dplyr::mutate(as.data.frame(data), Model = model)
       d <- tidyr::gather(data = m, .data$Component, !!type, .data$comp1)
 
     }
   } else {
-    m <- dplyr::mutate(as.data.frame(data), Model = .data$model)
+    m <- dplyr::mutate(as.data.frame(data), Model = model)
     d <- tidyr::gather(data = m, .data$Component, !!type, 1:2)
   }
   if (!is.null(rownames(data))) {
