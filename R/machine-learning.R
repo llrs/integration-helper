@@ -43,7 +43,7 @@ size <- function(x){
 subsetData <- function(A, index) {
   lapply(A, function(x, inde){
     y <- x[inde, , drop = FALSE] # subset
-    y[, apply(y, 2, sd) != 0] # Remove variables that are constant.
+    y[, apply(y, 2, var) != 0] # Remove variables that are constant.
     }, inde = index)
 }
 
