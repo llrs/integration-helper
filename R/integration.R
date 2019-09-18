@@ -237,7 +237,7 @@ integration <- function(A, meta, label, today) {
   sgcca.centroid
 }
 
-#' @importFrom rlang .data
+#' @importFrom dplyr .data
 PCAs_important <- function(important_vars, expr, otus, meta) {
   subVariables <- important_vars
   rnaseq_i <- subVariables$var[subVariables$Origin == "RNAseq"]
