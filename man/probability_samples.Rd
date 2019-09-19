@@ -18,7 +18,7 @@ Given a data.frame with categories it looks how probable is to have such a
 sample
 }
 \details{
-If a row for a variable is \code{NA} it uses the meadian for that
+If a row for a variable is \code{NA} it uses the median for that
 variable
 probability_samples(iris[, c("Petal.Width", "Species")])
 }

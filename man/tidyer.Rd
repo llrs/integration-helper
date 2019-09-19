@@ -9,7 +9,7 @@ tidyer(data, model, type)
 \arguments{
 \item{data}{The matrices of \code{sggcca$Y[[1]]} or \code{sgcca$a[[1]]}}
 
-\item{model}{A label of themodel used}
+\item{model}{A label of the model used}
 
 \item{type}{A label to know what it}
 }

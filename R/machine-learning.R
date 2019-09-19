@@ -52,7 +52,7 @@ subsetData <- function(A, index) {
 #  K-fold ####
 #' Indexes for K-folds
 #'
-#' Calcules the indices of the k-fold bootstrapping for other functions
+#' Calculates the indices of the k-fold bootstrapping for other functions
 #' @param k Number of k-folds (two divides the dataset in 2)
 #' @param n Number of k-folds to do
 #' @param size The number of samples required

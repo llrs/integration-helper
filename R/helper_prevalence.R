@@ -4,7 +4,7 @@
 #'
 #' Iterate in the tables to reach
 #' @param presence Matrix with presence of certain microorganism
-#' @param absence Matrix with the abscence of certain microorganism
+#' @param absence Matrix with the absence of certain microorganism
 #' @export
 prevalence <- function(presence, absence) {
   stopifnot(all(rownames(presence) == rownames(absence)))
@@ -27,7 +27,7 @@ prevalence <- function(presence, absence) {
 #' @param table Input data with the samples in columns and microorganism in rows
 #' @param meta Metadata associated with those samples (it assumes they are in
 #' the same order as in table)
-#' @param columns Column to make constrasts from
+#' @param columns Column to make contrasts from
 #' @return a list with the matrices of presence and absence
 #' @export
 prevalence_tab <- function(table, meta, columns) {
@@ -325,7 +325,7 @@ response_time <- function(table_org, meta) {
   cbind(out, "T52vsC" = T52)
 }
 
-#' Look for prevalene in combinations of two
+#' Look for prevalence in combinations of two
 #'
 #' @param table is the data
 #' @param meta is the metadata

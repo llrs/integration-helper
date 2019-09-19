@@ -5,7 +5,7 @@
 #' Does the ORA enrichment and fgsea analysis on the genes
 #' @param otus_tax matrix as output of \code{taxonomy} function
 #' @param sgcca.centroid SGCCA output
-#' @param STAB Output of boostrap by \code{boot_sgcca} function.
+#' @param STAB Output of bootstrap by \code{boot_sgcca} function.
 #' @param label Name of the output files
 #' @param epithelium Data from a file from the lab
 #' @param today Date as in character format

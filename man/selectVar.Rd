@@ -7,7 +7,7 @@
 selectVar(x)
 }
 \arguments{
-\item{x}{List of the summary statsitics of the bootstrapping}
+\item{x}{List of the summary statistics of the bootstrapping}
 }
 \value{
 The names of the selected variables

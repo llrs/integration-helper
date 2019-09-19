@@ -1,6 +1,6 @@
-#' Select the wegiths and adds information for human RNAseq
+#' Select the weights and adds information for human RNAseq
 #'
-#' @param x a RGCCA outpus
+#' @param x a RGCCA outputs
 #' @return a data.frame
 #' @importFrom AnnotationDbi select
 #' @export
@@ -27,9 +27,9 @@ weights <- function(x) {
   out
 }
 
-#' Select the wegiths and adds information for taxa RNAseq
+#' Select the weights and adds information for taxa RNAseq
 #'
-#' @param x a RGCCA outpus
+#' @param x a RGCCA outputs
 #' @param taxa The taxonomic levels
 #' @return a data.frame
 #' @export

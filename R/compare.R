@@ -1,6 +1,6 @@
 #' Compares two objects of class sgcca
 #'
-#' Returns the number of genes in common, it assumes the first componenet is
+#' Returns the number of genes in common, it assumes the first component is
 #' always the genes.
 #' @param object1,object2 sgcca objects
 #' @return Genes In common

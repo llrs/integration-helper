@@ -10,7 +10,7 @@ biological_relationships(sgcca.centroid, STAB, label, otus_tax, epithelium,
 \arguments{
 \item{sgcca.centroid}{SGCCA output}
 
-\item{STAB}{Output of boostrap by \code{boot_sgcca} function.}
+\item{STAB}{Output of bootstrap by \code{boot_sgcca} function.}
 
 \item{label}{Name of the output files}
 

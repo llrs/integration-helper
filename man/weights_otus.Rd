@@ -2,12 +2,12 @@
 % Please edit documentation in R/reporting.R
 \name{weights_otus}
 \alias{weights_otus}
-\title{Select the wegiths and adds information for taxa RNAseq}
+\title{Select the weights and adds information for taxa RNAseq}
 \usage{
 weights_otus(x, taxa)
 }
 \arguments{
-\item{x}{a RGCCA outpus}
+\item{x}{a RGCCA outputs}
 
 \item{taxa}{The taxonomic levels}
 }
@@ -15,5 +15,5 @@ weights_otus(x, taxa)
 a data.frame
 }
 \description{
-Select the wegiths and adds information for taxa RNAseq
+Select the weights and adds information for taxa RNAseq
 }

@@ -20,7 +20,7 @@ An list of length \code{n} with two elements the training and the
 testing elements with the index of the samples
 }
 \description{
-Calcules the indices of the k-fold bootstrapping for other functions
+Calculates the indices of the k-fold bootstrapping for other functions
 }
 \seealso{
 \code{\link{looIndex}}

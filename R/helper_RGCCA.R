@@ -60,7 +60,7 @@ McKeonHomeogenity <- function(B, C) {
   M
 }
 
-#' Subsitute in a symmetric matrix
+#' Substitute in a symmetric matrix
 #'
 #' @param m The symmetric matrix
 #' @param x Row position
@@ -84,7 +84,7 @@ subSymm <- function(m, x, y, val) {
 #'
 #' @param A The list with the original data
 #' @param C The symmetric matrix with the relationships between datsets.
-#' @param shrinkage Shrinkage estimated (use the estimated for the original datastet)
+#' @param shrinkage Shrinkage estimated (use the estimated for the original dataset)
 #' @param nb_boot Number of bootstraps to perform
 #' @return A list with two elements: the coefficient of each variable of the
 #' input blocks; and the AVE values, both inner, and outer
@@ -135,7 +135,7 @@ boot_sgcca <- function(A, C, shrinkage, nb_boot = 1000) {
   return(list("STAB" = STAB, "AVE" = AVE))
 }
 
-#' Evaluates the boostrapping of RGCCA
+#' Evaluates the bootstrapping of RGCCA
 #'
 #'
 #' @param STAB List of weights of \code{rgcca} or \code{sgcca}
@@ -303,7 +303,7 @@ cca_rgcca <- function(rgcca) {
 #' @param meta The data.frame where each column is a variable and the row is a
 #' sample
 #' @return A numeric vector with the probability for each sample.
-#' @details If a row for a variable is \code{NA} it uses the meadian for that
+#' @details If a row for a variable is \code{NA} it uses the median for that
 #' variable
 #' probability_samples(iris[, c("Petal.Width", "Species")])
 #' @export

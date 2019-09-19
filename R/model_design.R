@@ -1,7 +1,7 @@
 #'
 #' Check a design for different weights
 #' @param weights A numeric value with the number of weights to be used
-#' @param size A numveric value with the numer of datasets on the design.
+#' @param size A numeric value with the number of datasets on the design.
 #' @param diff0 A Numeric vector of position which should be different from 0 from the lower.tri
 #' @return A list of matrices with the designs with different weights
 #' @export

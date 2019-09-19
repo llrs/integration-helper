@@ -55,7 +55,7 @@ m_sem <- function(model, loo) {
 #' Clean the output of a sgcca object
 #'
 #' @param data The matrices of \code{sggcca$Y[[1]]} or \code{sgcca$a[[1]]}
-#' @param model A label of themodel used
+#' @param model A label of the model used
 #' @param type A label to know what it
 #'
 #' @return A \code{data.frame}

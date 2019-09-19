@@ -23,7 +23,7 @@ circle <- circleFun(c(0, 0), 2, npoints = 100)
 #' Divides the taxonomy into a new matrix for each otu
 #'
 #' @param taxonomy Last column of files a string ; separated with domain,
-#' phylum, vlass, order, family, genus and species.
+#' phylum, class, order, family, genus and species.
 #' @param otus The name of the rows
 #'
 #' @return
@@ -118,7 +118,7 @@ angle <- function(x, y = 1) {
 #' @param p Point c(x, y)
 #' @param b,d Points c(x, y) defining the line to calculate the distance with.
 #' @return The units of distance between the point and the line
-#' @note Change the d point to change the direction of the diagnoal
+#' @note Change the d point to change the direction of the diagonal
 #' @export
 dist2d <- function(p, b = c(0, 0), d = c(1, 1)) {
   v1 <- b - d
@@ -307,7 +307,7 @@ makeRects <- function(tfMat, border) {
 
 #' Select variable from bootstrapping
 #'
-#' @param x List of the summary statsitics of the bootstrapping
+#' @param x List of the summary statistics of the bootstrapping
 #' @return The names of the selected variables
 #' @export
 selectVar <- function(x) {
