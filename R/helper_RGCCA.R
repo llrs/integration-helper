@@ -275,26 +275,6 @@ cors_rgcca <- function(a, rgcca) {
   l
 }
 
-#' Calculate correlation and covariance between CCA dimensions
-#'
-#' @param rgcca The output of SGCCA or RGCCA
-#' @return A list of matrix with the correlation and covariation between CCA
-#' dimensions
-#' @export
-cca_rgcca <- function(rgcca) {
-  l <- list()
-  for (i in seq_along(rgcca$Y)) {
-    l[[names(rgcca$Y)[i]]] <- list()
-    for (j in seq_along(rgcca$Y)) {
-      l[[names(rgcca$Y)[i]]][[names(rgcca$Y)[j]]] <- list(
-        "cor" = cor(rgcca$Y[[i]], rgcca$Y[[j]]),
-        "cov" = cov(rgcca$Y[[i]], rgcca$Y[[j]])
-      )
-    }
-  }
-  l
-}
-
 
 #' Calculates the probability of obtaining these samples.
 #'

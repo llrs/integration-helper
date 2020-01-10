@@ -4,8 +4,14 @@
 \alias{biological_relationships}
 \title{Performs the calculation of biological information}
 \usage{
-biological_relationships(sgcca.centroid, STAB, label, otus_tax, epithelium,
-  today)
+biological_relationships(
+  sgcca.centroid,
+  STAB,
+  label,
+  otus_tax,
+  epithelium,
+  today
+)
 }
 \arguments{
 \item{sgcca.centroid}{SGCCA output}

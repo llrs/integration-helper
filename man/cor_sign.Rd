@@ -16,6 +16,7 @@ the correlation value at which it becomes below 0.05
 Calculates the correlation at which they become significant
 }
 \seealso{
-Other pvalue correlations: \code{\link{pvalue}}
+Other pvalue correlations: 
+\code{\link{pvalue}()}
 }
 \concept{pvalue correlations}
