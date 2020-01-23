@@ -545,9 +545,11 @@ meta_s_norm <- function(meta) {
 #' @param A A list of matrices with variables as columns.
 #' @export
 clean_unvariable <- function(A) {
-  lapply(A, function(x){
-    x[, apply(x, 2, sd) != 0]
+  l <- lapply(A, function(x){
+    x[, apply(x, 2, sd) != 0, drop = FALSE]
   })
+  names(l) <- names(A)
+  l
 }
 
 #' Change names of expression
