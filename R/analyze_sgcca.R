@@ -84,7 +84,7 @@ improve.sgcca <- function(sgcca, namesA) {
 
 #' Extract in a tidy way the information about the variables
 #'
-#' @param sgcca A \code{sgcca} object
+#' @param sgcca A \code{sgcca} object with named rows.
 #' @return A data.frame of variables, component and origin.
 #' @export
 #' @seealso \code{\link{plot_variables}}
@@ -93,11 +93,19 @@ variables <- function(sgcca){
     stop("Not of sgcca class")
   }
 
+  a_rownames <- lapply(sgcca$a, rownames)
+  a_len <- vapply(sgcca$a, nrow, numeric(1L))
+  if (any(lengths(a_rownames) != a_len)) {
+    stop("Some rows are not named.")
+  }
+  browser()
   variables <- data.frame(
-    comp1 = unlist(lapply(sgcca$a, function(x) {x[, 1]})),
-    comp2 = unlist(lapply(sgcca$a, function(x) {x[, 2]})),
-    Origin = rep(names(sgcca$a), vapply(sgcca$a, nrow, numeric(1L)))
+    comp1 = unlist(lapply(sgcca$a, function(x) {x[, 1]}),
+                   use.names = FALSE, recursive = FALSE),
+    comp2 = unlist(lapply(sgcca$a, function(x) {x[, 2]}),
+                   use.names = FALSE, recursive = FALSE),
+    Origin = rep(names(sgcca$a), lengths(a_rownames))
   )
-  variables$var <- unlist(sapply(sgcca$a, rownames), use.names = FALSE)
+  variables$var <- unlist(a_rownames, use.names = FALSE, recursive = FALSE)
   variables
 }

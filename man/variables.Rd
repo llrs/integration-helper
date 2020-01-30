@@ -7,7 +7,7 @@
 variables(sgcca)
 }
 \arguments{
-\item{sgcca}{A \code{sgcca} object}
+\item{sgcca}{A \code{sgcca} object with named rows.}
 }
 \value{
 A data.frame of variables, component and origin.

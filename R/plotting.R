@@ -155,7 +155,7 @@ plot_variables <- function(variables) {
   subVariables <- variables[keepComp1 | keepComp2, ]
 
   a <- ggplot() +
-    geom_path(aes(.data$x,.data$ y), data = circleFun(c(0, 0), 0.1, npoints = 100)) +
+    geom_path(aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.1, npoints = 100)) +
     geom_path(aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.2, npoints = 100)) +
     geom_path(aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.3, npoints = 100)) +
     geom_path(aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.4, npoints = 100)) +
@@ -163,10 +163,9 @@ plot_variables <- function(variables) {
                   label = .data$var), data = subVariables) +
     geom_vline(xintercept = 0) +
     geom_hline(yintercept = 0) +
-    coord_cartesian() +
-    labels(
-      title = "Variables important for the first two components",
-      x = "Comp1", y = "Comp2")
+    ggplot2::labs(title = "Variables important for the first two components",
+      x = "Comp1", y = "Comp2", col = "Origin") +
+    coord_cartesian()
   print(a)
 }
 
