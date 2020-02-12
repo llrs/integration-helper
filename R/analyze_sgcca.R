@@ -98,7 +98,6 @@ variables <- function(sgcca){
   if (any(lengths(a_rownames) != a_len)) {
     stop("Some rows are not named.")
   }
-  browser()
   variables <- data.frame(
     comp1 = unlist(lapply(sgcca$a, function(x) {x[, 1]}),
                    use.names = FALSE, recursive = FALSE),
