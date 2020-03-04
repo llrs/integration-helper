@@ -113,25 +113,26 @@ model_RGCCA <- function(data, columns, intercept = FALSE){
 
   m <- data[, columns, drop = FALSE]
   num <- vapply(m, is.numeric, logical(1L))
-  if (any(!num)) {
-    if (sum(!num) > 1) {
+  if (any(!num)) { # For categorical data
+    if (sum(!num) > 1) { # When multiple columns are present
       o <- sapply(m[, !num, drop = FALSE], function(x){
         levels <- unique(x)
         levels <- levels[!is.na(levels)]
         o <- vapply(levels, function(level) {
           as.numeric(x %in% level)
         }, numeric(nrow(data)))
+        colnames(o) <- levels
         o[, -1, drop = FALSE]
       })
       o <- do.call(cbind, o)
-    } else {
+    } else { # Just one categorical column (we must not drop the dimensions)
       levels <- unique(m[, !num])
       levels <- levels[!is.na(levels)]
       o <- vapply(levels, function(level) {
         as.numeric(m[, !num] %in% level)
       }, numeric(nrow(data)))
+      colnames(o) <- levels
       o <- o[, -1, drop = FALSE]
-
     }
   }
 
