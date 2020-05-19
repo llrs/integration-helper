@@ -6,9 +6,17 @@
 #' @param presence Matrix with presence of certain microorganism
 #' @param absence Matrix with the abscence of certain microorganism
 #' @export
+#' @examples
+#' presence <- structure(c(13, 9, 8, 0, 1, 10, 8, 13, 0, 2),
+#'                       .Dim = c(5L, 2L),
+#'                       .Dimnames = list(NULL, c("0", "14")))
+#'
+#' absence <- structure(c(29, 33, 34, 42, 41, 31, 33, 28, 41, 39),
+#'                      .Dim = c(5L, 2L), .Dimnames = list(NULL, c("0", "14")))
+#' prevalence(presence, absence)
 prevalence <- function(presence, absence) {
   stopifnot(all(rownames(presence) == rownames(absence)))
-  sapply(rownames(presence), function(i) {
+  sapply(seq_len(nrow(presence)), function(i) {
     m <- rbind(
       P = presence[i, ],
       A = absence[i, ]
