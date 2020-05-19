@@ -9,7 +9,7 @@ prevalence(presence, absence)
 \arguments{
 \item{presence}{Matrix with presence of certain microorganism}
 
-\item{absence}{Matrix with the abscence of certain microorganism}
+\item{absence}{Matrix with the absence of certain microorganism}
 }
 \description{
 Iterate in the tables to reach

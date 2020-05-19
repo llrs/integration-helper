@@ -1,7 +1,7 @@
 Type: Package
 Package: integration
 Title: Facilitate the integration
-Version: 0.1.23
+Version: 0.1.27
 Authors@R: 
     person(given = "Lluís",
            family = "Revilla Sancho",
@@ -11,21 +11,30 @@ Authors@R:
 Description: To be used on TRIM project to integrate microbiome
     and transcriptome data of the same patients.
 License: MIT + file LICENSE
-Imports: 
+Imports:
     AnnotationDbi,
+    Biobase,
     clusterProfiler,
     data.table,
+    dplyr,
+    edgeR,
     fgsea,
+    ggforce,
     ggplot2,
-    Matrix,
+    heatmaply,
+    metagenomeSeq,
     org.Hs.eg.db,
     reactome.db,
-    RGCCA
+    RGCCA,
+    scales,
+    tidyr,
+    vegan
 Suggests: 
+    covr,
+    Matrix,
     roxygen2,
-    testthat,
-    covr
+    testthat (>= 2.1.0)
 biocViews:
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2

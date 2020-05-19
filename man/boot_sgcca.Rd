@@ -11,7 +11,7 @@ boot_sgcca(A, C, shrinkage, nb_boot = 1000)
 
 \item{C}{The symmetric matrix with the relationships between datsets.}
 
-\item{shrinkage}{Shrinkage estimated (use the estimated for the original datastet)}
+\item{shrinkage}{Shrinkage estimated (use the estimated for the original dataset)}
 
 \item{nb_boot}{Number of bootstraps to perform}
 }

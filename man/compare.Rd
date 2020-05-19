@@ -13,6 +13,6 @@ compare(object1, object2)
 Genes In common
 }
 \description{
-Returns the number of genes in common, it assumes the first componenet is
+Returns the number of genes in common, it assumes the first component is
 always the genes.
 }

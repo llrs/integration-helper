@@ -1,27 +1,41 @@
 #'
 #' Check a design for different weights
 #' @param weights A numeric value with the number of weights to be used
-#' @param size A numveric value with the numer of datasets on the design.
+#' @param size A numeric value with the number of datasets on the design.
+#' @param diff0 A Numeric vector of position which should be different from 0 from the lower.tri
 #' @return A list of matrices with the designs with different weights
 #' @export
 #' @author Flodel \url{https://codereview.stackexchange.com/a/203517/36067}
 #' @examples
 #' out <- weight_design(4, 4)
 #' head(out)
-weight_design <- function(weights = 4, size){
+weight_design <- function(weights = 4, size, diff0 = NULL){
 
   p <- size * (size - 1) / 2    # 6
   w <- seq(from = 0, to = 1, length.out = weights)
-
-  # all possible combinations by doing:
-  W <- as.matrix(expand.grid(rep(list(w), p)))
-
   X <- matrix(1:(size*size), size, size) # pattern matrix of indices
+  lt <- lower.tri(X)
+
+  if (!is.null(diff0)) {
+    w <- w[w != 0] # Filter those values that are 0
+    W <- as.matrix(expand.grid(rep(list(w), length(diff0))))
+    keep <- diff0 %in% X[lt]
+
+    if (!any(keep)) {
+      stop("Incorrect indices in diff0, it should be the lower.tri")
+    }
+    lt <- diff0
+  } else {
+    # all possible combinations by doing:
+    W <- as.matrix(expand.grid(rep(list(w), p)))
+  }
   A <- matrix(0, nrow(W), size * size)
+  lower.pos <- X[lt]
+  upper.pos <- t(X)[lt]
 
   # Replace the positions by the weights
-  A[,    X[lower.tri(X)]] <- W
-  A[, t(X)[lower.tri(X)]] <- W
+  A[, lower.pos] <- W
+  A[, upper.pos] <- W
 
   # A 3D array with the weights
   dim(A) <- c(nrow(W), size, size)
@@ -70,7 +84,10 @@ valid <- function(x){
 #' @return A logical value if it is fully connected or not.
 #' @references \url{https://math.stackexchange.com/a/551947}
 #' @export
-correct <- function(x){
+correct <- function(x) {
+  if (!isSymmetric(x)) {
+    return(FALSE)
+  }
   A <- x != 0 # Adjacency
   # Repeat the adjaceny as much as it is needed.
   l <- lapply(seq_len(ncol(A) - 1), function(y){A})
@@ -81,38 +98,41 @@ correct <- function(x){
   all(final != 0)
 }
 
-#' Prepare data
+#' Prepare data for CCA.
 #'
-#' Prepares the factors into their vectors.
+#' Prepares the factors into their vectors. Each level of a factor is converted
+#' to a column, numeric columns are left as is.
 #' @param data A data.frame with the information about the samples
 #' @param columns The name of the columns to be used to build the matrix
 #' @param intercept A logical value if you want one column with all 1 or not.
 #' @return A matrix with each factor is decomposed in as much columns as
 #' factors has minus 1 and with the numeric values as they were.
 #' @export
+#' @seealso \code{\link{model_columns}}
 model_RGCCA <- function(data, columns, intercept = FALSE){
 
   m <- data[, columns, drop = FALSE]
   num <- vapply(m, is.numeric, logical(1L))
-  if (any(!num)) {
-    if (sum(!num) > 1) {
+  if (any(!num)) { # For categorical data
+    if (sum(!num) > 1) { # When multiple columns are present
       o <- sapply(m[, !num, drop = FALSE], function(x){
         levels <- unique(x)
         levels <- levels[!is.na(levels)]
         o <- vapply(levels, function(level) {
           as.numeric(x %in% level)
         }, numeric(nrow(data)))
+        colnames(o) <- levels
         o[, -1, drop = FALSE]
       })
       o <- do.call(cbind, o)
-    } else {
+    } else { # Just one categorical column (we must not drop the dimensions)
       levels <- unique(m[, !num])
       levels <- levels[!is.na(levels)]
       o <- vapply(levels, function(level) {
         as.numeric(m[, !num] %in% level)
       }, numeric(nrow(data)))
+      colnames(o) <- levels
       o <- o[, -1, drop = FALSE]
-
     }
   }
 
@@ -131,6 +151,36 @@ model_RGCCA <- function(data, columns, intercept = FALSE){
   } else {
     out
   }
+}
+
+
+#' Adapt data for a CCA
+#'
+#' Convert factors to numeric (in order of appearance), the numeric variables
+#' are left as is.
+#' @inheritParams model_RGCCA
+#' @return A matrix
+#' @seealso \code{\link{model_RGCCA}}
+#' @export
+model_columns <- function(data, columns) {
+  data <- data[, columns]
+  keepCol <- sapply(data, is.factor)
+  keepCol <- keepCol[columns]
+  keepCol[columns] <- TRUE
+  # Convert factors to a numeric sequence
+  for (col in names(keepCol)) {
+    if (class(data[, col]) == "character") {
+      data[, col] <- as.factor(data[, col])
+      levels(data[, col]) <- seq_along(levels(data[, col]))
+    } else if (class(data[, col]) == "factor") {
+      levels(data[, col]) <- seq_along(levels(data[, col]))
+    } else if (class(data[, col]) == "numeric") {
+      next
+    }
+  }
+  # Set metadb with a sigle variable with several options
+  data <- apply(data, 1:2, as.numeric)
+  data
 }
 
 #' Create symmetric matrix
@@ -156,4 +206,24 @@ symm <- function(m, data) {
   }
   m[upper.tri(m)] <- upper
   as.matrix(Matrix::forceSymmetric(m, "U"))
+}
+
+#' Function to export a function
+#'
+#' @param A The original list of data
+#' @param shrinkage The shrinkage parameter
+#' @return A function with two arguments:
+#' \subsection{x}{the index}
+#' \subsection{model}{the model used}
+#' @export
+loo_functions <- function(A, shrinkage) {
+  force(shrinkage)
+  force(A)
+
+  function(x, model) {
+    RGCCA::sgcca(A = subsetData(A, x),
+                 C = model,
+                 scheme = "centroid",
+                 verbose = FALSE, c1 = shrinkage)
+  }
 }

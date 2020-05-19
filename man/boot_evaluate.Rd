@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper_RGCCA.R
 \name{boot_evaluate}
 \alias{boot_evaluate}
-\title{Evaluates the boostrapping of RGCCA}
+\title{Evaluates the bootstrapping of RGCCA}
 \usage{
 boot_evaluate(STAB)
 }
@@ -13,5 +13,5 @@ boot_evaluate(STAB)
 Lateral effect: Prints plots
 }
 \description{
-Evaluates the boostrapping of RGCCA
+Evaluates the bootstrapping of RGCCA
 }

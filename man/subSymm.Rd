@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper_RGCCA.R
 \name{subSymm}
 \alias{subSymm}
-\title{Subsitute in a symmetric matrix}
+\title{Substitute in a symmetric matrix}
 \usage{
 subSymm(m, x, y, val)
 }
@@ -19,7 +19,7 @@ subSymm(m, x, y, val)
 The symmetric matrix with the value inserted in the right positions
 }
 \description{
-Subsitute in a symmetric matrix
+Substitute in a symmetric matrix
 }
 \seealso{
 \code{\link{symm}}, \code{\link{correct}}, \code{\link{check_design}}

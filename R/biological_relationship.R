@@ -5,7 +5,7 @@
 #' Does the ORA enrichment and fgsea analysis on the genes
 #' @param otus_tax matrix as output of \code{taxonomy} function
 #' @param sgcca.centroid SGCCA output
-#' @param STAB Output of boostrap by \code{boot_sgcca} function.
+#' @param STAB Output of bootstrap by \code{boot_sgcca} function.
 #' @param label Name of the output files
 #' @param epithelium Data from a file from the lab
 #' @param today Date as in character format
@@ -13,11 +13,13 @@
 #' @importFrom ggplot2 ggplot geom_point aes xlab ylab ggtitle theme_set theme_bw
 #' @importFrom grDevices pdf
 #' @importFrom data.table fwrite
+#' @importFrom data.table :=
 #' @importFrom fgsea fgsea
 #' @importFrom clusterProfiler enricher
 #' @importFrom AnnotationDbi mapIds select
 #' @importFrom org.Hs.eg.db org.Hs.eg.db
 #' @importFrom reactome.db reactomeEXTID2PATHID
+#' @importFrom reactome.db reactome.db
 #' @importFrom clusterProfiler enricher
 biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
                                      epithelium, today) {
@@ -115,6 +117,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
     keys = gseaSizeEffect$pathway,
     keytype = "PATHID", columns = "PATHNAME"
   )
+  NES <- padj <- pval <- 0
   # Remove the homo sapiens part
   namesPaths$PATHNAME <- gsub("Homo sapiens: (.*)", "\\1", namesPaths$PATHNAME)
   # Add a column
@@ -203,6 +206,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
 #' @examples
 #' paths2genes <- access_reactome()
 access_reactome <- function(){
+  requireNamespace("reactome.db", quietly = TRUE)
   genes2Pathways <- as.list(reactomeEXTID2PATHID)
   pathways <- unlist(genes2Pathways, use.names = FALSE)
   genes <- rep(names(genes2Pathways), lengths(genes2Pathways))

@@ -23,7 +23,7 @@ circle <- circleFun(c(0, 0), 2, npoints = 100)
 #' Divides the taxonomy into a new matrix for each otu
 #'
 #' @param taxonomy Last column of files a string ; separated with domain,
-#' phylum, vlass, order, family, genus and species.
+#' phylum, class, order, family, genus and species.
 #' @param otus The name of the rows
 #'
 #' @return
@@ -118,7 +118,7 @@ angle <- function(x, y = 1) {
 #' @param p Point c(x, y)
 #' @param b,d Points c(x, y) defining the line to calculate the distance with.
 #' @return The units of distance between the point and the line
-#' @note Change the d point to change the direction of the diagnoal
+#' @note Change the d point to change the direction of the diagonal
 #' @export
 dist2d <- function(p, b = c(0, 0), d = c(1, 1)) {
   v1 <- b - d
@@ -307,7 +307,7 @@ makeRects <- function(tfMat, border) {
 
 #' Select variable from bootstrapping
 #'
-#' @param x List of the summary statsitics of the bootstrapping
+#' @param x List of the summary statistics of the bootstrapping
 #' @return The names of the selected variables
 #' @export
 selectVar <- function(x) {
@@ -416,7 +416,17 @@ meta_r_norm <- function(meta) {
   AgeDiag <- as.numeric(dates[o] -
     as.Date(meta$Birth_date, "%m/%d/%Y")) / 365.25
   meta <- cbind(meta, "AgeDiag" = AgeDiag)
+  meta$Time <- factor(meta$Time, levels(as.factor(meta$Time))[c(1, 2, 3, 5, 6, 7, 8, 9, 10, 4)])
+  label <- strsplit(as.character(meta$`Sample Name_RNA`), split = "-")
+  labels <- sapply(label, function(x) {
+    if (length(x) == 5) {
+      x[5]
+    } else if (length(x) != 5) {
+      x[4]
+    }
+  })
 
+  meta <- cbind.data.frame(meta, labels)
   return(meta)
 }
 
@@ -445,13 +455,31 @@ meta_i_norm <- function(meta) {
   return(meta)
 }
 
+#' Normalize RNAseq
+#'
+#' Uses edgeR to normalize the expression data
+#' @param expr A matrix of genes and samples
+#'
+#' @return A normalized matrix with TMM
+#' @export
+#' @importFrom edgeR DGEList
+#' @importFrom edgeR calcNormFactors
+#' @importFrom edgeR cpm
+norm_RNAseq <- function(expr){
+  expr_edge <- edgeR::DGEList(expr)
+  expr_edge <- edgeR::calcNormFactors(expr_edge, method = "TMM")
+  edgeR::cpm(expr_edge, normalized.lib.sizes = TRUE, log = TRUE)
+}
+
 #' Filter expressions
 #'
+#' # Remove the expression that is not in more than 25% of samples and the lower
+#' 10% of genes
 #' @param expr Input RNAseq data (not microbiota)
 #' @param frac The fraction to remove
 #' @return A matrix without low expressed genes and with low variance
 #' @export
-norm_RNAseq <- function(expr, frac = 0.1) {
+filter_RNAseq <- function(expr, frac = 0.1) {
   # Remove low expressed genes
   expr <- expr[rowSums(expr != 0) >= (0.25 * ncol(expr)), ]
   expr <- expr[rowMeans(expr) > quantile(rowMeans(expr), prob = frac), ]
@@ -460,6 +488,37 @@ norm_RNAseq <- function(expr, frac = 0.1) {
   SD <- apply(expr, 1, sd)
   CV <- sqrt(exp(SD^2) - 1)
   expr[CV > quantile(CV, probs = frac), ]
+}
+
+#' Normalize OTUS
+#'
+#' Uses metagenomeSeq to normalize and filter if sd is 0
+#' @param otus_tax_i Taxonomic table
+#' @param otus_table_i OTUs table
+#'
+#' @return A normalized and filtered matrix
+#' @export
+#' @importFrom metagenomeSeq newMRexperiment
+#' @importFrom metagenomeSeq cumNorm
+#' @importFrom metagenomeSeq cumNormStat
+#' @importFrom metagenomeSeq MRcounts
+#' @importFrom Biobase AnnotatedDataFrame
+norm_otus <- function(otus_table_i, otus_tax_i = NULL){
+  if (is.null(otus_tax_i)) {
+    MR_i <- metagenomeSeq::newMRexperiment(otus_table_i)
+  } else {
+    MR_i <- metagenomeSeq::newMRexperiment(
+      otus_table_i,
+      featureData = Biobase::AnnotatedDataFrame(
+        as.data.frame(otus_tax_i[rownames(otus_table_i), ]))
+    )
+  }
+
+  MR_i <- metagenomeSeq::cumNorm(MR_i, metagenomeSeq::cumNormStat(MR_i))
+  otus_table_i <- metagenomeSeq::MRcounts(MR_i, norm = TRUE, log = TRUE)
+
+  # Subset if all the rows are 0 and if sd is 0
+  otus_table_i[apply(otus_table_i, 1, sd) != 0, ]
 }
 
 #' Normalize 16S stools metadata
@@ -478,4 +537,34 @@ meta_s_norm <- function(meta) {
   meta$ID[meta$Patient_ID %in% c("29", "35")] <- "29/35"
   meta$ID <- as.factor(meta$ID)
   meta
+}
+
+#' Remove unvariable features
+#'
+#' Remove variables with sd equal to 0
+#' @param A A list of matrices with variables as columns.
+#' @export
+clean_unvariable <- function(A) {
+  l <- lapply(A, function(x){
+    x[, apply(x, 2, sd) != 0, drop = FALSE]
+  })
+  names(l) <- names(A)
+  l
+}
+
+#' Change names of expression
+#'
+#' Swap some samples, correct the names of a pair of samples
+#' @param expr The expression matrix
+#' @return The same matrix with only modifications on the colnames
+#' @export
+norm_expr_colnames <- function(expr) {
+  # Correct the swapped samples
+  position <- c(grep("33-T52-TTR-CIA", colnames(expr)),
+                grep("33-T52-TTR-IIA", colnames(expr)))
+  colnames(expr)[position] <- colnames(expr)[rev(position)]
+  colnames(expr) <- toupper(colnames(expr))
+  #To match metadata
+  colnames(expr) <- gsub("16-TM29", "16-TM30", colnames(expr))
+  expr
 }

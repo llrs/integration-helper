@@ -2,18 +2,16 @@
 % Please edit documentation in R/helper_functions.R
 \name{norm_RNAseq}
 \alias{norm_RNAseq}
-\title{Filter expressions}
+\title{Normalize RNAseq}
 \usage{
-norm_RNAseq(expr, frac = 0.1)
+norm_RNAseq(expr)
 }
 \arguments{
-\item{expr}{Input RNAseq data (not microbiota)}
-
-\item{frac}{The fraction to remove}
+\item{expr}{A matrix of genes and samples}
 }
 \value{
-A matrix without low expressed genes and with low variance
+A normalized matrix with TMM
 }
 \description{
-Filter expressions
+Uses edgeR to normalize the expression data
 }

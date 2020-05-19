@@ -12,7 +12,7 @@ prevalence_tab(table, meta, columns)
 \item{meta}{Metadata associated with those samples (it assumes they are in
 the same order as in table)}
 
-\item{columns}{Column to make constrasts from}
+\item{columns}{Column to make contrasts from}
 }
 \value{
 a list with the matrices of presence and absence

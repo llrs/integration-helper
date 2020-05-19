@@ -1,6 +1,6 @@
 context("test-symm")
 
-test_that("multiplication works", {
+test_that("symm works", {
   row <- structure(list(var12 = 0, var13 = 0, var23 = 1, var14 = 1, var24 = 0.5,
                  var34 = 0, var15 = 0, var25 = 0, var35 = 1, var45 = 0),
                  row.names = 1L, class = "data.frame")

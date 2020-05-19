@@ -59,3 +59,52 @@ aves <- function(x){
   x$AVE$AVE_X <- simplify2array(x$AVE$AVE_X)
   x
 }
+
+
+#' Improve the information on sgcca classes
+#'
+#' Add names to data, simplify AVE output
+#' @param sgcca An object of class \code{sgcca}.
+#' @param namesA The names of the original data
+#' @return An object of class sgcca
+#' @export
+improve.sgcca <- function(sgcca, namesA) {
+  if (is.null(namesA)) {
+    stop("namesA shouldn't be NULL\n",
+         "Consider adding names to A.")
+  }
+  names(sgcca$Y) <- namesA
+  names(sgcca$a) <- namesA
+  names(sgcca$astar) <- namesA
+  names(sgcca$AVE$AVE_X) <- namesA
+  colnames(sgcca$C) <- namesA
+  rownames(sgcca$C) <- namesA
+  aves(sgcca)
+}
+
+#' Extract in a tidy way the information about the variables
+#'
+#' @param sgcca A \code{sgcca} object with named rows.
+#' @return A data.frame of variables, component and origin.
+#' @export
+#' @seealso \code{\link{plot_variables}}
+variables <- function(sgcca){
+  if (!is(sgcca, "sgcca")) {
+    stop("Not of sgcca class")
+  }
+
+  a_rownames <- lapply(sgcca$a, rownames)
+  a_len <- vapply(sgcca$a, nrow, numeric(1L))
+  if (any(lengths(a_rownames) != a_len)) {
+    stop("Some rows are not named.")
+  }
+  variables <- data.frame(
+    comp1 = unlist(lapply(sgcca$a, function(x) {x[, 1]}),
+                   use.names = FALSE, recursive = FALSE),
+    comp2 = unlist(lapply(sgcca$a, function(x) {x[, 2]}),
+                   use.names = FALSE, recursive = FALSE),
+    Origin = rep(names(sgcca$a), lengths(a_rownames))
+  )
+  variables$var <- unlist(a_rownames, use.names = FALSE, recursive = FALSE)
+  variables
+}

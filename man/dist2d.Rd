@@ -18,5 +18,5 @@ The units of distance between the point and the line
 The line is defined by points b and d.
 }
 \note{
-Change the d point to change the direction of the diagnoal
+Change the d point to change the direction of the diagonal
 }

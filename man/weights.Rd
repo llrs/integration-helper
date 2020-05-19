@@ -2,16 +2,16 @@
 % Please edit documentation in R/reporting.R
 \name{weights}
 \alias{weights}
-\title{Select the wegiths and adds information for human RNAseq}
+\title{Select the weights and adds information for human RNAseq}
 \usage{
 weights(x)
 }
 \arguments{
-\item{x}{a RGCCA outpus}
+\item{x}{a RGCCA outputs}
 }
 \value{
 a data.frame
 }
 \description{
-Select the wegiths and adds information for human RNAseq
+Select the weights and adds information for human RNAseq
 }

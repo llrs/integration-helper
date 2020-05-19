@@ -2,8 +2,9 @@
 [![Coverage status](https://codecov.io/gh/llrs/integration-helper/branch/master/graph/badge.svg)](https://codecov.io/github/llrs/integration-helper?branch=master)
 # Introduction
 
-This package holds functions to help to work with the llrs/TRIM analysis. 
+This package holds functions to work on the [llrs/TRIM](https://github.com/llrs/TRIM) analysis. 
+The package helps to perform normalization of the metadata, repeated tasks for biological enrichment, correlations, or other steps I tried several times.  
 
-Most of them is documented but barely.
+The most useful functions are also distributed on the [llrs/inteRmodel](https://github.com/llrs/interModel) package. If you want to use the RGCCA methods use that (inteRmodel) package. 
 
-It doesn't use test, nor good coding practices. It is not a good example for a package.
+This package barely use test, or good coding practices.

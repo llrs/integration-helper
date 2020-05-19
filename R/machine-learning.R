@@ -41,10 +41,10 @@ size <- function(x){
 #' @return A list with less samples
 #' @export
 subsetData <- function(A, index) {
-  lapply(A, function(x){
-    y <- x[index, , drop = FALSE] # subset
-    y[, apply(y, 2, sd) != 0] # Remove variables that are constant.
-    })
+  lapply(A, function(x, inde){
+    y <- x[inde, , drop = FALSE] # subset
+    y[, apply(y, 2, var) != 0] # Remove variables that are constant.
+    }, inde = index)
 }
 
 
@@ -52,7 +52,7 @@ subsetData <- function(A, index) {
 #  K-fold ####
 #' Indexes for K-folds
 #'
-#' Calcules the indices of the k-fold bootstrapping for other functions
+#' Calculates the indices of the k-fold bootstrapping for other functions
 #' @param k Number of k-folds (two divides the dataset in 2)
 #' @param n Number of k-folds to do
 #' @param size The number of samples required

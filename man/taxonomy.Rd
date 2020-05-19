@@ -8,7 +8,7 @@ taxonomy(taxonomy, otus)
 }
 \arguments{
 \item{taxonomy}{Last column of files a string ; separated with domain,
-phylum, vlass, order, family, genus and species.}
+phylum, class, order, family, genus and species.}
 
 \item{otus}{The name of the rows}
 }

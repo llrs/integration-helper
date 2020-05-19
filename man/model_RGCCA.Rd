@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_design.R
 \name{model_RGCCA}
 \alias{model_RGCCA}
-\title{Prepare data}
+\title{Prepare data for CCA.}
 \usage{
 model_RGCCA(data, columns, intercept = FALSE)
 }
@@ -18,5 +18,9 @@ A matrix with each factor is decomposed in as much columns as
 factors has minus 1 and with the numeric values as they were.
 }
 \description{
-Prepares the factors into their vectors.
+Prepares the factors into their vectors. Each level of a factor is converted
+to a column, numeric columns are left as is.
+}
+\seealso{
+\code{\link{model_columns}}
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper_prevalence.R
 \name{comb_prevalence}
 \alias{comb_prevalence}
-\title{Look for prevalene in combinations of two}
+\title{Look for prevalence in combinations of two}
 \usage{
 comb_prevalence(table, meta, columns)
 }
@@ -17,5 +17,5 @@ comb_prevalence(table, meta, columns)
 A table with all the pairwise comparisons
 }
 \description{
-Look for prevalene in combinations of two
+Look for prevalence in combinations of two
 }
