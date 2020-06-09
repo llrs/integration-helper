@@ -5,7 +5,7 @@
 #' @param diff0 A Numeric vector of position which should be different from 0 from the lower.tri
 #' @return A list of matrices with the designs with different weights
 #' @export
-#' @author Flodel \url{https://codereview.stackexchange.com/a/203517/36067}
+#' @author Flodel <https://codereview.stackexchange.com/a/203517/36067>
 #' @examples
 #' out <- weight_design(4, 4)
 #' head(out)
@@ -47,10 +47,10 @@ weight_design <- function(weights = 4, size, diff0 = NULL){
 #' Validate designs
 #'
 #' @param designs A list of design matrices as obtained from
-#' \code{\link{weight_design}}
+#' [weight_design()]
 #' @return A logical vector that validates if the designs are correct or not.
 #' @export
-#' @seealso \code{\link{symm}}, \code{\link{subSymm}}
+#' @seealso [symm()], [subSymm()]
 #' @examples
 #' designs <- weight_design(4, 4)
 #' keep <- check_design(designs)
@@ -82,7 +82,7 @@ valid <- function(x){
 #' Given the design matrix, checks that all the blocks are connected between them
 #' @param x Design matrix, a symmetric matrix with
 #' @return A logical value if it is fully connected or not.
-#' @references \url{https://math.stackexchange.com/a/551947}
+#' @references <https://math.stackexchange.com/a/551947>
 #' @export
 correct <- function(x) {
   if (!isSymmetric(x)) {
@@ -108,7 +108,7 @@ correct <- function(x) {
 #' @return A matrix with each factor is decomposed in as much columns as
 #' factors has minus 1 and with the numeric values as they were.
 #' @export
-#' @seealso \code{\link{model_columns}}
+#' @seealso [model_columns()]
 model_RGCCA <- function(data, columns, intercept = FALSE){
 
   m <- data[, columns, drop = FALSE]
@@ -160,7 +160,7 @@ model_RGCCA <- function(data, columns, intercept = FALSE){
 #' are left as is.
 #' @inheritParams model_RGCCA
 #' @return A matrix
-#' @seealso \code{\link{model_RGCCA}}
+#' @seealso [model_RGCCA()]
 #' @export
 model_columns <- function(data, columns) {
   data <- data[, columns]
@@ -190,7 +190,7 @@ model_columns <- function(data, columns) {
 #' @note After the upper case there can be other values that are assumed to be
 #' in the diagonal.
 #' @return A square symmetric matrix.
-#' @seealso \code{\link{subSymm}}, \code{\link{correct}}, \code{\link{check_design}}
+#' @seealso [subSymm()], [correct()], [check_design()]
 #' @export
 symm <- function(m, data) {
 

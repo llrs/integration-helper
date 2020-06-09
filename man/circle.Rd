@@ -4,7 +4,9 @@
 \name{circle}
 \alias{circle}
 \title{A circle of radium 2}
-\format{An object of class \code{data.frame} with 100 rows and 2 columns.}
+\format{
+An object of class \code{data.frame} with 100 rows and 2 columns.
+}
 \usage{
 circle
 }

@@ -134,7 +134,7 @@ plot_samples <- function(samples, colors, individual = FALSE) {
 #' @param variables A data.frame with the weight for each variable
 #' @return A plot with the most important variables
 #' @export
-#' @seealso \code{\link{variables}}
+#' @seealso [variables()]
 plot_variables <- function(variables) {
 
   # Remove the variables that in both components are above the mean

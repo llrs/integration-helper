@@ -67,7 +67,7 @@ McKeonHomeogenity <- function(B, C) {
 #' @param y Column position
 #' @param val Value to insert in the given position
 #' @return The symmetric matrix with the value inserted in the right positions
-#' @seealso \code{\link{symm}}, \code{\link{correct}}, \code{\link{check_design}}
+#' @seealso [symm()], [correct()], [check_design()]
 #' @export
 subSymm <- function(m, x, y, val) {
   if (!isSymmetric(m)) {
@@ -138,7 +138,7 @@ boot_sgcca <- function(A, C, shrinkage, nb_boot = 1000) {
 #' Evaluates the bootstrapping of RGCCA
 #'
 #'
-#' @param STAB List of weights of \code{rgcca} or \code{sgcca}
+#' @param STAB List of weights of `rgcca` or `sgcca`
 #' @return Lateral effect: Prints plots
 #' @export
 boot_evaluate <- function(STAB) {
@@ -238,11 +238,11 @@ variables_weight <- function(comp) {
 #' Check the efficacy of RGCCA
 #'
 #' This function test some help from
-#' \url{https://onlinecourses.science.psu.edu/stat505/node/68}
+#' <https://onlinecourses.science.psu.edu/stat505/node/68>
 #' Performs the wilks test on the model
 #' @param a The value
-#' @param rgcca The output of \code{\link[RGCCA]{sgcca}} or
-#' \code{\link[RGCCA]{rgcca}}
+#' @param rgcca The output of [RGCCA::sgcca()] or
+#' [RGCCA::rgcca()]
 #' @export
 wilks_rgcca <- function(a, rgcca) {
   stopifnot(length(a) == length(rgcca$Y))
@@ -257,12 +257,12 @@ wilks_rgcca <- function(a, rgcca) {
 #' Check the efficacy of RGCCA
 #'
 #' This function test some help from
-#' \url{https://onlinecourses.science.psu.edu/stat505/node/68}
+#' <https://onlinecourses.science.psu.edu/stat505/node/68>
 #' Performs the correlation between the original variables and the
 #' resulting components (of each block). To check if the
 #' @param a The value
-#' @param rgcca The output of \code{\link[RGCCA]{sgcca}} or
-#' \code{\link[RGCCA]{rgcca}}
+#' @param rgcca The output of [RGCCA::sgcca()] or
+#' [RGCCA::rgcca()]
 #' @export
 cors_rgcca <- function(a, rgcca) {
   l <- list()
@@ -283,7 +283,7 @@ cors_rgcca <- function(a, rgcca) {
 #' @param meta The data.frame where each column is a variable and the row is a
 #' sample
 #' @return A numeric vector with the probability for each sample.
-#' @details If a row for a variable is \code{NA} it uses the median for that
+#' @details If a row for a variable is `NA` it uses the median for that
 #' variable
 #' probability_samples(iris[, c("Petal.Width", "Species")])
 #' @export

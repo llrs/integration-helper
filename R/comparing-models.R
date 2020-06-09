@@ -40,8 +40,8 @@ plotAVEs <- function(model, loo) {
 #' Summarize a model
 #'
 #' @inheritParams plotAVEs
-#' @return The inner AVE, the Mean and the SEM of the \code{loo}
-#' @seealso \code{\link{sem}}
+#' @return The inner AVE, the Mean and the SEM of the `loo`
+#' @seealso [sem()]
 #' @export
 #' @importFrom scales scientific
 m_sem <- function(model, loo) {
@@ -54,11 +54,11 @@ m_sem <- function(model, loo) {
 
 #' Clean the output of a sgcca object
 #'
-#' @param data The matrices of \code{sggcca$Y[[1]]} or \code{sgcca$a[[1]]}
+#' @param data The matrices of `sggcca$Y[[1]]` or `sgcca$a[[1]]`
 #' @param model A label of the model used
 #' @param type A label to know what it
 #'
-#' @return A \code{data.frame}
+#' @return A `data.frame`
 #' @export
 #' @importFrom dplyr mutate
 #' @importFrom tidyr gather

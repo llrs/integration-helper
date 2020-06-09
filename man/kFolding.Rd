@@ -23,5 +23,5 @@ testing elements with the index of the samples
 Calculates the indices of the k-fold bootstrapping for other functions
 }
 \seealso{
-\code{\link{looIndex}}
+\code{\link[=looIndex]{looIndex()}}
 }

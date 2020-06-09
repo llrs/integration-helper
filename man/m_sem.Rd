@@ -19,5 +19,5 @@ The inner AVE, the Mean and the SEM of the \code{loo}
 Summarize a model
 }
 \seealso{
-\code{\link{sem}}
+\code{\link[=sem]{sem()}}
 }

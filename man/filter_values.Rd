@@ -22,5 +22,5 @@ A list with matrices of correlations and pvalues that pass the filter
 Filter the correlations based on the pvalue
 }
 \seealso{
-\code{\link{sign_cor}}, \code{\link{relevant}}
+\code{\link[=sign_cor]{sign_cor()}}, \code{\link[=relevant]{relevant()}}
 }

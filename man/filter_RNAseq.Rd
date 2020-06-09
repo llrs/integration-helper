@@ -15,6 +15,9 @@ filter_RNAseq(expr, frac = 0.1)
 A matrix without low expressed genes and with low variance
 }
 \description{
-# Remove the expression that is not in more than 25% of samples and the lower
-10% of genes
+Filter expressions
 }
+\section{Remove the expression that is not in more than 25\% of samples and the lower}{
+10\% of genes
+}
+

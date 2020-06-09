@@ -8,7 +8,7 @@ check_design(designs)
 }
 \arguments{
 \item{designs}{A list of design matrices as obtained from
-\code{\link{weight_design}}}
+\code{\link[=weight_design]{weight_design()}}}
 }
 \value{
 A logical vector that validates if the designs are correct or not.
@@ -22,5 +22,5 @@ keep <- check_design(designs)
 summary(keep)
 }
 \seealso{
-\code{\link{symm}}, \code{\link{subSymm}}
+\code{\link[=symm]{symm()}}, \code{\link[=subSymm]{subSymm()}}
 }

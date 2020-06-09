@@ -21,5 +21,5 @@ pvalue
 Prepare the correlations to be shared (without filtering them)
 }
 \seealso{
-\code{\link{filter_values}}, \code{\link{relevant}}
+\code{\link[=filter_values]{filter_values()}}, \code{\link[=relevant]{relevant()}}
 }

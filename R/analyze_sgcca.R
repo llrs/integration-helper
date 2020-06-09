@@ -64,7 +64,7 @@ aves <- function(x){
 #' Improve the information on sgcca classes
 #'
 #' Add names to data, simplify AVE output
-#' @param sgcca An object of class \code{sgcca}.
+#' @param sgcca An object of class `sgcca`.
 #' @param namesA The names of the original data
 #' @return An object of class sgcca
 #' @export
@@ -84,10 +84,10 @@ improve.sgcca <- function(sgcca, namesA) {
 
 #' Extract in a tidy way the information about the variables
 #'
-#' @param sgcca A \code{sgcca} object with named rows.
+#' @param sgcca A `sgcca` object with named rows.
 #' @return A data.frame of variables, component and origin.
 #' @export
-#' @seealso \code{\link{plot_variables}}
+#' @seealso [plot_variables()]
 variables <- function(sgcca){
   if (!is(sgcca, "sgcca")) {
     stop("Not of sgcca class")

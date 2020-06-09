@@ -19,3 +19,6 @@ A table with all the pairwise comparisons
 \description{
 Look for prevalence in combinations of two
 }
+\seealso{
+\code{\link[=prevalence]{prevalence()}}, \code{\link[=prevalence_tab]{prevalence_tab()}}, \code{\link[=full_prevalence]{full_prevalence()}}
+}

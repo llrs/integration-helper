@@ -15,5 +15,5 @@ write_cor(x, file)
 Translate symbols and store
 }
 \seealso{
-\code{\link{ensembl2symbol}}
+\code{\link[=ensembl2symbol]{ensembl2symbol()}}
 }

@@ -9,8 +9,8 @@ wilks_rgcca(a, rgcca)
 \arguments{
 \item{a}{The value}
 
-\item{rgcca}{The output of \code{\link[RGCCA]{sgcca}} or
-\code{\link[RGCCA]{rgcca}}}
+\item{rgcca}{The output of \code{\link[RGCCA:sgcca]{RGCCA::sgcca()}} or
+\code{\link[RGCCA:rgcca]{RGCCA::rgcca()}}}
 }
 \description{
 This function test some help from

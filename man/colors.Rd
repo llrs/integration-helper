@@ -4,7 +4,9 @@
 \name{colors}
 \alias{colors}
 \title{Useful colors}
-\format{An object of class \code{character} of length 41.}
+\format{
+An object of class \code{character} of length 41.
+}
 \usage{
 colors
 }

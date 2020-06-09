@@ -20,5 +20,5 @@ sample
 \details{
 If a row for a variable is \code{NA} it uses the median for that
 variable
-probability_samples(iris[, c("Petal.Width", "Species")])
+probability_samples(iris\link{, c("Petal.Width", "Species")})
 }

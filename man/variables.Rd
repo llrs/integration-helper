@@ -16,5 +16,5 @@ A data.frame of variables, component and origin.
 Extract in a tidy way the information about the variables
 }
 \seealso{
-\code{\link{plot_variables}}
+\code{\link[=plot_variables]{plot_variables()}}
 }

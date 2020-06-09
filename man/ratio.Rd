@@ -13,7 +13,7 @@ ratio(columns, data, indices, meta)
 
 \item{indices}{Rows where we are interested in}
 
-\item{meta}{# Information about the samples}
+\item{meta}{Information about the samples}
 }
 \description{
 Calculates the ratio of p-values of the prevalence between samples

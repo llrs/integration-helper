@@ -121,7 +121,7 @@ readSGCCA <- function(file, set = 1, component = 1) {
 #' @param threshold The numeric threshold of the filter
 #' @return A list with matrices of correlations and pvalues that pass the filter
 #' @export
-#' @seealso \code{\link{sign_cor}}, \code{\link{relevant}}
+#' @seealso [sign_cor()], [relevant()]
 filter_values <- function(comp1, cors, pval, threshold) {
 
   keepGenes <- colnames(cors) %in% names(comp1)
@@ -163,7 +163,7 @@ filter_values <- function(comp1, cors, pval, threshold) {
 #' @return A data.frame with microorganisms, genes, their correlations and the
 #' pvalue
 #' @export
-#' @seealso \code{\link{filter_values}}, \code{\link{sign_cor}}
+#' @seealso [filter_values()], [sign_cor()]
 relevant <- function(comp1, cors, pval, threshold = 0.05) {
   l <- filter_values(comp1, cors, pval, threshold)
   pval <- l$pval
@@ -197,7 +197,7 @@ relevant <- function(comp1, cors, pval, threshold = 0.05) {
 #' @return A data.frame with microorganisms, genes, their correlations and the
 #' pvalue
 #' @export
-#' @seealso \code{\link{filter_values}}, \code{\link{relevant}}
+#' @seealso [filter_values()], [relevant()]
 sign_cor <- function(cors, pval, threshold = 0.05) {
   if (sum(pval < threshold, na.rm = TRUE) == 0) {
     stop("No relevant correlations with this threshold")
@@ -227,8 +227,8 @@ sign_cor <- function(cors, pval, threshold = 0.05) {
 #' @param file The name of the file with the model
 #' @inheritParams filter_values
 #' @param label Label for the output html file
-#' @note Expects genes in rows and species at the columns in \code{cors} and
-#' \code{pvalue}
+#' @note Expects genes in rows and species at the columns in `cors` and
+#' `pvalue`
 #' @return Create a html file at Figures/heatmap...html
 #' @export
 #' @importFrom heatmaply heatmaply
@@ -267,7 +267,7 @@ ensembl2symbol <- function(x) {
 #'
 #' @inheritParams ensembl2symbol
 #' @param file The name of the file were to store them
-#' @seealso \code{\link{ensembl2symbol}}
+#' @seealso [ensembl2symbol()]
 #' @return NULL
 #' @export
 write_cor <- function(x, file){

@@ -19,5 +19,5 @@ Convert factors to numeric (in order of appearance), the numeric variables
 are left as is.
 }
 \seealso{
-\code{\link{model_RGCCA}}
+\code{\link[=model_RGCCA]{model_RGCCA()}}
 }

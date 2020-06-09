@@ -4,7 +4,9 @@
 \name{tol21rainbow}
 \alias{tol21rainbow}
 \title{Rainbow colors}
-\format{An object of class \code{character} of length 21.}
+\format{
+An object of class \code{character} of length 21.
+}
 \usage{
 tol21rainbow
 }

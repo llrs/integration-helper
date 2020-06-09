@@ -57,10 +57,10 @@ subsetData <- function(A, index) {
 #' @param n Number of k-folds to do
 #' @param size The number of samples required
 #' @param ... Other arguments passed to sample the
-#' @return An list of length \code{n} with two elements the training and the
+#' @return An list of length `n` with two elements the training and the
 #' testing elements with the index of the samples
 #' @export
-#' @seealso \code{\link{looIndex}}
+#' @seealso [looIndex()]
 kFolding <- function(k, size, n, ...) {
 
   stopifnot(k < size)

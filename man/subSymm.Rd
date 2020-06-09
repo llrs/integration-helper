@@ -22,5 +22,5 @@ The symmetric matrix with the value inserted in the right positions
 Substitute in a symmetric matrix
 }
 \seealso{
-\code{\link{symm}}, \code{\link{correct}}, \code{\link{check_design}}
+\code{\link[=symm]{symm()}}, \code{\link[=correct]{correct()}}, \code{\link[=check_design]{check_design()}}
 }

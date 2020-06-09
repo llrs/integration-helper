@@ -23,5 +23,5 @@ pvalue
 Prepare the correlations to be shared
 }
 \seealso{
-\code{\link{filter_values}}, \code{\link{sign_cor}}
+\code{\link[=filter_values]{filter_values()}}, \code{\link[=sign_cor]{sign_cor()}}
 }

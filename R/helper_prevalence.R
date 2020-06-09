@@ -5,6 +5,7 @@
 #' Iterate in the tables to reach
 #' @param presence Matrix with presence of certain microorganism
 #' @param absence Matrix with the absence of certain microorganism
+#' @seealso [comb_prevalence()], [prevalence_tab()]
 #' @export
 #' @examples
 #' presence <- structure(c(13, 9, 8, 0, 1, 10, 8, 13, 0, 2),
@@ -37,6 +38,7 @@ prevalence <- function(presence, absence) {
 #' the same order as in table)
 #' @param columns Column to make contrasts from
 #' @return a list with the matrices of presence and absence
+#' @seealso [prevalence()], [comb_prevalence()]
 #' @export
 prevalence_tab <- function(table, meta, columns) {
   stopifnot(all(colnames(table) == rownames(meta)))
@@ -81,7 +83,7 @@ prevalence_2factors <- function(table, meta, columns) {
 #' @param columns Columns to select
 #' @param data Data.frame from which the columns are selected
 #' @param indices Rows where we are interested in
-#' @param meta # Information about the samples
+#' @param meta Information about the samples
 #' @export
 ratio <- function(columns, data, indices, meta) {
   a <- t(data[indices, ]) # allows boot to select sample
@@ -339,6 +341,7 @@ response_time <- function(table_org, meta) {
 #' @param meta is the metadata
 #' @param columns is the columns to make comparisons from
 #' @return A table with all the pairwise comparisons
+#' @seealso [prevalence()], [prevalence_tab()], [full_prevalence()]
 #' @export
 comb_prevalence <- function(table, meta, columns) {
   above <- rowSums(prop.table(as.matrix(table), 2) > 0.005)
@@ -359,4 +362,32 @@ comb_prevalence <- function(table, meta, columns) {
   colnames(o) <- combn(colnames(out$presence), 2, paste, collapse = "_&_")
   rownames(o) <- rownames(out$presence)
   o
+}
+
+
+#' Look for prevalence of a factor
+#'
+#' @param table is the data
+#' @param meta A data.frame from which column is is the metadata
+#' @param factor is the column to see if is associated with the presence or absence
+#' @return A data.frame with all the pairwise comparisons
+#' @seealso [prevalence()], [prevalence_tab()], [full_prevalence()]
+#' @export
+full_prevalence <- function(table, meta, column) {
+  above <- rowSums(prop.table(as.matrix(table), 2) > 0.005)
+  stopifnot(length(column) == 1)
+
+  if (sum(above > 0) == 0) {
+    return(data.frame(0))
+  }
+  table <- table[above > 0, ]
+
+  out <- prevalence_tab(table, meta, column)
+  res <- prevalence(out$presence, out$absence)
+  res[is.na(res)] <- 1
+  res <- p.adjust(res, "BH")
+  df <- matrix(res)
+  colnames(df) <- column
+  rownames(df) <- rownames(table)
+  df
 }

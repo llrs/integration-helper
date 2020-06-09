@@ -22,5 +22,5 @@ Prepares the factors into their vectors. Each level of a factor is converted
 to a column, numeric columns are left as is.
 }
 \seealso{
-\code{\link{model_columns}}
+\code{\link[=model_columns]{model_columns()}}
 }

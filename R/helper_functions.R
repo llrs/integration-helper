@@ -14,7 +14,7 @@ circleFun <- function(center = c(-1, 1), diameter = 1, npoints = 100) {
 
 #' A circle of radium 2
 #'
-#' Created with \code{circleFun}
+#' Created with `circleFun`
 #' @export
 circle <- circleFun(c(0, 0), 2, npoints = 100)
 
@@ -203,7 +203,7 @@ compare.correlations <- function(r1, r2, n1, n2) {
 #' Given the names of the columns of the data calculates the logical vectors of
 #' each subset of the data
 #' @param columns names of the columns to be used
-#' @param data A \code{data.frame} with factors
+#' @param data A `data.frame` with factors
 #' @return a matrix with the logical values of each combination of the levels of
 #' the columns given for the data in each column.
 #' @note If some rows are all FALSE it means some values are NA.

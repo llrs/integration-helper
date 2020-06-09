@@ -18,6 +18,9 @@ the same order as in table)}
 a list with the matrices of presence and absence
 }
 \description{
-It takes into account only samples with more than 0.5% of relative presence
+It takes into account only samples with more than 0.5\% of relative presence
 of the microorganism
+}
+\seealso{
+\code{\link[=prevalence]{prevalence()}}, \code{\link[=comb_prevalence]{comb_prevalence()}}
 }
