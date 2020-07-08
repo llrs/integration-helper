@@ -11,7 +11,7 @@ full_prevalence(table, meta, column)
 
 \item{meta}{A data.frame from which column is is the metadata}
 
-\item{factor}{is the column to see if is associated with the presence or absence}
+\item{column}{is the column to see if is associated with the presence or absence.}
 }
 \value{
 A data.frame with all the pairwise comparisons

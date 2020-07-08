@@ -207,7 +207,7 @@ boot_evaluate <- function(STAB) {
 
 #' Plot density of the weight of components
 #'
-#' @param comp Component from sapply(rgcca$a, function(x)x[, 1])
+#' @param comp Component from `sapply(rgcca$a, function(x)x[, 1])`
 #' @return Lateral effect: A plot, invisible the ggplot object of the plot
 #' @importFrom ggplot2 stat_density facet_grid guides
 #' @importFrom ggplot2 geom_text geom_vline geom_hline guide_legend theme element_text
@@ -285,6 +285,7 @@ cors_rgcca <- function(a, rgcca) {
 #' @return A numeric vector with the probability for each sample.
 #' @details If a row for a variable is `NA` it uses the median for that
 #' variable
+#' @examples
 #' probability_samples(iris[, c("Petal.Width", "Species")])
 #' @export
 probability_samples <- function(meta) {

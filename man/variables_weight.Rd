@@ -7,7 +7,7 @@
 variables_weight(comp)
 }
 \arguments{
-\item{comp}{Component from sapply(rgcca$a, function(x)x\link{, 1})}
+\item{comp}{Component from \code{sapply(rgcca$a, function(x)x[, 1])}}
 }
 \value{
 Lateral effect: A plot, invisible the ggplot object of the plot

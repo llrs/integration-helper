@@ -369,7 +369,7 @@ comb_prevalence <- function(table, meta, columns) {
 #'
 #' @param table is the data
 #' @param meta A data.frame from which column is is the metadata
-#' @param factor is the column to see if is associated with the presence or absence
+#' @param column is the column to see if is associated with the presence or absence.
 #' @return A data.frame with all the pairwise comparisons
 #' @seealso [prevalence()], [prevalence_tab()], [full_prevalence()]
 #' @export
