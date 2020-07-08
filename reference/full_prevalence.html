@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculates the presence or absence of a microorganism — prevalence_tab • integration</title>
+<title>Look for prevalence of a factor — full_prevalence • integration</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Calculates the presence or absence of a microorganism — prevalence_tab" />
-<meta property="og:description" content="It takes into account only samples with more than 0.5% of relative presence
-of the microorganism" />
+<meta property="og:title" content="Look for prevalence of a factor — full_prevalence" />
+<meta property="og:description" content="Look for prevalence of a factor" />
 
 
 
@@ -104,42 +103,40 @@ of the microorganism" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculates the presence or absence of a microorganism</h1>
+    <h1>Look for prevalence of a factor</h1>
     
-    <div class="hidden name"><code>prevalence_tab.Rd</code></div>
+    <div class="hidden name"><code>full_prevalence.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>It takes into account only samples with more than 0.5% of relative presence
-of the microorganism</p>
+    <p>Look for prevalence of a factor</p>
     </div>
 
-    <pre class="usage"><span class='fu'>prevalence_tab</span>(<span class='no'>table</span>, <span class='no'>meta</span>, <span class='no'>columns</span>)</pre>
+    <pre class="usage"><span class='fu'>full_prevalence</span>(<span class='no'>table</span>, <span class='no'>meta</span>, <span class='no'>column</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>table</th>
-      <td><p>Input data with the samples in columns and microorganism in rows</p></td>
+      <td><p>is the data</p></td>
     </tr>
     <tr>
       <th>meta</th>
-      <td><p>Metadata associated with those samples (it assumes they are in
-the same order as in table)</p></td>
+      <td><p>A data.frame from which column is is the metadata</p></td>
     </tr>
     <tr>
-      <th>columns</th>
-      <td><p>Column to make contrasts from</p></td>
+      <th>column</th>
+      <td><p>is the column to see if is associated with the presence or absence.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a list with the matrices of presence and absence</p>
+    <p>A data.frame with all the pairwise comparisons</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='prevalence.html'>prevalence()</a></code>, <code><a href='comb_prevalence.html'>comb_prevalence()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='prevalence.html'>prevalence()</a></code>, <code><a href='prevalence_tab.html'>prevalence_tab()</a></code>, <code>full_prevalence()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
