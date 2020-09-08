@@ -112,7 +112,7 @@
     <p>Iterate in the tables to reach</p>
     </div>
 
-    <pre class="usage"><span class='fu'>prevalence</span>(<span class='no'>presence</span>, <span class='no'>absence</span>)</pre>
+    <pre class="usage"><span class='fu'>prevalence</span>(<span class='kw'>presence</span>, <span class='kw'>absence</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -132,13 +132,14 @@
     <div class='dont-index'><p><code><a href='comb_prevalence.html'>comb_prevalence()</a></code>, <code><a href='prevalence_tab.html'>prevalence_tab()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>presence</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>13</span>, <span class='fl'>9</span>, <span class='fl'>8</span>, <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>10</span>, <span class='fl'>8</span>, <span class='fl'>13</span>, <span class='fl'>0</span>, <span class='fl'>2</span>),
-                      <span class='kw'>.Dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5L</span>, <span class='fl'>2L</span>),
-                      <span class='kw'>.Dimnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>NULL</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"0"</span>, <span class='st'>"14"</span>)))
+    <pre class="examples"><div class='input'><span class='kw'>presence</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>13</span>, <span class='fl'>9</span>, <span class='fl'>8</span>, <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>10</span>, <span class='fl'>8</span>, <span class='fl'>13</span>, <span class='fl'>0</span>, <span class='fl'>2</span>),
+                      .Dim = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5L</span>, <span class='fl'>2L</span>),
+                      .Dimnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>NULL</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"0"</span>, <span class='st'>"14"</span>)))
 
-<span class='no'>absence</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>29</span>, <span class='fl'>33</span>, <span class='fl'>34</span>, <span class='fl'>42</span>, <span class='fl'>41</span>, <span class='fl'>31</span>, <span class='fl'>33</span>, <span class='fl'>28</span>, <span class='fl'>41</span>, <span class='fl'>39</span>),
-                     <span class='kw'>.Dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5L</span>, <span class='fl'>2L</span>), <span class='kw'>.Dimnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>NULL</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"0"</span>, <span class='st'>"14"</span>)))
-<span class='fu'>prevalence</span>(<span class='no'>presence</span>, <span class='no'>absence</span>)</div><div class='output co'>#&gt; [1] 0.6251763 1.0000000 0.2142335 1.0000000 0.6157965</div></pre>
+<span class='kw'>absence</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>29</span>, <span class='fl'>33</span>, <span class='fl'>34</span>, <span class='fl'>42</span>, <span class='fl'>41</span>, <span class='fl'>31</span>, <span class='fl'>33</span>, <span class='fl'>28</span>, <span class='fl'>41</span>, <span class='fl'>39</span>),
+                     .Dim = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5L</span>, <span class='fl'>2L</span>), .Dimnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>NULL</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"0"</span>, <span class='st'>"14"</span>)))
+<span class='fu'>prevalence</span>(<span class='kw'>presence</span>, <span class='kw'>absence</span>)
+</div><div class='output co'>#&gt; [1] 0.6251763 1.0000000 0.2142335 1.0000000 0.6157965</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -154,7 +155,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

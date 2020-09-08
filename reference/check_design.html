@@ -112,7 +112,7 @@
     <p>Validate designs</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_design</span>(<span class='no'>designs</span>)</pre>
+    <pre class="usage"><span class='fu'>check_design</span>(<span class='kw'>designs</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -132,9 +132,10 @@
     <div class='dont-index'><p><code><a href='symm.html'>symm()</a></code>, <code><a href='subSymm.html'>subSymm()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>designs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='weight_design.html'>weight_design</a></span>(<span class='fl'>4</span>, <span class='fl'>4</span>)
-<span class='no'>keep</span> <span class='kw'>&lt;-</span> <span class='fu'>check_design</span>(<span class='no'>designs</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>keep</span>)</div><div class='output co'>#&gt;    Mode   FALSE    TRUE 
+    <pre class="examples"><div class='input'><span class='kw'>designs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='weight_design.html'>weight_design</a></span>(<span class='fl'>4</span>, <span class='fl'>4</span>)
+<span class='kw'>keep</span> <span class='op'>&lt;-</span> <span class='fu'>check_design</span>(<span class='kw'>designs</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>keep</span>)
+</div><div class='output co'>#&gt;    Mode   FALSE    TRUE 
 #&gt; logical     235    3861 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -151,7 +152,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>
