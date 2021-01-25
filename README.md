@@ -1,5 +1,8 @@
 [![Travis build status](https://travis-ci.org/llrs/integration-helper.svg?branch=master)](https://travis-ci.org/llrs/integration-helper)
 [![Coverage status](https://codecov.io/gh/llrs/integration-helper/branch/master/graph/badge.svg)](https://codecov.io/github/llrs/integration-helper?branch=master)
+[![DOI](https://zenodo.org/badge/141977937.svg)](https://zenodo.org/badge/latestdoi/141977937)
+
+
 # Introduction
 
 This package holds functions to work on the [llrs/TRIM](https://github.com/llrs/TRIM) analysis. 
