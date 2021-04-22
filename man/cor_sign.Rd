@@ -10,7 +10,7 @@ cor_sign(n)
 \item{n}{The number of data points where the correlation has been done}
 }
 \value{
-the correlation value at which it becomes below 0.05
+the pearson correlation value at which it becomes below 0.05
 }
 \description{
 Calculates the correlation at which they become significant

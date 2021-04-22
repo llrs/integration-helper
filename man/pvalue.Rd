@@ -7,7 +7,7 @@
 pvalue(r, n)
 }
 \arguments{
-\item{r}{Correlation coefficient}
+\item{r}{Correlation coefficient of a}
 
 \item{n}{Number of samples}
 }

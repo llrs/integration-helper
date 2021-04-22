@@ -1,5 +1,8 @@
-[![Travis build status](https://travis-ci.org/llrs/integration-helper.svg?branch=master)](https://travis-ci.org/llrs/integration-helper)
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/llrs/integration-helper/workflows/R-CMD-check/badge.svg)](https://github.com/llrs/integration-helper/actions)
 [![Coverage status](https://codecov.io/gh/llrs/integration-helper/branch/master/graph/badge.svg)](https://codecov.io/github/llrs/integration-helper?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/llrs/integration-helper/branch/master/graph/badge.svg)](https://codecov.io/gh/llrs/integration-helper?branch=master)
+<!-- badges: end -->
 [![DOI](https://zenodo.org/badge/141977937.svg)](https://zenodo.org/badge/latestdoi/141977937)
 
 
