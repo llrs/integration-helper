@@ -89,7 +89,6 @@ subSymm <- function(m, x, y, val) {
 #' @return A list with two elements: the coefficient of each variable of the
 #' input blocks; and the AVE values, both inner, and outer
 #' @export
-#' @importFrom utils txtProgressBar setTxtProgressBar
 boot_sgcca <- function(A, C, shrinkage, nb_boot = 1000) {
   STAB <- vector("list", length = length(A))
   AVE <- matrix(NA, ncol = 2, nrow = nb_boot)
@@ -100,10 +99,10 @@ boot_sgcca <- function(A, C, shrinkage, nb_boot = 1000) {
     colnames(STAB[[j]]) <- colnames(A[[j]])
   }
   names(STAB) <- names(A)
-  pb <-  txtProgressBar(min = 0, max = nb_boot, initial = 0, style = 3)
+  pb <-  utils::txtProgressBar(min = 0, max = nb_boot, initial = 0, style = 3)
   # Bootstrap the data
   for (i in seq_len(nb_boot)) {
-    setTxtProgressBar(pb, i)
+    utils::setTxtProgressBar(pb, i)
     ind <- sample(nrow(A[[1]]), replace = TRUE)
 
     Bscr <- subsetData(A, ind)
@@ -142,6 +141,9 @@ boot_sgcca <- function(A, C, shrinkage, nb_boot = 1000) {
 #' @return Lateral effect: Prints plots
 #' @export
 boot_evaluate <- function(STAB) {
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Install ggplot2 from CRAN", call. = FALSE)
+  }
   # Calculate how many are selected
   count <- lapply(STAB, function(x) {
     apply(x, 2, function(y) {
@@ -192,15 +194,15 @@ boot_evaluate <- function(STAB) {
 
   # Plot the summary of the bootstrapping
   for (i in seq_len(length(STAB))) {
-    p <- ggplot(consensus[[i]]) +
-      geom_point(aes(.data$sign, .data$freq, col = .data$colMeAbs,
+    p <- ggplot2::ggplot(consensus[[i]]) +
+      ggplot2::geom_point(ggplot2::aes(.data$sign, .data$freq, col = .data$colMeAbs,
                      size = -log10(.data$seAbs))) +
-      ggtitle(paste("Selecting variable for", names(consensus)[i]))
+      ggplot2::ggtitle(paste("Selecting variable for", names(consensus)[i]))
     print(p)
-    p <- ggplot(consensus[[i]]) +
-      geom_point(aes(.data$sign, .data$freq, col = .data$colMe,
+    p <- ggplot2::ggplot(consensus[[i]]) +
+      ggplot2::geom_point(ggplot2::aes(.data$sign, .data$freq, col = .data$colMe,
                      size = -log10(.data$se))) +
-      ggtitle(paste("Selecting variable for", names(consensus)[i]))
+      ggplot2::ggtitle(paste("Selecting variable for", names(consensus)[i]))
     print(p)
   }
 }
@@ -209,27 +211,25 @@ boot_evaluate <- function(STAB) {
 #'
 #' @param comp Component from `sapply(rgcca$a, function(x)x[, 1])`
 #' @return Lateral effect: A plot, invisible the ggplot object of the plot
-#' @importFrom ggplot2 stat_density facet_grid guides
-#' @importFrom ggplot2 geom_text geom_vline geom_hline guide_legend theme element_text
-#' @importFrom ggplot2 scale_color_manual geom_path coord_cartesian
-#' @importFrom graphics abline hist
-#' @importFrom stats median
 #' @export
 variables_weight <- function(comp) {
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Install ggplot2 from CRAN", call. = FALSE)
+  }
   Loadings <- unlist(comp)
   comp2 <- as.data.frame(Loadings)
   comp2$Origin <- as.factor(gsub("([A-Z]*)\\..*", "\\1", names(Loadings)))
   rownames(comp2) <- seq_len(nrow(comp2))
-  p <- ggplot(comp2) +
-    stat_density(aes(x = .data$Loadings, y = .data$..scaled.., fill = .data$Origin), alpha = 0.5) +
-    ggtitle(
+  p <- ggplot2::ggplot(comp2) +
+    ggplot2::stat_density(ggplot2::aes(x = .data$Loadings, y = .data$..scaled.., fill = .data$Origin), alpha = 0.5) +
+    ggplot2::ggtitle(
       "Importance of each block variable",
       subtitle = "Second component"
     ) +
-    ylab("Scaled density") +
-    xlab("weight") +
-    facet_grid(~ .data$Origin, scales = "free") +
-    guides(fill = FALSE)
+    ggplot2::ylab("Scaled density") +
+    ggplot2::xlab("weight") +
+    ggplot2::facet_grid(~ .data$Origin, scales = "free") +
+    ggplot2::guides(fill = FALSE)
   print(p)
   invisible(p)
 }

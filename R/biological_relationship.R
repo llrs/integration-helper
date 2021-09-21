@@ -10,19 +10,29 @@
 #' @param epithelium Data from a file from the lab
 #' @param today Date as in character format
 #' @export
-#' @importFrom ggplot2 ggplot geom_point aes xlab ylab ggtitle theme_set theme_bw
-#' @importFrom grDevices pdf
-#' @importFrom data.table fwrite
-#' @importFrom data.table :=
-#' @importFrom fgsea fgsea
-#' @importFrom clusterProfiler enricher
-#' @importFrom AnnotationDbi mapIds select
-#' @importFrom org.Hs.eg.db org.Hs.eg.db
-#' @importFrom reactome.db reactomeEXTID2PATHID
-#' @importFrom reactome.db reactome.db
-#' @importFrom clusterProfiler enricher
 biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
                                      epithelium, today) {
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Install ggplot2 from CRAN", call. = FALSE)
+  }
+  if (!requireNamespace("clusterProfiler", quietly = TRUE)) {
+    stop("Install clusterProfiler from Bioconductor", call. = FALSE)
+  }
+  if (!requireNamespace("org.Hs.eg.db", quietly = TRUE)) {
+    stop("Install org.Hs.eg.db from Bioconductor", call. = FALSE)
+  }
+  if (!requireNamespace("reactome.db", quietly = TRUE)) {
+    stop("Install reactome.db from Bioconductor", call. = FALSE)
+  }
+  if (!requireNamespace("fgsea", quietly = TRUE)) {
+    stop("Install fgsea from Bioconductor", call. = FALSE)
+  }
+  if (!requireNamespace("AnnotationDbi", quietly = TRUE)) {
+    stop("Install AnnotationDbi from Bioconductor", call. = FALSE)
+  }
+  if (!requireNamespace("data.table", quietly = TRUE)) {
+    stop("Install data.table from CRAN", call. = FALSE)
+  }
 
   # RNAseq ####
   b <- STAB[["RNAseq"]]
@@ -54,11 +64,11 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
     d_rm <- d_rm[names(freq)]
   }
 
-  p <- ggplot(as.data.frame(cbind(freq, d_rm))) +
-    geom_point(aes(d_rm, freq)) +
-    xlab("Score") +
-    ylab("Frequency (!= 0)") +
-    ggtitle("RNAseq")
+  p <- ggplot2::ggplot(as.data.frame(cbind(freq, d_rm))) +
+    ggplot2::geom_point(ggplot2::aes(d_rm, freq)) +
+    ggplot2::xlab("Score") +
+    ggplot2::ylab("Frequency (!= 0)") +
+    ggplot2::ggtitle("RNAseq")
   print(p)
 
   # Select those genes that are significant
@@ -72,8 +82,8 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   ensemblID <- rownames(loadings)
   ensemblID <- trimVer(ensemblID)
   rownames(loadings) <- trimVer(rownames(loadings))
-  entrezID <- mapIds(
-    org.Hs.eg.db,
+  entrezID <- AnnotationDbi::mapIds(
+    org.Hs.eg.db::org.Hs.eg.db,
     keys = ensemblID, keytype = "ENSEMBL",
     column = "ENTREZID"
   )
@@ -89,12 +99,12 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   ## Compute the hypergeometric/enrichment analysis ####
   message("Calculating the enrichment")
   T2G <- cbind.data.frame(pathways, genes)
-  enrich <- enricher(
+  enrich <- clusterProfiler::enricher(
     gene = entrezID[significant], TERM2GENE = T2G
   )
   enrich <- as.data.frame(enrich)
   if (nrow(enrich) >= 1) {
-    enrich$Description <- mapIds(reactome.db, keys = rownames(enrich),
+    enrich$Description <- AnnotationDbi::mapIds(reactome.db::reactome.db, keys = rownames(enrich),
                                  keytype = "PATHID", column = "PATHNAME")
   }
   write.csv(enrich,
@@ -109,11 +119,11 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
 
   message("Calculating the gene set enrichment")
   ## Compute the GSEA for the size effect ####
-  gseaSizeEffect <- fgsea(paths2genes, comp1, nperm = length(comp1))
+  gseaSizeEffect <- fgsea::fgsea(paths2genes, comp1, nperm = length(comp1))
 
   # Get the name of the pathway
-  namesPaths <- select(
-    reactome.db,
+  namesPaths <- AnnotationDbi::select(
+    reactome.db::reactome.db,
     keys = gseaSizeEffect$pathway,
     keytype = "PATHID", columns = "PATHNAME"
   )
@@ -128,7 +138,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
     warning("GSEA didn't result in any pathway")
   }
   # Store the output
-  fwrite(gseaSizeEffect[pval < 0.05, ],
+  data.table::fwrite(gseaSizeEffect[pval < 0.05, ],
     file = paste0("gsea_pathways_", label, ".csv")
   )
 
@@ -152,11 +162,11 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
     d_rm <- d_rm[names(freq)]
   }
 
-  p <- ggplot(as.data.frame(cbind(freq, d_rm))) +
-    geom_point(aes(d_rm, freq)) +
-    xlab("Score") +
-    ylab("Frequency (!= 0)") +
-    ggtitle("16S")
+  p <- ggplot2::ggplot(as.data.frame(cbind(freq, d_rm))) +
+    ggplot2::geom_point(ggplot2::aes(d_rm, freq)) +
+    ggplot2::xlab("Score") +
+    ggplot2::ylab("Frequency (!= 0)") +
+    ggplot2::ggtitle("16S")
   print(p)
   otus <- names(d_rm)[freq > 0.5]
 
@@ -175,7 +185,7 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
     "Name" = otus_tax[, "Genus"],
     "Term" = rownames(otus_tax)
   )
-  enrich <- as.data.frame(enricher(
+  enrich <- as.data.frame(clusterProfiler::enricher(
     gene = otus, universe = rownames(otus_tax),
     minGSSize = 1, TERM2GENE = term2gene,
     TERM2NAME = term2name
@@ -186,12 +196,12 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
   # GSEA
   comp1 <- sgcca.centroid$a[["16S"]][, 1]
   comp1 <- comp1[diff0(comp1)]
-  gseaSizeEffect <- fgsea(grouping, comp1, nperm = 20000)
+  gseaSizeEffect <- fgsea::fgsea(grouping, comp1, nperm = 20000)
   gseaSizeEffect <- gseaSizeEffect[order(-abs(NES), padj, -size)]
   if (sum(gseaSizeEffect$padj < 0.05) == 0) {
     warning("GSEA didn't result in any pathway")
   }
-  fwrite(gseaSizeEffect[pval < 0.05],
+  data.table::fwrite(gseaSizeEffect[pval < 0.05],
     file = paste0("gsea_otus_genus_", label, ".csv")
   )
   dev.off()
@@ -206,8 +216,10 @@ biological_relationships <- function(sgcca.centroid, STAB, label, otus_tax,
 #' @examples
 #' paths2genes <- access_reactome()
 access_reactome <- function(){
-  requireNamespace("reactome.db", quietly = TRUE)
-  genes2Pathways <- as.list(reactomeEXTID2PATHID)
+  if (!requireNamespace("reactome.db", quietly = TRUE)) {
+    stop("Install reactome.db from Bioconductor", call. = FALSE)
+  }
+  genes2Pathways <- as.list(reactome.db::reactomeEXTID2PATHID)
   pathways <- unlist(genes2Pathways, use.names = FALSE)
   genes <- rep(names(genes2Pathways), lengths(genes2Pathways))
   paths2genes <- split(genes, pathways)

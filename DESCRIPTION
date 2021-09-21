@@ -8,13 +8,21 @@ Authors@R:
            role = c("aut", "cre"),
            email = "lluis.revilla@gmail.com",
            comment = c(ORCID = "0000-0001-9747-2570"))
-Description: To be used on TRIM project to integrate microbiome
-    and transcriptome data of the same patients.
+Description: To be used on TRIM project to integrate microbiome and
+    transcriptome data of the same patients.
 License: MIT + file LICENSE
 Imports:
+    graphics,
+    grDevices,
+    methods,
+    RGCCA,
+    stats,
+    utils
+Suggests: 
     AnnotationDbi,
     Biobase,
     clusterProfiler,
+    covr,
     data.table,
     dplyr,
     edgeR,
@@ -22,20 +30,17 @@ Imports:
     ggforce,
     ggplot2,
     heatmaply,
+    Matrix,
     metagenomeSeq,
     org.Hs.eg.db,
     reactome.db,
-    RGCCA,
+    roxygen2,
     scales,
+    testthat (>= 2.1.0),
     tidyr,
     vegan
-Suggests: 
-    covr,
-    Matrix,
-    roxygen2,
-    testthat (>= 2.1.0)
 biocViews:
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2

@@ -1,4 +1,6 @@
 .onAttach <- function(libname, pkgname) {
-  theme_set(theme_bw())
+  if (requireNamespace("ggplot2", quietly = TRUE)) {
+    ggplot2::theme_set(ggplot2::theme_bw())
+  }
   invisible()
 }

@@ -9,6 +9,9 @@
 #' @return The sgcca output
 #' @export
 integration <- function(A, meta, label, today) {
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Install ggplot2 from CRAN", call. = FALSE)
+  }
   # We cannnot comput eht tau.estimate for A[[1]]
   # (shrinkage <- sapply(A, tau.estimate))
   shrinkage <- c(0.25670333, 0, 1) # We guess a 0.1 for the RNAseq expression
@@ -60,14 +63,14 @@ integration <- function(A, meta, label, today) {
   names(microbiota2) <- rownames(samples)
   groups <- split(rownames(samples), as.factor(meta$HSCT_responder))
   # First dimension seems to capture well the
-  fgsea(groups, RNAseq1, nperm = 1000)
-  fgsea(groups, microbiota1, nperm = 1000)
+  fgsea::fgsea(groups, RNAseq1, nperm = 1000)
+  fgsea::fgsea(groups, microbiota1, nperm = 1000)
   # Further dimensions
-  fgsea(groups, RNAseq2, nperm = 1000)
-  fgsea(groups, microbiota2, nperm = 1000)
+  fgsea::fgsea(groups, RNAseq2, nperm = 1000)
+  fgsea::fgsea(groups, microbiota2, nperm = 1000)
 
 
-  pdf(paste0("Figures/", today, "_RGCCA_plots_", label, ".pdf"))
+  grDevices::pdf(paste0("Figures/", today, "_RGCCA_plots_", label, ".pdf"))
 
   km <- kmeans(samples[, c("RNAseq", "microbiota")], 2, nstart = 2)
   plot(samples[, c("RNAseq", "microbiota")],
@@ -100,113 +103,113 @@ integration <- function(A, meta, label, today) {
     levels(as.factor(samples$Time))[c(1, 2, 4, 5, 3, 6, 7, 8)]
   )
   for (p in seq_along(levels(samples$Time))) {
-    a <- ggplot(samples, aes(.data$RNAseq, .data$microbiota)) +
-      geom_text(aes(color = .data$ID, label = .data$ID)) +
-      geom_vline(xintercept = 0) +
-      geom_hline(yintercept = 0) +
-      ggtitle(paste0("Samples by time")) +
-      xlab("RNAseq (component 1)") +
-      ylab("16S (component 1)") +
-      guides(col = guide_legend(title = "Patient")) +
-      theme(plot.title = element_text(hjust = 0.5)) +
-      scale_color_manual(values = colors) +
-      facet_wrap_paginate(~ .data$Time, ncol = 1, nrow = 1, page = p)
+    a <- ggplot2::ggplot(samples, ggplot2::aes(.data$RNAseq, .data$microbiota)) +
+      ggplot2::geom_text(ggplot2::aes(color = .data$ID, label = .data$ID)) +
+      ggplot2::geom_vline(xintercept = 0) +
+      ggplot2::geom_hline(yintercept = 0) +
+      ggplot2::ggtitle(paste0("Samples by time")) +
+      ggplot2::xlab("RNAseq (component 1)") +
+      ggplot2::ylab("16S (component 1)") +
+      ggplot2::guides(col = ggplot2::guide_legend(title = "Patient")) +
+      ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
+      ggplot2::scale_color_manual(values = colors) +
+      ggforce::facet_wrap_paginate(~ .data$Time, ncol = 1, nrow = 1, page = p)
     print(a)
   }
-
   for (p in seq_along(levels(samples$ID))) {
-    a <- ggplot(samples, aes(.data$RNAseq, .data$microbiota)) +
-      geom_text(aes(color = .data$ID, label = ifelse(!is.na(.data$labels),
-        paste(.data$Time, .data$labels, sep = "_"),
-        as.character(.data$Time)
-      ))) +
-      geom_vline(xintercept = 0) +
-      geom_hline(yintercept = 0) +
-      ggtitle(paste0("Samples by patient")) +
-      xlab("RNAseq (component 1)") +
-      ylab("16S (component 1)") +
-      guides(col = guide_legend(title = "Patient")) +
-      theme(plot.title = element_text(hjust = 0.5)) +
-      scale_color_manual(values = colors) +
-      facet_wrap_paginate(~ ID, ncol = 1, nrow = 1, page = p)
+    a <- ggplot2::ggplot(samples, ggplot2::aes(.data$RNAseq, .data$microbiota)) +
+      ggplot2::geom_text(ggplot2::aes(color = .data$ID,
+                                      label = ifelse(!is.na(.data$labels),
+                                                     paste(.data$Time, .data$labels, sep = "_"),
+                                                     as.character(.data$Time)
+                                      ))) +
+      ggplot2::geom_vline(xintercept = 0) +
+      ggplot2::geom_hline(yintercept = 0) +
+      ggplot2::ggtitle(paste0("Samples by patient")) +
+      ggplot2::xlab("RNAseq (component 1)") +
+      ggplot2::ylab("16S (component 1)") +
+      ggplot2::guides(col = ggplot2::guide_legend(title = "Patient")) +
+      ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
+      ggplot2::scale_color_manual(values = colors) +
+      ggforce::facet_wrap_paginate(~ ID, ncol = 1, nrow = 1, page = p)
     print(a)
   }
-  ggplot(samples, aes(.data$RNAseq, .data$microbiota)) +
-    geom_text(aes(
+  ggplot2::ggplot(samples, ggplot2::aes(.data$RNAseq, .data$microbiota)) +
+    ggplot2::geom_text(ggplot2::aes(
       color = .data$ID,
       label = ifelse(!is.na(.data$labels),
         paste(.data$Time, .data$labels, sep = "_"),
         as.character(.data$Time)
       )
     )) +
-    geom_vline(xintercept = 0) +
-    geom_hline(yintercept = 0) +
-    ggtitle("All samples at all times ") +
+    ggplot2::geom_vline(xintercept = 0) +
+    ggplot2::geom_hline(yintercept = 0) +
+    ggplot2::ggtitle("All samples at all times ") +
     # xlab("RNAseq (component 1)") +
     # ylab("16S (component 1)") +
-    guides(col = guide_legend(title = "Patient")) +
-    theme(plot.title = element_text(hjust = 0.5)) +
-    scale_color_manual(values = colors)
+    ggplot2::guides(col = ggplot2::guide_legend(title = "Patient")) +
+    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
+    ggplot2::scale_color_manual(values = colors)
 
 
-  ggplot(samples, aes(.data$RNAseq, .data$microbiota)) +
-    geom_text(aes(
+  ggplot2::ggplot(samples, ggplot2::aes(.data$RNAseq, .data$microbiota)) +
+    ggplot2::geom_text(ggplot2::aes(
       color = .data$HSCT_responder,
       label = ifelse(!is.na(.data$labels),
         paste(.data$Time, .data$labels, sep = "_"),
         as.character(.data$Time)
       )
     )) +
-    geom_vline(xintercept = 0) +
-    geom_hline(yintercept = 0) +
-    ggtitle("All samples at all times ") +
-    xlab("RNAseq (component 1)") +
-    ylab("16S (component 1)") +
-    guides(col = guide_legend(title = "Responders")) +
-    theme(plot.title = element_text(hjust = 0.5))
+    ggplot2::geom_vline(xintercept = 0) +
+    ggplot2::geom_hline(yintercept = 0) +
+    ggplot2::ggtitle("All samples at all times ") +
+    ggplot2::xlab("RNAseq (component 1)") +
+    ggplot2::ylab("16S (component 1)") +
+    ggplot2::guides(col = ggplot2::guide_legend(title = "Responders")) +
+    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
 
 
-  ggplot(samples, aes(.data$RNAseq, .data$microbiota)) +
-    geom_text(aes(
+  ggplot2::ggplot(samples, ggplot2::aes(.data$RNAseq, .data$microbiota)) +
+    ggplot2::geom_text(ggplot2::aes(
       color = .data$Endoscopic_Activity,
       label = ifelse(!is.na(.data$labels),
         paste(.data$ID, .data$labels, sep = "_"),
         as.character(.data$ID)
       )
     )) +
-    geom_vline(xintercept = 0) +
-    geom_hline(yintercept = 0) +
-    ggtitle("All samples at all times ") +
-    xlab("RNAseq (component 1)") +
-    ylab("16S (component 1)") +
-    guides(col = guide_legend(title = "Endoscopic Activity")) +
-    theme(plot.title = element_text(hjust = 0.5))
+    ggplot2::geom_vline(xintercept = 0) +
+    ggplot2::geom_hline(yintercept = 0) +
+    ggplot2::ggtitle("All samples at all times ") +
+    ggplot2::xlab("RNAseq (component 1)") +
+    ggplot2::ylab("16S (component 1)") +
+    ggplot2::guides(col = ggplot2::guide_legend(title = "Endoscopic Activity")) +
+    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
 
-  ggplot(samples, aes(.data$RNAseq, .data$microbiota)) +
-    geom_text(aes(color = .data$Time, label = ifelse(!is.na(.data$labels),
+  ggplot2::ggplot(samples, ggplot2::aes(.data$RNAseq, .data$microbiota)) +
+    ggplot2::geom_text(ggplot2::aes(color = .data$Time, label = ifelse(!is.na(.data$labels),
       paste(.data$ID, .data$labels, sep = "_"),
       as.character(.data$ID)
     ))) +
-    geom_vline(xintercept = 0) +
-    geom_hline(yintercept = 0) +
-    ggtitle("All samples at all times ") +
-    xlab("RNAseq (component 1)") +
-    ylab("16S (component 1)") +
-    guides(col = guide_legend(title = "Time")) +
-    theme(plot.title = element_text(hjust = 0.5))
+    ggplot2::geom_vline(xintercept = 0) +
+    ggplot2::geom_hline(yintercept = 0) +
+    ggplot2::ggtitle("All samples at all times ") +
+    ggplot2::xlab("RNAseq (component 1)") +
+    ggplot2::ylab("16S (component 1)") +
+    ggplot2::guides(col = ggplot2::guide_legend(title = "Time")) +
+    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
 
   subVariables <- select_var(sgcca.centroid)
 
-  ggplot(subVariables, aes(.data$comp1, .data$comp2, color = .data$Origin)) +
-    geom_path(aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.1, npoints = 100)) +
-    geom_path(aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.2, npoints = 100)) +
-    geom_path(aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.3, npoints = 100)) +
-    geom_path(aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.4, npoints = 100)) +
-    geom_text(aes(color = .data$Origin, label = .data$var)) +
-    geom_vline(xintercept = 0) +
-    geom_hline(yintercept = 0) +
-    coord_cartesian() +
-    ggtitle(
+  ggplot2::ggplot(subVariables, ggplot2::aes(.data$comp1, .data$comp2, color = .data$Origin)) +
+    ggplot2::geom_path(ggplot2::aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.1, npoints = 100)) +
+    ggplot2::geom_path(ggplot2::aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.2, npoints = 100)) +
+    ggplot2::geom_path(ggplot2::aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.3, npoints = 100)) +
+    ggplot2::geom_path(ggplot2::aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.4, npoints = 100)) +
+    ggplot2::geom_text(ggplot2::aes(color = .data$Origin, label = .data$var)) +
+    ggplot2::geom_vline(xintercept = 0) +
+    ggplot2::geom_hline(yintercept = 0) +
+    ggplot2::coord_cartesian() +
+    ggplot2::ggtitle(
       "Variables important for the first two components",
       subtitle = "Integrating stools and mucosa samples"
     )
@@ -237,21 +240,26 @@ integration <- function(A, meta, label, today) {
   sgcca.centroid
 }
 
-#' @importFrom dplyr .data
 PCAs_important <- function(important_vars, expr, otus, meta) {
+  if (!requireNamespace("dplyr", quietly = TRUE)) {
+    stop("Install dplyr from CRAN", call. = FALSE)
+  }
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Install ggplot2 from CRAN", call. = FALSE)
+  }
   subVariables <- important_vars
   rnaseq_i <- subVariables$var[subVariables$Origin == "RNAseq"]
   if (length(rnaseq_i) >= 2) {
     pr <- prcomp(t(expr[rnaseq_i, ]), scale. = TRUE)
     prS <- summary(pr)
-    p <- ggplot(as.data.frame(pr$x),
-                aes(.data$PC1, .data$PC2,
+    p <- ggplot2::ggplot(as.data.frame(pr$x),
+                         ggplot2::aes(.data$PC1, .data$PC2,
                     color = as.factor(meta$HSCT_responder))) +
-      geom_point() +
-      xlab(paste("PC1", prS$importance[2, "PC1"] * 100)) +
-      ylab(paste("PC2", prS$importance[2, "PC2"] * 100)) +
-      ggtitle("RNAseq PCA from the important variables") +
-      guides(col = guide_legend(title = "Responders"))
+      ggplot2::geom_point() +
+      ggplot2::xlab(paste("PC1", prS$importance[2, "PC1"] * 100)) +
+      ggplot2::ylab(paste("PC2", prS$importance[2, "PC2"] * 100)) +
+      ggplot2::ggtitle("RNAseq PCA from the important variables") +
+      ggplot2::guides(col = ggplot2::guide_legend(title = "Responders"))
     print(p)
   }
 
@@ -259,14 +267,14 @@ PCAs_important <- function(important_vars, expr, otus, meta) {
   if (length(micro_i) >= 2) {
     pr <- prcomp(t(otus[micro_i, ]), scale. = TRUE)
     prS <- summary(pr)
-    p <- ggplot(as.data.frame(pr$x),
-                aes(.data$PC1, .data$PC2,
+    p <- ggplot2::ggplot(as.data.frame(pr$x),
+                         ggplot2::aes(.data$PC1, .data$PC2,
                     color = as.factor(meta$HSCT_responder))) +
-      geom_point() +
-      xlab(paste("PC1", prS$importance[2, "PC1"] * 100)) +
-      ylab(paste("PC2", prS$importance[2, "PC2"] * 100)) +
-      ggtitle("16S PCA from the important variables") +
-      guides(col = ggplot2::guide_legend(title = "Responders"))
+      ggplot2::geom_point() +
+      ggplot2::xlab(paste("PC1", prS$importance[2, "PC1"] * 100)) +
+      ggplot2::ylab(paste("PC2", prS$importance[2, "PC2"] * 100)) +
+      ggplot2::ggtitle("16S PCA from the important variables") +
+      ggplot2::guides(col = ggplot2::guide_legend(title = "Responders"))
     print(p)
   }
 }

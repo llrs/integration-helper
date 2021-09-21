@@ -5,8 +5,14 @@
 #' @return A character vector with the Entrez ids
 #' @export
 epitheliumE <- function(x){
-  epitheliumE <- mapIds(
-    org.Hs.eg.db,
+  if (!requireNamespace("AnnotationDbi")) {
+    stop("Install AnnotationDbi from Bioconductor", call. = FALSE)
+  }
+  if (!requireNamespace("org.Hs.eg.db")) {
+    stop("Install org.Hs.eg.db from Bioconductor", call. = FALSE)
+  }
+  epitheliumE <- AnnotationDbi::mapIds(
+    org.Hs.eg.db::org.Hs.eg.db,
     keys = as.character(x),
     keytype = "SYMBOL", column = "ENTREZID"
   )

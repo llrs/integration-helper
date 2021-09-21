@@ -3,8 +3,10 @@
 #' @param otus Matrix of the variables to analyze
 #' @param meta Data frame with the variables to compare
 #' @return An anova.cca object
-#' @importFrom vegan adonis
 permanova_otus <- function(otus, meta) {
+  if (!requireNamespace("vegan", quietly = TRUE)) {
+    stop("Install vegan from CRAN", call. = FALSE)
+  }
   vegan::adonis(as.matrix(otus) ~ ., data = meta, method = "jaccard")
 }
 
@@ -14,6 +16,9 @@ permanova_otus <- function(otus, meta) {
 #' @param meta Data frame with the variables to compare
 #' @return An anova.cca object
 permanova_expr <- function(expr, meta) {
+  if (!requireNamespace("vegan", quietly = TRUE)) {
+    stop("Install vegan from CRAN", call. = FALSE)
+  }
   diss <- 1 - cor(expr)
   vegan::adonis(diss ~ ., data = meta, method = "euclidian")
 }

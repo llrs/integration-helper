@@ -2,15 +2,17 @@
 #'
 #' @param x a RGCCA outputs
 #' @return a data.frame
-#' @importFrom AnnotationDbi select
 #' @export
 weights <- function(x) {
+  if (!requireNamespace("AnnotationDbi", quietly = TRUE)) {
+    stop("Install AnnotationDbi from Bioconductor", call. = FALSE)
+  }
   loadings <- x$a$RNAseq
   colnames(loadings) <- paste0("Weights_", seq_len(ncol(loadings)))
   ensemblID <- rownames(loadings)
   ensemblID <- trimVer(ensemblID)
   rownames(loadings) <- trimVer(rownames(loadings))
-  symbolID <- select(org.Hs.eg.db,
+  symbolID <- AnnotationDbi::select(org.Hs.eg.db::org.Hs.eg.db,
     keys = ensemblID, keytype = "ENSEMBL", columns = c("SYMBOL", "GENENAME")
   )
   a <- match(symbolID$ENSEMBL, rownames(loadings))

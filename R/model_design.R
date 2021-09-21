@@ -57,7 +57,7 @@ weight_design <- function(weights = 4, size, diff0 = NULL){
 #' summary(keep)
 check_design <- function(designs) {
   # Validation of the input
-  stopifnot(is(designs, "list"))
+  stopifnot(methods::is(designs, "list"))
   nCols <- vapply(designs, ncol, numeric(1L))
   nRows <- vapply(designs, nrow, numeric(1L))
   stopifnot(length(unique(nCols)) == 1)

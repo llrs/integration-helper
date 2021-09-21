@@ -43,8 +43,10 @@ plotAVEs <- function(model, loo) {
 #' @return The inner AVE, the Mean and the SEM of the `loo`
 #' @seealso [sem()]
 #' @export
-#' @importFrom scales scientific
 m_sem <- function(model, loo) {
+  if (!requireNamespace("scales", quietly = TRUE)) {
+    stop("Install scales from CRAN", call. = FALSE)
+  }
   aves <- vapply(loo, getAVEs, numeric(1L))
   paste0(signif(model$AVE$AVE_inner[1], 3),
          " (", signif(mean(aves), 3),
@@ -60,9 +62,13 @@ m_sem <- function(model, loo) {
 #'
 #' @return A `data.frame`
 #' @export
-#' @importFrom dplyr mutate
-#' @importFrom tidyr gather
 tidyer <- function(data, model, type) {
+  if (!requireNamespace("dplyr", quietly = TRUE)) {
+    stop("Install dplyr from CRAN", call. = FALSE)
+  }
+  if (!requireNamespace("tidyr", quietly = TRUE)) {
+    stop("Install tidyr from CRAN", call. = FALSE)
+  }
   if ("comp1" %in% colnames(data)) {
     if ("comp2" %in% colnames(data)) {
         m <- dplyr::mutate(as.data.frame(data), Model = model)

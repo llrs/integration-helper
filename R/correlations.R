@@ -10,9 +10,13 @@ pathsPerMicro <- function(x, all_genes){
   genesOrig <- trimVer(names(all_genes))
   x[, "Gene"] <- trimVer(x[, "Gene"])
   perMicro <- split(x, x[, "Microorganism"])
-  requireNamespace("org.Hs.eg.db", quietly = TRUE)
-  requireNamespace("reactome.db", quietly = TRUE)
-  entrezID <- mapIds(org.Hs.eg.db, keys = genesOrig, keytype = "ENSEMBL",
+  if (!requireNamespace("org.Hs.eg.db", quietly = TRUE)) {
+    stop("Install Org.Hs.eg.db from Bioconductor", call. = FALSE)
+  }
+  if (!requireNamespace("reactome.db", quietly = TRUE)) {
+    stop("Install reatome.db from Bioconductor", call. = FALSE)
+  }
+  entrezID <- AnnotationDbi::mapIds(org.Hs.eg.db::org.Hs.eg.db, keys = genesOrig, keytype = "ENSEMBL",
                      column = "ENTREZID")
   entrezID <- entrezID[!is.na(entrezID)]
   paths2genes <- access_reactome()
@@ -32,9 +36,8 @@ pathsPerMicro <- function(x, all_genes){
                                         TERM2GENE = T2G)
     as.data.frame(enrich)
     enrich <- as.data.frame(enrich)
-    requireNamespace("reactome.db", quietly = TRUE)
     if (nrow(enrich) >= 1) {
-      enrich$Description <- mapIds(reactome.db, keys = rownames(enrich),
+      enrich$Description <- AnnotationDbi::mapIds(reactome.db::reactome.db, keys = rownames(enrich),
                                    keytype = "PATHID", column = "PATHNAME")
     }
     enrich
@@ -50,11 +53,10 @@ pathsPerMicro <- function(x, all_genes){
 #' @param case Factor to use for points shape
 #' @param cor_val Title of the correlation (usually the correlation value)
 #' @export
-#' @importFrom graphics legend
 plot_single_cor <- function(x, gene, y, microorganism, colr, case, cor_val) {
   genes <- trimVer(gene)
-  symbol <- tryCatch({mapIds(
-    org.Hs.eg.db, keys = genes, keytype = "ENSEMBL",
+  symbol <- tryCatch({AnnotationDbi::mapIds(
+    org.Hs.eg.db::org.Hs.eg.db, keys = genes, keytype = "ENSEMBL",
     column = "SYMBOL"
   )},  error = function(e){NA})
 
@@ -231,8 +233,13 @@ sign_cor <- function(cors, pval, threshold = 0.05) {
 #' `pvalue`
 #' @return Create a html file at Figures/heatmap...html
 #' @export
-#' @importFrom heatmaply heatmaply
 plot_cor <- function(file, cors, pval, threshold, label) {
+  if (!requireNamespace("heatmaply", quietly = TRUE)) {
+    stop("Install heatmaply from CRAN", call. = FALSE)
+  }
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Install ggplot2 from CRAN", call. = FALSE)
+  }
   l <- filter_values(file, cors, pval, threshold)
   cors <- l$cors
 
@@ -257,7 +264,7 @@ plot_cor <- function(file, cors, pval, threshold, label) {
 ensembl2symbol <- function(x) {
   all_samples_symbol <- x
   all_samples_symbol$Gene <- trimVer(all_samples_symbol$Gene)
-  all_samples_symbol$Gene <- mapIds(org.Hs.eg.db, keys = all_samples_symbol$Gene,
+  all_samples_symbol$Gene <- AnnotationDbi::mapIds(org.Hs.eg.db::org.Hs.eg.db, keys = all_samples_symbol$Gene,
                                     keytype = "ENSEMBL", column = "SYMBOL")
   all_samples_symbol <- all_samples_symbol[!is.na(all_samples_symbol$Gene), ]
   all_samples_symbol[!duplicated(all_samples_symbol), ]

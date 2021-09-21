@@ -1,6 +1,3 @@
-#' @importFrom ggforce facet_wrap_paginate
-NULL
-
 #' Plot samples
 #'
 #' Make several plots of the samples, using several colors and things
@@ -12,118 +9,123 @@ NULL
 #' @return Several plots
 #' @export
 plot_samples <- function(samples, colors, individual = FALSE) {
-
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Install ggplot2 from CRAN", call. = FALSE)
+  }
+  if (!requireNamespace("ggforce", quietly = TRUE)) {
+    stop("Install ggforce from CRAN", call. = FALSE)
+  }
   # Some common structure of plots
-  comm <- ggplot(samples, aes(.data$RNAseq, .data$Micro)) + # It is really biopsies
-    geom_vline(xintercept = 0) +
-    geom_hline(yintercept = 0) +
-    ggtitle("All samples at all times ") +
-    xlab("RNAseq (component 1)") +
-    ylab("16S (component 1)") +
-    theme(plot.title = element_text(hjust = 0.5))
+  comm <- ggplot2::ggplot(samples, ggplot2::aes(.data$RNAseq, .data$Micro)) + # It is really biopsies
+    ggplot2::geom_vline(xintercept = 0) +
+    ggplot2::geom_hline(yintercept = 0) +
+    ggplot2::ggtitle("All samples at all times ") +
+    ggplot2::xlab("RNAseq (component 1)") +
+    ggplot2::ylab("16S (component 1)") +
+    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
   if (individual) {
     for (p in seq_along(levels(samples$Time))) {
       a <- comm +
-        geom_text(aes(color = .data$ID, label = .data$ID)) +
-        geom_vline(xintercept = 0) +
-        geom_hline(yintercept = 0) +
-        guides(col = guide_legend(title = "Patient")) +
-        scale_color_manual(values = colors) +
+        ggplot2::geom_text(ggplot2::aes(color = .data$ID, label = .data$ID)) +
+        ggplot2::geom_vline(xintercept = 0) +
+        ggplot2::geom_hline(yintercept = 0) +
+        ggplot2::guides(col = ggplot2::guide_legend(title = "Patient")) +
+        ggplot2::scale_color_manual(values = colors) +
         ggforce::facet_wrap_paginate(~.data$Time, ncol = 1, nrow = 1, page = p)
       print(a)
     }
 
     for (p in seq_along(levels(samples$ID))) {
       a <- comm +
-        geom_text(aes(color = .data$ID,
+        ggplot2::geom_text(ggplot2::aes(color = .data$ID,
                       label = ifelse(!is.na(.data$labels),
                                      paste(.data$Time, .data$labels, sep = "_"),
                                      as.character(.data$Time)
         ))) +
-        guides(col = guide_legend(title = "Patient")) +
-        scale_color_manual(values = colors) +
+        ggplot2:: guides(col = ggplot2::guide_legend(title = "Patient")) +
+        ggplot2::scale_color_manual(values = colors) +
         ggforce::facet_wrap_paginate(~.data$ID, ncol = 1, nrow = 1, page = p)
       print(a)
     }
   }
   a <- comm +
-    geom_text(aes(
+    ggplot2::geom_text(ggplot2::aes(
       color = .data$ID,
       label = ifelse(!is.na(.data$labels),
                      paste(.data$Time, .data$labels, sep = "_"),
                      as.character(.data$Time)
       )
     )) +
-    guides(col = guide_legend(title = "Patient")) +
-    scale_color_manual(values = colors)
+    ggplot2::guides(col = ggplot2::guide_legend(title = "Patient")) +
+    ggplot2::scale_color_manual(values = colors)
   print(a)
 
 
   a <- comm +
-    geom_text(aes(
+    ggplot2::geom_text(ggplot2::aes(
       color = .data$HSCT_responder,
       label = ifelse(!is.na(.data$labels),
                      paste(.data$ID, .data$labels, sep = "_"),
                      as.character(.data$Time)
       )
     )) +
-    guides(col = guide_legend(title = "Responders"))
+    ggplot2::guides(col = ggplot2::guide_legend(title = "Responders"))
   print(a)
 
 
   a <- comm +
-    geom_text(aes(
+    ggplot2::geom_text(ggplot2::aes(
       color = .data$Endoscopic_Activity,
       label = ifelse(!is.na(.data$labels),
                      paste(.data$ID, .data$labels, sep = "_"),
                      as.character(.data$ID)
       )
     )) +
-    guides(col = guide_legend(title = "Endoscopic Activity"))
+    ggplot2::guides(col = ggplot2::guide_legend(title = "Endoscopic Activity"))
   print(a)
 
   a <- comm +
-    geom_text(aes(
+    ggplot2::geom_text(ggplot2::aes(
       color = .data$Exact_location,
       label = ifelse(!is.na(.data$labels),
                      paste(.data$ID, .data$labels, sep = "_"),
                      as.character(.data$ID)
       )
     )) +
-    guides(col = guide_legend(title = "Location"))
+    ggplot2::guides(col = ggplot2::guide_legend(title = "Location"))
   print(a)
   a <- comm +
-    geom_text(aes(
+    ggplot2::geom_text(ggplot2::aes(
       color = ifelse(.data$Exact_location == "ILEUM", "ILEUM", "COLON"),
       label = ifelse(!is.na(.data$labels),
                      paste(.data$ID, .data$labels, sep = "_"),
                      as.character(.data$ID)
       )
     )) +
-    guides(col = guide_legend(title = "Location"))
+    ggplot2::guides(col = ggplot2::guide_legend(title = "Location"))
   print(a)
 
   a <- comm +
-    geom_text(aes(color = .data$Time,
+    ggplot2::geom_text(ggplot2::aes(color = .data$Time,
                   label = ifelse(!is.na(.data$labels),
                                  paste(.data$ID, .data$labels, sep = "_"),
                                  as.character(.data$ID)
                   ))) +
-    guides(col = guide_legend(title = "Time"))
+    ggplot2::guides(col = ggplot2::guide_legend(title = "Time"))
   print(a)
 
   a <- comm +
-    geom_text(aes(color = .data$SESCD_local,
+    ggplot2::geom_text(ggplot2::aes(color = .data$SESCD_local,
                   label = ifelse(!is.na(.data$labels),
                                  paste(.data$ID, .data$labels, sep = "_"),
                                  as.character(.data$ID)
                   ))) +
-    guides(col = guide_legend(title = "SESCD (local)"))
+    ggplot2::guides(col = ggplot2::guide_legend(title = "SESCD (local)"))
   print(a)
 
   a <- comm +
-    geom_text(aes(color = .data$IBD, label = as.character(.data$ID))) +
-    guides(col = guide_legend(title = "Type"))
+    ggplot2::geom_text(ggplot2::aes(color = .data$IBD, label = as.character(.data$ID))) +
+    ggplot2::guides(col = ggplot2::guide_legend(title = "Type"))
   print(a)
 }
 
@@ -154,18 +156,18 @@ plot_variables <- function(variables) {
   )
   subVariables <- variables[keepComp1 | keepComp2, ]
 
-  a <- ggplot() +
-    geom_path(aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.1, npoints = 100)) +
-    geom_path(aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.2, npoints = 100)) +
-    geom_path(aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.3, npoints = 100)) +
-    geom_path(aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.4, npoints = 100)) +
-    geom_text(aes(.data$comp1, .data$comp2, color = .data$Origin,
+  a <- ggplot2::ggplot() +
+    ggplot2::geom_path(ggplot2::aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.1, npoints = 100)) +
+    ggplot2::geom_path(ggplot2::aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.2, npoints = 100)) +
+    ggplot2::geom_path(ggplot2::aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.3, npoints = 100)) +
+    ggplot2::geom_path(ggplot2::aes(.data$x, .data$y), data = circleFun(c(0, 0), 0.4, npoints = 100)) +
+    ggplot2::geom_text(ggplot2::aes(.data$comp1, .data$comp2, color = .data$Origin,
                   label = .data$var), data = subVariables) +
-    geom_vline(xintercept = 0) +
-    geom_hline(yintercept = 0) +
+    ggplot2::geom_vline(xintercept = 0) +
+    ggplot2::geom_hline(yintercept = 0) +
     ggplot2::labs(title = "Variables important for the first two components",
       x = "Comp1", y = "Comp2", col = "Origin") +
-    coord_cartesian()
+    ggplot2::coord_cartesian()
   print(a)
 }
 
@@ -184,13 +186,13 @@ plot_interesting <- function(subVariables, meta_r, expr, otus_table_i){
   if (length(rnaseq_i) >= 2) {
     pr <- prcomp(t(expr[rnaseq_i, ]), scale. = TRUE)
     prS <- summary(pr)
-    a <- ggplot(as.data.frame(pr$x),
-                aes(.data$PC1, .data$PC2, color = as.factor(meta_r$HSCT_responder))) +
-      geom_point() +
-      xlab(paste("PC1", prS$importance[2, "PC1"] * 100)) +
-      ylab(paste("PC2", prS$importance[2, "PC2"] * 100)) +
-      ggtitle("RNAseq PCA from the important variables") +
-      guides(col = guide_legend(title = "Responders"))
+    a <- ggplot2::ggplot(as.data.frame(pr$x),
+                         ggplot2::aes(.data$PC1, .data$PC2, color = as.factor(meta_r$HSCT_responder))) +
+      ggplot2::geom_point() +
+      ggplot2::xlab(paste("PC1", prS$importance[2, "PC1"] * 100)) +
+      ggplot2::ylab(paste("PC2", prS$importance[2, "PC2"] * 100)) +
+      ggplot2::ggtitle("RNAseq PCA from the important variables") +
+      ggplot2::guides(col = ggplot2::guide_legend(title = "Responders"))
     print(a)
   }
 
@@ -198,14 +200,14 @@ plot_interesting <- function(subVariables, meta_r, expr, otus_table_i){
   if (length(micro_i) >= 2) {
     pr <- prcomp(t(otus_table_i[micro_i, ]), scale. = TRUE)
     prS <- summary(pr)
-    a <- ggplot(as.data.frame(pr$x),
-                aes(.data$PC1, .data$PC2,
+    a <- ggplot2::ggplot(as.data.frame(pr$x),
+                         ggplot2::aes(.data$PC1, .data$PC2,
                     color = as.factor(meta_r$HSCT_responder))) +
-      geom_point() +
-      xlab(paste("PC1", prS$importance[2, "PC1"] * 100)) +
-      ylab(paste("PC2", prS$importance[2, "PC2"] * 100)) +
-      ggtitle("16S PCA from the important variables") +
-      guides(col = guide_legend(title = "Responders"))
+      ggplot2::geom_point() +
+      ggplot2::xlab(paste("PC1", prS$importance[2, "PC1"] * 100)) +
+      ggplot2::ylab(paste("PC2", prS$importance[2, "PC2"] * 100)) +
+      ggplot2::ggtitle("16S PCA from the important variables") +
+      ggplot2::guides(col = ggplot2::guide_legend(title = "Responders"))
     print(a)
   }
 

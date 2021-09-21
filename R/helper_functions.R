@@ -462,10 +462,10 @@ meta_i_norm <- function(meta) {
 #'
 #' @return A normalized matrix with TMM
 #' @export
-#' @importFrom edgeR DGEList
-#' @importFrom edgeR calcNormFactors
-#' @importFrom edgeR cpm
 norm_RNAseq <- function(expr){
+  if (!requireNamespace("edgeR", quietly = TRUE)) {
+    stop("Install edgeR from Bioconductor")
+  }
   expr_edge <- edgeR::DGEList(expr)
   expr_edge <- edgeR::calcNormFactors(expr_edge, method = "TMM")
   edgeR::cpm(expr_edge, normalized.lib.sizes = TRUE, log = TRUE)
@@ -498,12 +498,14 @@ filter_RNAseq <- function(expr, frac = 0.1) {
 #'
 #' @return A normalized and filtered matrix
 #' @export
-#' @importFrom metagenomeSeq newMRexperiment
-#' @importFrom metagenomeSeq cumNorm
-#' @importFrom metagenomeSeq cumNormStat
-#' @importFrom metagenomeSeq MRcounts
-#' @importFrom Biobase AnnotatedDataFrame
 norm_otus <- function(otus_table_i, otus_tax_i = NULL){
+  if (!requireNamespace("metagenomeSeq", quietly = TRUE)) {
+    stop("Install metagenomeSeq from Bioconductor", call. = FALSE)
+  }
+  if (!requireNamespace("Biobase", quietly = TRUE)) {
+    stop("Install Biobase from Bioconductor", call. = FALSE)
+  }
+
   if (is.null(otus_tax_i)) {
     MR_i <- metagenomeSeq::newMRexperiment(otus_table_i)
   } else {
